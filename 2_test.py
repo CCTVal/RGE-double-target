@@ -7,7 +7,7 @@ import re
 dispatcher = asyncio_dispatcher.AsyncioDispatcher()
 
 # Set the record prefix
-builder.SetDeviceName("RGE-TEMP")
+builder.SetDeviceName("DMC01:A_")
 
 # Create some records
 user_setp1 = builder.aOut('USER-TEMP-SETP1', initial_value=20, always_update=True,
@@ -40,7 +40,7 @@ async def set_setpoint(setpoint, value=-float("inf")):
         print("Not enough parameters for setpoint setting")
         return
     try:
-        '''
+        
         with Telnet(lakeshore_ip.get(), lakeshore_port.get()) as connection:
             connection.write(("SETP {sp}, {val}\n").format(sp = setpoint, val = value).encode("ascii"))
             connection.write(("SETP? {sp}\n").format(sp = setpoint).encode("ascii"))
@@ -51,7 +51,7 @@ async def set_setpoint(setpoint, value=-float("inf")):
             setp1.set(reading)
         elif setpoint == 2:
             setp2.set(reading)
-        '''
+        
     except OSError as e:
         print("Error connecting to Lakeshore temperature controller.")
         print(e)
@@ -62,7 +62,7 @@ async def update():
     while True:
         ioc_heartbeat.set(not ioc_heartbeat.get())
         try:
-            '''
+            
             with Telnet(lakeshore_ip.get(), lakeshore_port.get()) as connection:
                 connection.write(("KRDG?A\n").encode("ascii"))
                 reading = float(re.match('.*?(-?\d+\.?\d*)', str(connection.read_until(b"\n")))[1])
@@ -86,7 +86,7 @@ async def update():
                 reading = float(re.match('.*?(-?\d+\.?\d*)', str(connection.read_until(b"\n")))[1])
                 setp2.set(reading)
                 lakeshore_connection.set(True)
-            '''
+            
         except OSError as e:
             print("Error connecting to Lakeshore temperature controller.")
             print(e)
