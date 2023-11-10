@@ -1,0 +1,429 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Saved on 2023-10-02 15:54:15 by poltar-->
+<display version="2.0.0">
+  <name>Lakeshore 336 Heater Controls</name>
+  <width>610</width>
+  <height>460</height>
+  <widget type="rectangle" version="2.0.0">
+    <name>Rectangle_7</name>
+    <x>20</x>
+    <y>50</y>
+    <width>560</width>
+    <height>180</height>
+    <line_width>2</line_width>
+    <line_color>
+      <color name="Button_Background" red="210" green="210" blue="210">
+      </color>
+    </line_color>
+    <background_color>
+      <color name="Read_Background" red="240" green="240" blue="240">
+      </color>
+    </background_color>
+    <corner_width>10</corner_width>
+    <corner_height>10</corner_height>
+  </widget>
+  <widget type="rectangle" version="2.0.0">
+    <name>Rectangle_8</name>
+    <x>20</x>
+    <y>250</y>
+    <width>560</width>
+    <height>180</height>
+    <line_width>2</line_width>
+    <line_color>
+      <color name="Button_Background" red="210" green="210" blue="210">
+      </color>
+    </line_color>
+    <background_color>
+      <color name="Read_Background" red="240" green="240" blue="240">
+      </color>
+    </background_color>
+    <corner_width>10</corner_width>
+    <corner_height>10</corner_height>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label</name>
+    <class>TITLE</class>
+    <text>Lakeshore 336 Heater Controls</text>
+    <x use_class="true">0</x>
+    <y use_class="true">0</y>
+    <width>550</width>
+    <height>31</height>
+    <font use_class="true">
+      <font name="Header 1" family="Liberation Sans" style="BOLD" size="22.0">
+      </font>
+    </font>
+    <foreground_color use_class="true">
+      <color name="Text" red="0" green="0" blue="0">
+      </color>
+    </foreground_color>
+    <transparent use_class="true">true</transparent>
+  </widget>
+  <widget type="rectangle" version="2.0.0">
+    <name>Rectangle</name>
+    <width>580</width>
+    <height>160</height>
+    <visible>false</visible>
+    <transparent>true</transparent>
+  </widget>
+  <widget type="group" version="3.0.0">
+    <name>Group</name>
+    <x>20</x>
+    <y>50</y>
+    <width>540</width>
+    <height>170</height>
+    <style>3</style>
+    <transparent>true</transparent>
+    <widget type="label" version="2.0.0">
+      <name>Label_3</name>
+      <text>Input:</text>
+      <x>30</x>
+      <y>50</y>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_1</name>
+      <pv_name>pva://TGT:BTARG:Coolant_TI</pv_name>
+      <x>140</x>
+      <y>50</y>
+      <width>160</width>
+      <precision>3</precision>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_4</name>
+      <text>Heater Out:</text>
+      <x>30</x>
+      <y>90</y>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_5</name>
+      <text>Mode:</text>
+      <x>320</x>
+      <y>140</y>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_6</name>
+      <text>Kp:</text>
+      <x>320</x>
+      <y>50</y>
+      <width>70</width>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_7</name>
+      <text>Ki:</text>
+      <x>320</x>
+      <y>70</y>
+      <width>70</width>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_8</name>
+      <text>Kd:</text>
+      <x>320</x>
+      <y>90</y>
+      <width>70</width>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Spinner</name>
+      <pv_name>pva://TGT:BTARG:Coolant_Heater</pv_name>
+      <x>140</x>
+      <y>90</y>
+      <width>70</width>
+      <format>1</format>
+      <precision>3</precision>
+      <wrap_words>false</wrap_words>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_11</name>
+      <text>Setpoint:</text>
+      <x>30</x>
+      <y>70</y>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Spinner_1</name>
+      <pv_name>pva://TGT:BTARG:Coolant_SP</pv_name>
+      <x>140</x>
+      <y>70</y>
+      <width>160</width>
+      <format>1</format>
+      <precision>3</precision>
+      <show_units>false</show_units>
+      <vertical_alignment>0</vertical_alignment>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Spinner_2</name>
+      <pv_name>pva://TGT:BTARG:Coolant_kP</pv_name>
+      <x>390</x>
+      <y>50</y>
+      <width>150</width>
+      <format>1</format>
+      <precision>3</precision>
+      <show_units>false</show_units>
+      <vertical_alignment>0</vertical_alignment>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Spinner_3</name>
+      <pv_name>pva://TGT:BTARG:Coolant_kI</pv_name>
+      <x>390</x>
+      <y>70</y>
+      <width>150</width>
+      <format>1</format>
+      <precision>3</precision>
+      <show_units>false</show_units>
+      <vertical_alignment>0</vertical_alignment>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Spinner_4</name>
+      <pv_name>pva://TGT:BTARG:Coolant_kD</pv_name>
+      <x>390</x>
+      <y>90</y>
+      <width>150</width>
+      <format>1</format>
+      <precision>3</precision>
+      <show_units>false</show_units>
+      <vertical_alignment>0</vertical_alignment>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>Boolean Button_1</name>
+      <pv_name>pva://TGT:BTARG:Coolant_Mode</pv_name>
+      <x>390</x>
+      <y>140</y>
+      <width>150</width>
+      <height>20</height>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_15</name>
+      <text>Range:</text>
+      <x>30</x>
+      <y>110</y>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>Boolean Button_2</name>
+      <pv_name>pva://TGT:BTARG:Coolant_Range</pv_name>
+      <x>140</x>
+      <y>110</y>
+      <width>160</width>
+      <height>20</height>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_16</name>
+      <text>Manual (%):</text>
+      <x>30</x>
+      <y>140</y>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Spinner_10</name>
+      <pv_name>pva://TGT:BTARG:Coolant_Manual</pv_name>
+      <x>140</x>
+      <y>140</y>
+      <width>160</width>
+      <format>1</format>
+      <precision>3</precision>
+      <show_units>false</show_units>
+      <vertical_alignment>0</vertical_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_9</name>
+      <text>Coolant Heater Controls</text>
+      <x>10</x>
+      <y>10</y>
+      <width>200</width>
+      <font>
+        <font name="Header 2" family="Liberation Sans" style="BOLD" size="18.0">
+        </font>
+      </font>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Spinner_14</name>
+      <pv_name>pva://TGT:BTARG:Coolant_Heater_W</pv_name>
+      <x>220</x>
+      <y>90</y>
+      <width>80</width>
+      <format>1</format>
+      <precision>3</precision>
+      <wrap_words>false</wrap_words>
+    </widget>
+  </widget>
+  <widget type="group" version="3.0.0">
+    <name>Group</name>
+    <x>20</x>
+    <y>250</y>
+    <width>540</width>
+    <height>170</height>
+    <style>3</style>
+    <transparent>true</transparent>
+    <widget type="label" version="2.0.0">
+      <name>Label_10</name>
+      <text>Input:</text>
+      <x>30</x>
+      <y>50</y>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_2</name>
+      <pv_name>pva://TGT:BTARG:Evaporator_TI</pv_name>
+      <x>130</x>
+      <y>50</y>
+      <width>170</width>
+      <precision>3</precision>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_12</name>
+      <text>Heater Output:</text>
+      <x>30</x>
+      <y>90</y>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_13</name>
+      <text>Mode:</text>
+      <x>320</x>
+      <y>140</y>
+      <width>70</width>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_14</name>
+      <text>Kp:</text>
+      <x>320</x>
+      <y>50</y>
+      <width>70</width>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_17</name>
+      <text>Ki:</text>
+      <x>320</x>
+      <y>70</y>
+      <width>70</width>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_18</name>
+      <text>Kd:</text>
+      <x>320</x>
+      <y>90</y>
+      <width>70</width>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Spinner_5</name>
+      <pv_name>pva://TGT:BTARG:Evaporator_Heater</pv_name>
+      <x>130</x>
+      <y>90</y>
+      <width>80</width>
+      <format>1</format>
+      <precision>1</precision>
+      <wrap_words>false</wrap_words>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_19</name>
+      <text>Setpoint:</text>
+      <x>30</x>
+      <y>70</y>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Spinner_6</name>
+      <pv_name>pva://TGT:BTARG:Evaporator_SP</pv_name>
+      <x>130</x>
+      <y>70</y>
+      <width>170</width>
+      <format>1</format>
+      <precision>3</precision>
+      <show_units>false</show_units>
+      <vertical_alignment>0</vertical_alignment>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Spinner_7</name>
+      <pv_name>pva://TGT:BTARG:Evaporator_kP</pv_name>
+      <x>390</x>
+      <y>50</y>
+      <width>150</width>
+      <format>1</format>
+      <precision>3</precision>
+      <show_units>false</show_units>
+      <vertical_alignment>0</vertical_alignment>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Spinner_8</name>
+      <pv_name>pva://TGT:BTARG:Evaporator_kI</pv_name>
+      <x>390</x>
+      <y>70</y>
+      <width>150</width>
+      <format>1</format>
+      <precision>3</precision>
+      <show_units>false</show_units>
+      <vertical_alignment>0</vertical_alignment>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Spinner_9</name>
+      <pv_name>pva://TGT:BTARG:Evaporator_kD</pv_name>
+      <x>390</x>
+      <y>90</y>
+      <width>150</width>
+      <format>1</format>
+      <precision>3</precision>
+      <show_units>false</show_units>
+      <vertical_alignment>0</vertical_alignment>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>Boolean Button_3</name>
+      <pv_name>pva://TGT:BTARG:Evaporator_Mode</pv_name>
+      <x>390</x>
+      <y>140</y>
+      <width>150</width>
+      <height>20</height>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_20</name>
+      <text>Range:</text>
+      <x>30</x>
+      <y>110</y>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>Boolean Button_4</name>
+      <pv_name>pva://TGT:BTARG:Evaporator_Range</pv_name>
+      <x>130</x>
+      <y>110</y>
+      <width>170</width>
+      <height>20</height>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_21</name>
+      <text>Manual Heater:</text>
+      <x>30</x>
+      <y>140</y>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Spinner_11</name>
+      <pv_name>pva://TGT:BTARG:Evaporator_Manual</pv_name>
+      <x>130</x>
+      <y>140</y>
+      <width>170</width>
+      <format>1</format>
+      <precision>3</precision>
+      <show_units>false</show_units>
+      <vertical_alignment>0</vertical_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_22</name>
+      <text>Evaporator Heater Controls</text>
+      <x>10</x>
+      <y>10</y>
+      <width>200</width>
+      <font>
+        <font name="Header 2" family="Liberation Sans" style="BOLD" size="18.0">
+        </font>
+      </font>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Spinner_15</name>
+      <pv_name>pva://TGT:BTARG:Evaporator_Heater_W</pv_name>
+      <x>220</x>
+      <y>90</y>
+      <width>80</width>
+      <format>1</format>
+      <precision>2</precision>
+      <wrap_words>false</wrap_words>
+    </widget>
+  </widget>
+  <widget type="rectangle" version="2.0.0">
+    <name>Rectangle_1</name>
+    <x>580</x>
+    <y>430</y>
+    <width>30</width>
+    <height>30</height>
+    <visible>false</visible>
+  </widget>
+</display>

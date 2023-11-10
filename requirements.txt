@@ -5,3 +5,4 @@ pvxslibs>=1.2.4
 setuptools-dso==2.10a1
 softioc>=4.4.0
 PyYAML~=6.0
+pyserial
