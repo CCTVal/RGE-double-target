@@ -1,3 +1,10 @@
+#adc
+import board
+import time
+import busio
+import adafruit_ads1x15.ads1115 as ADS
+from adafruit_ads1x15.analog_in import AnalogIn
+
 from softioc import softioc, builder, asyncio_dispatcher
 import asyncio
 import serial
@@ -44,12 +51,13 @@ main_encoder_reading = builder.aIn('MAIN-ENCODER-READING', initial_value = -1)
 secondary_encoder_reading = builder.aIn('SECONDARY-ENCODER-READING', initial_value = -1)
 piano_encoder_reading = builder.aIn('PIANO-ENCODER-READING', initial_value = -1)
 linear_potentiometer_reading = builder.aIn('LINEAR-POTENTIOMETER-READING', initial_value = -1)
-motor_speed = builder.aIn('MOTOR-SPEED', initial_value = -1)
+motor_speed = builder.aIn('MOTOR-SPEED', initial_value = 500)
+motor_gain = builder.aIn('MOTOR-GAIN', initial_value = 2)
 
 ## Connection records
 piezomotor_connection = builder.boolIn('PIEZOMOTOR-CONNECTION', initial_value = False)
 ioc_heartbeat = builder.boolIn('PIEZOMOTOR-IOC-HEARTBEAT', initial_value = False)
-controller_port = builder.stringIn('CONTROLLER-SERIAL-PORT', initial_value = "COM4")
+controller_port = builder.stringIn('CONTROLLER-SERIAL-PORT', initial_value = "/dev/ttyUSB0")
 baud_rate = builder.aIn('CONTROLLER-BAUD-RATE', initial_value = 115200)
 
 ## Limits
@@ -59,28 +67,33 @@ forward_software_limit = builder.aIn('FORWARD-SOFTWARE-LIMIT', initial_value = 0
 backward_software_limit = builder.aIn('BACKWARD-SOFTWARE-LIMIT', initial_value = 0)
 
 ## Positions for each target being centered on beamline.
-target_positions = [builder.aIn('TARGET-POSITION0', initial_value = 400),
-                    builder.aIn('TARGET-POSITION1', initial_value = 1000),
-                    builder.aIn('TARGET-POSITION2', initial_value = 1600),
-                    builder.aIn('TARGET-POSITION3', initial_value = 2200),
-                    builder.aIn('TARGET-POSITION4', initial_value = 2800),
-                    builder.aIn('TARGET-POSITION5', initial_value = 3400),
-                    builder.aIn('TARGET-POSITION6', initial_value = 4000)
+target_positions = [builder.aIn('TARGET-POSITION0', initial_value = 1000),
+                    builder.aIn('TARGET-POSITION1', initial_value = 1800),
+                    builder.aIn('TARGET-POSITION2', initial_value = 2600),
+                    builder.aIn('TARGET-POSITION3', initial_value = 3400),
+                    builder.aIn('TARGET-POSITION4', initial_value = 4200),
+                    builder.aIn('TARGET-POSITION5', initial_value = 5000),
+                    builder.aIn('TARGET-POSITION6', initial_value = 5800)
                    ]
 
-go_tos = [builder.boolOut('Go-TO-TARGET-POSITION0', initial_value = False, on_update = lambda v: go_to(0, v)),
-          builder.boolOut('Go-TO-TARGET-POSITION1', initial_value = False, on_update = lambda v: go_to(1, v)),
-          builder.boolOut('Go-TO-TARGET-POSITION2', initial_value = False, on_update = lambda v: go_to(2, v)),
-          builder.boolOut('Go-TO-TARGET-POSITION3', initial_value = False, on_update = lambda v: go_to(3, v)),
-          builder.boolOut('Go-TO-TARGET-POSITION4', initial_value = False, on_update = lambda v: go_to(4, v)),
-          builder.boolOut('Go-TO-TARGET-POSITION5', initial_value = False, on_update = lambda v: go_to(5, v)),
-          builder.boolOut('Go-TO-TARGET-POSITION6', initial_value = False, on_update = lambda v: go_to(6, v))
+go_tos = [builder.boolOut('GO-TO-TARGET-POSITION0', initial_value = False, on_update = lambda v: go_to(0, v)),
+          builder.boolOut('GO-TO-TARGET-POSITION1', initial_value = False, on_update = lambda v: go_to(1, v)),
+          builder.boolOut('GO-TO-TARGET-POSITION2', initial_value = False, on_update = lambda v: go_to(2, v)),
+          builder.boolOut('GO-TO-TARGET-POSITION3', initial_value = False, on_update = lambda v: go_to(3, v)),
+          builder.boolOut('GO-TO-TARGET-POSITION4', initial_value = False, on_update = lambda v: go_to(4, v)),
+          builder.boolOut('GO-TO-TARGET-POSITION5', initial_value = False, on_update = lambda v: go_to(5, v)),
+          builder.boolOut('GO-TO-TARGET-POSITION6', initial_value = False, on_update = lambda v: go_to(6, v))
          ]
 
 # Boilerplate get the IOC started
 dispatcher = asyncio_dispatcher.AsyncioDispatcher() # Create an asyncio dispatcher, the event loop is now running
 builder.LoadDatabase()
 softioc.iocInit(dispatcher)
+
+# Initialize the I2C interface
+i2c = busio.I2C(board.SCL, board.SDA)
+ads = ADS.ADS1115(i2c)
+channel = AnalogIn(ads, ADS.P0)
 
 async def stop(should_stop):
     if not should_stop:
@@ -123,11 +136,13 @@ async def set_target_position(value=-float("inf")):
         return
     try:
         piezomotor_connection.set(True)
-        
-        if setpoint == 1:
-            setp1.set(reading)
-        elif setpoint == 2:
-            setp2.set(reading)
+        while abs(channel.value - value) > 0 and not user_stop.get():
+            calculated_steps = (value - channel.value) * motor_gain.get()
+            with serial.Serial(controller_port, baud_rate) as connection:
+                connection.write(("X1J" + str(int(calculated_steps)) + ",0," + motor_speed.get() + "\r").encode("ascii"))
+                reading = connection.read_until(b"\r").decode().strip()
+                print("encoder reading: ", channel.value)
+            await asyncio.sleep(0.001)
         
     except OSError as e:
         print("Error connecting to PiezoMotor controller.")
@@ -154,9 +169,7 @@ async def update():
         ioc_heartbeat.set(not ioc_heartbeat.get())
         try:
             with serial.Serial(controller_port.get(), baud_rate.get()) as connection:
-                connection.write(("X1E\r").encode("ascii"))
-                reading = int(connection.read_until(b"\r").decode().strip().split(":")[1])
-                main_encoder_reading.set(reading)
+                main_encoder_reading.set(channel.value)
                 connection.write(("X1T\r").encode("ascii"))
                 reading = int(connection.read_until(b"\r").decode().strip().split(":")[1])
                 target_position.set(reading)
