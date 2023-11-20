@@ -96,7 +96,9 @@ softioc.iocInit(dispatcher)
 # Initialize the I2C interface
 i2c = busio.I2C(board.SCL, board.SDA)
 ads = ADS.ADS1115(i2c)
-channel = AnalogIn(ads, ADS.P0)
+ads.gain=2  #ganancia (6v-gain=2/3,4v-gain=1, 2v-gain=2, 1v-gain=4)
+#channel = AnalogIn(ads,ADS.P0) #Modo Single
+channel = AnalogIn(ads, ADS.P0,ADS.P1) #Modo diferencial
 
 async def stop(should_stop):
     if not should_stop:
@@ -145,24 +147,29 @@ async def set_target_position(value=-float("inf")):
         print(motor_is_moving.get())
         while abs(channel.value - (value + overstep)) > 5 and not user_stop.get():
             calculated_steps = ((value + overstep) - channel.value) * motor_gain.get()
+            print(("X1J" + str(int(calculated_steps)) + ",0," + str(int(motor_speed.get())) + "\r").encode("ascii"))
             with serial.Serial(controller_port.get(), baud_rate.get()) as connection:
-                connection.write(("X1J" + str(int(calculated_steps)) + ",0," + motor_speed.get() + "\r").encode("ascii"))
+                connection.write(("X1J" + str(int(calculated_steps)) + ",0," + str(int(motor_speed.get())) + "\r").encode("ascii"))
                 reading = connection.read_until(b"\r").decode().strip()
-                print("encoder reading: ", channel.value)
+            print("[first move] encoder reading: ", channel.value)
             await asyncio.sleep(0.001)
         
+        mean = channel.value
         while abs(mean - value) > 1 and not user_stop.get():
             calculated_steps = int(((value - mean) / 2.0) * motor_gain.get())
+            print("calculated_steps: ", calculated_steps)
             if(calculated_steps > 0):
+                print("breaking at:", channel.value)
                 break
             with serial.Serial(controller_port.get(), baud_rate.get()) as connection:
-                connection.write(("X1J" + str(int(calculated_steps)) + ",0," + motor_slow_speed.get() + "\r").encode("ascii"))
+                connection.write(("X1J" + str(int(calculated_steps)) + ",0," + str(int(motor_slow_speed.get())) + "\r").encode("ascii"))
                 reading = connection.read_until(b"\r").decode().strip()
-                print("encoder reading: ", channel.value)
+            print("[second move] encoder reading: ", channel.value)
             is_moving = True
             while is_moving:
-                connection.write(("X1U\r").encode("ascii"))
-                is_moving = int(re.match(".*\d\d\d(\d)", connection.read_until(b"\r").decode().strip().split(":")[1]).groups()[0]) % 2 == 1
+                with serial.Serial(controller_port.get(), baud_rate.get()) as connection:
+                    connection.write(("X1U\r").encode("ascii"))
+                    is_moving = int(re.match(".*\d\d\d(\d)", connection.read_until(b"\r").decode().strip().split(":")[1]).groups()[0]) % 2 == 1
                 await asyncio.sleep(0.01)
             mean = 0
             for i in range(1000):
@@ -201,7 +208,6 @@ async def update():
                 target_position.set(reading)
                 connection.write(("X1H\r").encode("ascii"))
                 reading = int(connection.read_until(b"\r").decode().strip().split(":")[1])
-                motor_speed.set(reading)
                 connection.write(("X1U0\r").encode("ascii"))
                 reading = connection.read_until(b"\r").decode().strip().split(":")[1]
                 cs_com_error.set(int(reading[0]) // 8 == 1)
