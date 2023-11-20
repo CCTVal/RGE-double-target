@@ -43,6 +43,7 @@ cs_parked = builder.boolIn('PIEZOMOTOR-CONTROLLER-PARKED', initial_value = False
 cs_overheat = builder.boolIn('PIEZOMOTOR-CONTROLLER-OVERHEAT', initial_value = False) # Controller board output stage is overheated
 cs_reverse = builder.boolIn('PIEZOMOTOR-CONTROLLER-REVERSE', initial_value = False) # If the last movement was in reverse
 cs_running = builder.boolIn('PIEZOMOTOR-CONTROLLER-RUNNING', initial_value = False)
+motor_is_moving = builder.boolIn('IS-MOVING', initial_value = False)
 
 ## Frequently updated records
 controller_response = builder.stringIn('CONTROLLER-RESPONSE', initial_value = "")
@@ -136,13 +137,19 @@ async def set_target_position(value=-float("inf")):
         return
     try:
         piezomotor_connection.set(True)
+        motor_is_moving.set(True)
+        print(motor_is_moving.get())
         while abs(channel.value - value) > 0 and not user_stop.get():
             calculated_steps = (value - channel.value) * motor_gain.get()
-            with serial.Serial(controller_port, baud_rate) as connection:
-                connection.write(("X1J" + str(int(calculated_steps)) + ",0," + motor_speed.get() + "\r").encode("ascii"))
+            print(motor_is_moving.get())
+            with serial.Serial(controller_port.get(), baud_rate.get()) as connection:
+                connection.write(("X1J" + str(int(calculated_steps)) + ",0," + str(int(motor_speed.get())) + "\r").encode("ascii"))
                 reading = connection.read_until(b"\r").decode().strip()
                 print("encoder reading: ", channel.value)
             await asyncio.sleep(0.001)
+        print(motor_is_moving.get())
+        motor_is_moving.set(False)
+        print(motor_is_moving.get())
         
     except OSError as e:
         print("Error connecting to PiezoMotor controller.")
