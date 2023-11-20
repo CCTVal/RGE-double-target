@@ -53,7 +53,8 @@ secondary_encoder_reading = builder.aIn('SECONDARY-ENCODER-READING', initial_val
 piano_encoder_reading = builder.aIn('PIANO-ENCODER-READING', initial_value = -1)
 linear_potentiometer_reading = builder.aIn('LINEAR-POTENTIOMETER-READING', initial_value = -1)
 motor_speed = builder.aIn('MOTOR-SPEED', initial_value = 500)
-motor_gain = builder.aIn('MOTOR-GAIN', initial_value = 2)
+motor_slow_speed = builder.aIn('MOTOR-SLOW-SPEED', initial_value = 50)
+motor_gain = builder.aIn('MOTOR-GAIN', initial_value = 1.54)
 
 ## Connection records
 piezomotor_connection = builder.boolIn('PIEZOMOTOR-CONNECTION', initial_value = False)
@@ -61,11 +62,12 @@ ioc_heartbeat = builder.boolIn('PIEZOMOTOR-IOC-HEARTBEAT', initial_value = False
 controller_port = builder.stringIn('CONTROLLER-SERIAL-PORT', initial_value = "/dev/ttyUSB0")
 baud_rate = builder.aIn('CONTROLLER-BAUD-RATE', initial_value = 115200)
 
-## Limits
+## Limits and configuration
 forward_limit_switch_position = builder.aIn('FORWARD-LIMIT-SWITCH-POSITION', initial_value = 0)
 backward_limit_switch_position = builder.aIn('BACKWARD-LIMIT-SWITCH-POSITION', initial_value = 0)
 forward_software_limit = builder.aIn('FORWARD-SOFTWARE-LIMIT', initial_value = 0)
 backward_software_limit = builder.aIn('BACKWARD-SOFTWARE-LIMIT', initial_value = 0)
+overstep = 300
 
 ## Positions for each target being centered on beamline.
 target_positions = [builder.aIn('TARGET-POSITION0', initial_value = 1000),
@@ -106,6 +108,7 @@ async def stop(should_stop):
 async def go_to(position_index, should_go = False):
     if not should_go:
         return
+    user_stop.set(False)
     for i in range(len(go_tos)):
         if i != position_index:
             go_toS[i].set(False)
@@ -135,21 +138,37 @@ async def set_target_position(value=-float("inf")):
     if value == -float("inf"):
         print("Not enough parameters for target position setting")
         return
+    user_stop.set(False)
     try:
         piezomotor_connection.set(True)
         motor_is_moving.set(True)
         print(motor_is_moving.get())
-        while abs(channel.value - value) > 0 and not user_stop.get():
-            calculated_steps = (value - channel.value) * motor_gain.get()
-            print(motor_is_moving.get())
+        while abs(channel.value - (value + overstep)) > 5 and not user_stop.get():
+            calculated_steps = ((value + overstep) - channel.value) * motor_gain.get()
             with serial.Serial(controller_port.get(), baud_rate.get()) as connection:
-                connection.write(("X1J" + str(int(calculated_steps)) + ",0," + str(int(motor_speed.get())) + "\r").encode("ascii"))
+                connection.write(("X1J" + str(int(calculated_steps)) + ",0," + motor_speed.get() + "\r").encode("ascii"))
                 reading = connection.read_until(b"\r").decode().strip()
                 print("encoder reading: ", channel.value)
             await asyncio.sleep(0.001)
-        print(motor_is_moving.get())
+        
+        while abs(mean - value) > 1 and not user_stop.get():
+            calculated_steps = int(((value - mean) / 2.0) * motor_gain.get())
+            if(calculated_steps > 0):
+                break
+            with serial.Serial(controller_port.get(), baud_rate.get()) as connection:
+                connection.write(("X1J" + str(int(calculated_steps)) + ",0," + motor_slow_speed.get() + "\r").encode("ascii"))
+                reading = connection.read_until(b"\r").decode().strip()
+                print("encoder reading: ", channel.value)
+            is_moving = True
+            while is_moving:
+                connection.write(("X1U\r").encode("ascii"))
+                is_moving = int(re.match(".*\d\d\d(\d)", connection.read_until(b"\r").decode().strip().split(":")[1]).groups()[0]) % 2 == 1
+                await asyncio.sleep(0.01)
+            mean = 0
+            for i in range(1000):
+                mean += channel.value
+            mean /= 1000
         motor_is_moving.set(False)
-        print(motor_is_moving.get())
         
     except OSError as e:
         print("Error connecting to PiezoMotor controller.")
