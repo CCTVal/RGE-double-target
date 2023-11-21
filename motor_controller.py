@@ -5,6 +5,7 @@ import busio
 import adafruit_ads1x15.ads1115 as ADS
 from adafruit_ads1x15.analog_in import AnalogIn
 
+import cothread
 from softioc import softioc, builder, asyncio_dispatcher
 import asyncio
 import serial
@@ -14,7 +15,7 @@ import re
 # Set the record prefix
 builder.SetDeviceName("CCTVAL_DT_PMD301")
 motor_temperature_range = {"LOLO": 253, "LOW": 263, "HIGH": 350, "HIHI": 360}
-
+debug = False
 
 # Create some records
 ## User input records
@@ -144,27 +145,22 @@ async def set_target_position(value=-float("inf")):
     try:
         piezomotor_connection.set(True)
         motor_is_moving.set(True)
-        print(motor_is_moving.get())
         while abs(channel.value - (value + overstep)) > 5 and not user_stop.get():
             calculated_steps = ((value + overstep) - channel.value) * motor_gain.get()
-            print(("X1J" + str(int(calculated_steps)) + ",0," + str(int(motor_speed.get())) + "\r").encode("ascii"))
             with serial.Serial(controller_port.get(), baud_rate.get()) as connection:
                 connection.write(("X1J" + str(int(calculated_steps)) + ",0," + str(int(motor_speed.get())) + "\r").encode("ascii"))
                 reading = connection.read_until(b"\r").decode().strip()
-            print("[first move] encoder reading: ", channel.value)
             await asyncio.sleep(0.001)
         
         mean = channel.value
         while abs(mean - value) > 1 and not user_stop.get():
             calculated_steps = int(((value - mean) / 2.0) * motor_gain.get())
-            print("calculated_steps: ", calculated_steps)
             if(calculated_steps > 0):
                 print("breaking at:", channel.value)
                 break
             with serial.Serial(controller_port.get(), baud_rate.get()) as connection:
                 connection.write(("X1J" + str(int(calculated_steps)) + ",0," + str(int(motor_slow_speed.get())) + "\r").encode("ascii"))
                 reading = connection.read_until(b"\r").decode().strip()
-            print("[second move] encoder reading: ", channel.value)
             is_moving = True
             while is_moving:
                 with serial.Serial(controller_port.get(), baud_rate.get()) as connection:
@@ -238,4 +234,7 @@ dispatcher(update)
 dispatcher(slow_update)
 
 # Finally leave the IOC running with an interactive shell.
-softioc.interactive_ioc(globals())
+if debug:
+    softioc.interactive_ioc(globals())
+else:
+    cothread.WaitForQuit()
