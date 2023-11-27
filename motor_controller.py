@@ -54,8 +54,8 @@ secondary_encoder_reading = builder.aIn('SECONDARY-ENCODER-READING', initial_val
 piano_encoder_reading = builder.aIn('PIANO-ENCODER-READING', initial_value = -1)
 linear_potentiometer_reading = builder.aIn('LINEAR-POTENTIOMETER-READING', initial_value = -1)
 motor_speed = builder.aIn('MOTOR-SPEED', initial_value = 500)
-motor_slow_speed = builder.aIn('MOTOR-SLOW-SPEED', initial_value = 50)
-motor_gain = builder.aIn('MOTOR-GAIN', initial_value = 1.54)
+motor_slow_speed = builder.aIn('MOTOR-SLOW-SPEED', initial_value = 500)
+motor_gain = builder.aIn('MOTOR-GAIN', initial_value = 0.822)
 
 ## Connection records
 piezomotor_connection = builder.boolIn('PIEZOMOTOR-CONNECTION', initial_value = False)
@@ -71,13 +71,13 @@ backward_software_limit = builder.aIn('BACKWARD-SOFTWARE-LIMIT', initial_value =
 overstep = 300
 
 ## Positions for each target being centered on beamline.
-target_positions = [builder.aIn('TARGET-POSITION0', initial_value = 1000),
-                    builder.aIn('TARGET-POSITION1', initial_value = 1800),
-                    builder.aIn('TARGET-POSITION2', initial_value = 2600),
-                    builder.aIn('TARGET-POSITION3', initial_value = 3400),
-                    builder.aIn('TARGET-POSITION4', initial_value = 4200),
-                    builder.aIn('TARGET-POSITION5', initial_value = 5000),
-                    builder.aIn('TARGET-POSITION6', initial_value = 5800)
+target_positions = [builder.aOut('TARGET-POSITION0', initial_value = 2080),
+                    builder.aOut('TARGET-POSITION1', initial_value = 5280),
+                    builder.aOut('TARGET-POSITION2', initial_value = 8480),
+                    builder.aOut('TARGET-POSITION3', initial_value = 11680),
+                    builder.aOut('TARGET-POSITION4', initial_value = 14880),
+                    builder.aOut('TARGET-POSITION5', initial_value = 18080),
+                    builder.aOut('TARGET-POSITION6', initial_value = 21280)
                    ]
 
 go_tos = [builder.boolOut('GO-TO-TARGET-POSITION0', initial_value = False, on_update = lambda v: go_to(0, v)),
@@ -114,8 +114,9 @@ async def go_to(position_index, should_go = False):
     user_stop.set(False)
     for i in range(len(go_tos)):
         if i != position_index:
-            go_toS[i].set(False)
-    user_target_position.set(target_positions[position_index])
+            go_tos[i].set(False)
+    user_target_position.set(target_positions[position_index].get())
+    go_tos[position_index].set(False)
 
 async def send_command(value = ""):
     if value[:2] == "X1":
@@ -154,12 +155,14 @@ async def set_target_position(value=-float("inf")):
         
         mean = channel.value
         while abs(mean - value) > 1 and not user_stop.get():
-            calculated_steps = int(((value - mean) / 2.0) * motor_gain.get())
+            calculated_steps = ((value - mean)) * motor_gain.get() * 0.9
+            calculated_microsteps = int((calculated_steps - int(calculated_steps)) * 8192)
+            calculated_steps = int(calculated_steps)
             if(calculated_steps > 0):
                 print("breaking at:", channel.value)
                 break
             with serial.Serial(controller_port.get(), baud_rate.get()) as connection:
-                connection.write(("X1J" + str(int(calculated_steps)) + ",0," + str(int(motor_slow_speed.get())) + "\r").encode("ascii"))
+                connection.write(("X1J" + str(int(calculated_steps)) + "," + str(calculated_microsteps) + "," + str(int(motor_slow_speed.get())) + "\r").encode("ascii"))
                 reading = connection.read_until(b"\r").decode().strip()
             is_moving = True
             while is_moving:
@@ -168,9 +171,9 @@ async def set_target_position(value=-float("inf")):
                     is_moving = int(re.match(".*\d\d\d(\d)", connection.read_until(b"\r").decode().strip().split(":")[1]).groups()[0]) % 2 == 1
                 await asyncio.sleep(0.01)
             mean = 0
-            for i in range(1000):
+            for i in range(100):
                 mean += channel.value
-            mean /= 1000
+            mean /= 100.0
         motor_is_moving.set(False)
         
     except OSError as e:
