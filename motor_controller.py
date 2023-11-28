@@ -5,6 +5,8 @@ import busio
 import adafruit_ads1x15.ads1115 as ADS
 from adafruit_ads1x15.analog_in import AnalogIn
 
+import RPi.GPIO as gpio
+
 import cothread
 from softioc import softioc, builder, asyncio_dispatcher
 import asyncio
@@ -16,6 +18,8 @@ import re
 builder.SetDeviceName("CCTVAL_DT_PMD301")
 motor_temperature_range = {"LOLO": 253, "LOW": 263, "HIGH": 350, "HIHI": 360}
 debug = False
+PIANO_PIN = 23
+LIMIT1_PIN = 24
 
 # Create some records
 ## User input records
@@ -56,6 +60,7 @@ linear_potentiometer_reading = builder.aIn('LINEAR-POTENTIOMETER-READING', initi
 motor_speed = builder.aIn('MOTOR-SPEED', initial_value = 500)
 motor_slow_speed = builder.aIn('MOTOR-SLOW-SPEED', initial_value = 500)
 motor_gain = builder.aIn('MOTOR-GAIN', initial_value = 0.822)
+main_encoder = builder.stringOut('MAIN-ENCODER', initial_value = "analog")
 
 ## Connection records
 piezomotor_connection = builder.boolIn('PIEZOMOTOR-CONNECTION', initial_value = False)
@@ -80,6 +85,15 @@ target_positions = [builder.aOut('TARGET-POSITION0', initial_value = 2080),
                     builder.aOut('TARGET-POSITION6', initial_value = 21280)
                    ]
 
+target_piano_positions = [builder.aOut('TARGET-PIANO-POSITION0', initial_value = 61),
+                    builder.aOut('TARGET-PIANO-POSITION1', initial_value = 51),
+                    builder.aOut('TARGET-PIANO-POSITION2', initial_value = 41),
+                    builder.aOut('TARGET-PIANO-POSITION3', initial_value = 31),
+                    builder.aOut('TARGET-PIANO-POSITION4', initial_value = 21),
+                    builder.aOut('TARGET-PIANO-POSITION5', initial_value = 11),
+                    builder.aOut('TARGET-PIANO-POSITION6', initial_value = 1)
+                   ]
+
 go_tos = [builder.boolOut('GO-TO-TARGET-POSITION0', initial_value = False, on_update = lambda v: go_to(0, v)),
           builder.boolOut('GO-TO-TARGET-POSITION1', initial_value = False, on_update = lambda v: go_to(1, v)),
           builder.boolOut('GO-TO-TARGET-POSITION2', initial_value = False, on_update = lambda v: go_to(2, v)),
@@ -101,6 +115,10 @@ ads.gain=2  #ganancia (6v-gain=2/3,4v-gain=1, 2v-gain=2, 1v-gain=4)
 #channel = AnalogIn(ads,ADS.P0) #Modo Single
 channel = AnalogIn(ads, ADS.P0,ADS.P1) #Modo diferencial
 
+gpio.setmode(gpio.BCM)
+gpio.setup(23, gpio.IN)
+gpio.setup(24, gpio.IN)
+
 async def stop(should_stop):
     if not should_stop:
         return
@@ -115,7 +133,10 @@ async def go_to(position_index, should_go = False):
     for i in range(len(go_tos)):
         if i != position_index:
             go_tos[i].set(False)
-    user_target_position.set(target_positions[position_index].get())
+    if main_encoder.get() == "piano":
+        piano_go_to(position_index)
+    else: # analog
+        user_target_position.set(target_positions[position_index].get())
     go_tos[position_index].set(False)
 
 async def send_command(value = ""):
@@ -159,7 +180,6 @@ async def set_target_position(value=-float("inf")):
             calculated_microsteps = int((calculated_steps - int(calculated_steps)) * 8192)
             calculated_steps = int(calculated_steps)
             if(calculated_steps > 0):
-                print("breaking at:", channel.value)
                 break
             with serial.Serial(controller_port.get(), baud_rate.get()) as connection:
                 connection.write(("X1J" + str(int(calculated_steps)) + "," + str(calculated_microsteps) + "," + str(int(motor_slow_speed.get())) + "\r").encode("ascii"))
@@ -174,12 +194,37 @@ async def set_target_position(value=-float("inf")):
             for i in range(100):
                 mean += channel.value
             mean /= 100.0
+        print("breaking at:", mean)
         motor_is_moving.set(False)
         
     except OSError as e:
         print("Error connecting to PiezoMotor controller.")
         print(e)
         piezomotor_connection.set(False)
+
+async def piano_go_to(position_index = -float("inf")):
+    if position_index == -float("inf"):
+        print("Not enough parameters for target position setting")
+        return
+    user_stop.set(False)
+    motor_is_moving.set(True)
+    while not cs_x_limit.get():
+        with serial.Serial(controller_port.get(), baud_rate.get()) as connection:
+            connection.write(("X1J100,0," + str(int(motor_speed.get())) + "\r").encode("ascii"))
+            reading = connection.read_until(b"\r").decode().strip()
+        await asyncio.sleep(0.1)
+    piano_encoder_reading.set(0)
+
+    for present in range(target_piano_positions[position_index].get()):
+        last_piano = gpio.input(PIANO_PIN)
+        while gpio.input(PIANO_PIN) == last_piano:
+            connection.write(("X1J-10,0," + str(int(motor_speed.get())) + "\r").encode("ascii"))
+            reading = connection.read_until(b"\r").decode().strip()
+        connection.write(("X1S\r").encode("ascii"))
+        reading = connection.read_until(b"\r").decode().strip()
+        await asyncio.sleep(0.1)
+        piano_encoder_reading.set(piano_encoder_reading.get() + 1)
+    motor_is_moving.set(False)
 
 # Update global settings parameters
 async def slow_update():
