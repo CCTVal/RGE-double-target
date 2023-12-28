@@ -1,0 +1,1380 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Saved on 2023-12-27 16:43:33 by javier-->
+<display version="2.0.0">
+  <name>double_target_main</name>
+  <macros>
+    <device>CCTVAL_DT_PMD301:</device>
+  </macros>
+  <x>500</x>
+  <y>500</y>
+  <width>452</width>
+  <height>330</height>
+  <background_color>
+    <color red="40" green="40" blue="40">
+    </color>
+  </background_color>
+  <actions>
+  </actions>
+  <grid_step_x>5</grid_step_x>
+  <grid_step_y>5</grid_step_y>
+  <widget type="action_button" version="3.0.0">
+    <name>Stop</name>
+    <actions>
+      <action type="write_pv">
+        <pv_name>$(device)SHOULD-STOP</pv_name>
+        <value>1</value>
+        <description>WritePV</description>
+      </action>
+    </actions>
+    <pv_name>$(device)SHOULD-STOP</pv_name>
+    <text>STOP</text>
+    <x>60</x>
+    <y>45</y>
+    <foreground_color>
+      <color red="40" green="40" blue="40">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="251" green="73" blue="52">
+      </color>
+    </background_color>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Title</name>
+    <text>RG-E Target</text>
+    <x>10</x>
+    <y>10</y>
+    <width>180</width>
+    <height>30</height>
+    <font>
+      <font name="Header 1" family="Liberation Sans" style="BOLD" size="22.0">
+      </font>
+    </font>
+    <foreground_color>
+      <color red="235" green="219" blue="178">
+      </color>
+    </foreground_color>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Motor Position</name>
+    <x>225</x>
+    <y>160</y>
+    <width>230</width>
+    <height>172</height>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <foreground_color>
+      <color red="131" green="165" blue="152">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color name="OPI_Background" red="50" green="50" blue="50">
+      </color>
+    </background_color>
+    <transparent>true</transparent>
+    <actions>
+    </actions>
+    <widget type="textupdate" version="2.0.0">
+      <name>Motor position check</name>
+      <pv_name>$(device)MAIN-ENCODER-READING</pv_name>
+      <x>5</x>
+      <width>112</width>
+      <height>29</height>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="80" green="73" blue="69">
+        </color>
+      </background_color>
+      <format>1</format>
+      <precision>2</precision>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="rectangle" version="2.0.0">
+      <name>Rounded Rectangle_2</name>
+      <macros>
+        <pv_name></pv_name>
+      </macros>
+      <y>42</y>
+      <width>200</width>
+      <height>44</height>
+      <line_width>0</line_width>
+      <line_color>
+        <color name="GRID" red="90" green="90" blue="90">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="60" green="56" blue="54">
+        </color>
+      </background_color>
+      <corner_width>16</corner_width>
+      <corner_height>16</corner_height>
+      <actions>
+      </actions>
+      <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>low limit</name>
+      <text>Low Limit</text>
+      <x>20</x>
+      <y>33</y>
+      <width>110</width>
+      <height>14</height>
+      <foreground_color>
+        <color red="131" green="165" blue="152">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color name="Read_Foreground" red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Lower limit</name>
+      <pv_name>$(device)BACKWARD-SOFTWARE-LIMIT</pv_name>
+      <x>20</x>
+      <y>53</y>
+      <width>120</width>
+      <height>19</height>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="80" green="73" blue="69">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>At low limit</name>
+      <x>160</x>
+      <y>53</y>
+      <height>19</height>
+      <off_color>
+        <color red="40" green="40" blue="40">
+        </color>
+      </off_color>
+      <on_color>
+        <color red="251" green="73" blue="52">
+        </color>
+      </on_color>
+      <square>true</square>
+      <actions>
+      </actions>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="rectangle" version="2.0.0">
+      <name>Rounded Rectangle_3</name>
+      <macros>
+        <pv_name></pv_name>
+      </macros>
+      <y>97</y>
+      <width>200</width>
+      <height>44</height>
+      <line_width>0</line_width>
+      <line_color>
+        <color name="GRID" red="90" green="90" blue="90">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="60" green="56" blue="54">
+        </color>
+      </background_color>
+      <corner_width>16</corner_width>
+      <corner_height>16</corner_height>
+      <actions>
+      </actions>
+      <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>high limit</name>
+      <text>High Limit</text>
+      <x>20</x>
+      <y>88</y>
+      <width>110</width>
+      <height>14</height>
+      <foreground_color>
+        <color red="131" green="165" blue="152">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color name="Read_Foreground" red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Higher Limit</name>
+      <pv_name>$(device)FORWARD-SOFTWARE-LIMIT</pv_name>
+      <x>20</x>
+      <y>109</y>
+      <width>120</width>
+      <height>19</height>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="80" green="73" blue="69">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>At high limit</name>
+      <x>160</x>
+      <y>109</y>
+      <height>19</height>
+      <off_color>
+        <color red="40" green="40" blue="40">
+        </color>
+      </off_color>
+      <on_color>
+        <color red="251" green="73" blue="52">
+        </color>
+      </on_color>
+      <square>true</square>
+      <actions>
+      </actions>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Moving</name>
+      <text>Moving</text>
+      <x>125</x>
+      <width>70</width>
+      <height>25</height>
+      <font>
+        <font family="Sans" style="REGULAR" size="14.851485148514852">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="184" green="187" blue="38">
+        </color>
+      </foreground_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <rules>
+        <rule name="Visibility" prop_id="text" out_exp="false">
+          <exp bool_exp="pv0">
+            <value>Moving</value>
+          </exp>
+          <exp bool_exp="!pv0">
+            <value>Still</value>
+          </exp>
+          <pv_name>$(device)IS-MOVING</pv_name>
+        </rule>
+      </rules>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Target Switch</name>
+    <x>5</x>
+    <y>80</y>
+    <width>215</width>
+    <height>252</height>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <foreground_color>
+      <color red="131" green="165" blue="152">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="40" green="40" blue="40">
+      </color>
+    </background_color>
+    <transparent>true</transparent>
+    <actions>
+    </actions>
+    <widget type="action_button" version="3.0.0">
+      <name>Go to pos1</name>
+      <actions>
+        <action type="write_pv">
+          <pv_name>$(device)GO-TO-TARGET-POSITION0</pv_name>
+          <value>1</value>
+          <description>WritePV</description>
+        </action>
+      </actions>
+      <pv_name>$(device)GO-TO-TARGET-POSITION0</pv_name>
+      <text>0</text>
+      <width>30</width>
+      <foreground_color>
+        <color red="40" green="40" blue="40">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="146" green="131" blue="116">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+      <show_confirm_dialog>true</show_confirm_dialog>
+      <confirm_message>Have you received an explicit request from RG-E to switch to A target?</confirm_message>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Go to pos2</name>
+      <actions>
+        <action type="write_pv">
+          <pv_name>$(device)GO-TO-TARGET-POSITION1</pv_name>
+          <value>1</value>
+          <description>WritePV</description>
+        </action>
+      </actions>
+      <pv_name>$(device)GO-TO-TARGET-POSITION1</pv_name>
+      <text>1</text>
+      <y>32</y>
+      <width>30</width>
+      <foreground_color>
+        <color red="40" green="40" blue="40">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="146" green="131" blue="116">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+      <show_confirm_dialog>true</show_confirm_dialog>
+      <confirm_message>Have you received an explicit request from RG-E to switch to B target?</confirm_message>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Go to pos3</name>
+      <actions>
+        <action type="write_pv">
+          <pv_name>$(device)GO-TO-TARGET-POSITION2</pv_name>
+          <value>1</value>
+          <description>WritePV</description>
+        </action>
+      </actions>
+      <pv_name>$(device)GO-TO-TARGET-POSITION2</pv_name>
+      <text>2</text>
+      <y>64</y>
+      <width>30</width>
+      <foreground_color>
+        <color red="40" green="40" blue="40">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="146" green="131" blue="116">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+      <show_confirm_dialog>true</show_confirm_dialog>
+      <confirm_message>Have you received an explicit request from RG-E to switch to C target?</confirm_message>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Go to pos4</name>
+      <actions>
+        <action type="write_pv">
+          <pv_name>$(device)GO-TO-TARGET-POSITION3</pv_name>
+          <value>1</value>
+          <description>WritePV</description>
+        </action>
+      </actions>
+      <pv_name>$(device)GO-TO-TARGET-POSITION3</pv_name>
+      <text>3</text>
+      <y>96</y>
+      <width>30</width>
+      <foreground_color>
+        <color red="40" green="40" blue="40">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="146" green="131" blue="116">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+      <show_confirm_dialog>true</show_confirm_dialog>
+      <confirm_message>Have you received an explicit request from RG-E to switch to D target?</confirm_message>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Go to pos5</name>
+      <actions>
+        <action type="write_pv">
+          <pv_name>$(device)GO-TO-TARGET-POSITION4</pv_name>
+          <value>1</value>
+          <description>WritePV</description>
+        </action>
+      </actions>
+      <pv_name>$(device)GO-TO-TARGET-POSITION4</pv_name>
+      <text>4</text>
+      <y>128</y>
+      <width>30</width>
+      <foreground_color>
+        <color red="40" green="40" blue="40">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="146" green="131" blue="116">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+      <show_confirm_dialog>true</show_confirm_dialog>
+      <confirm_message>Have you received an explicit request from RG-E to switch to E target?</confirm_message>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Go to pos6</name>
+      <actions>
+        <action type="write_pv">
+          <pv_name>$(device)GO-TO-TARGET-POSITION5</pv_name>
+          <value>1</value>
+          <description>WritePV</description>
+        </action>
+      </actions>
+      <pv_name>$(device)GO-TO-TARGET-POSITION5</pv_name>
+      <text>5</text>
+      <y>160</y>
+      <width>30</width>
+      <foreground_color>
+        <color red="40" green="40" blue="40">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="146" green="131" blue="116">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+      <show_confirm_dialog>true</show_confirm_dialog>
+      <confirm_message>Have you received an explicit request from RG-E to switch to F target?</confirm_message>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Go to pos7</name>
+      <actions>
+        <action type="write_pv">
+          <pv_name>$(device)GO-TO-TARGET-POSITION6</pv_name>
+          <value>1</value>
+          <description>WritePV</description>
+        </action>
+      </actions>
+      <pv_name>$(device)GO-TO-TARGET-POSITION6</pv_name>
+      <text>6</text>
+      <y>192</y>
+      <width>30</width>
+      <foreground_color>
+        <color red="40" green="40" blue="40">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="146" green="131" blue="116">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+      <show_confirm_dialog>true</show_confirm_dialog>
+      <confirm_message>Have you received an explicit request from RG-E to switch to G target?</confirm_message>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>pos1</name>
+      <pv_name>$(device)TARGET-POSITION0</pv_name>
+      <x>40</x>
+      <y>5</y>
+      <width>102</width>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="80" green="73" blue="69">
+        </color>
+      </background_color>
+      <precision>2</precision>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>pos2</name>
+      <pv_name>$(device)TARGET-POSITION1</pv_name>
+      <x>40</x>
+      <y>37</y>
+      <width>102</width>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="80" green="73" blue="69">
+        </color>
+      </background_color>
+      <precision>2</precision>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>pos3</name>
+      <pv_name>$(device)TARGET-POSITION2</pv_name>
+      <x>40</x>
+      <y>69</y>
+      <width>102</width>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="80" green="73" blue="69">
+        </color>
+      </background_color>
+      <precision>2</precision>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>pos4</name>
+      <pv_name>$(device)TARGET-POSITION3</pv_name>
+      <x>40</x>
+      <y>101</y>
+      <width>102</width>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="80" green="73" blue="69">
+        </color>
+      </background_color>
+      <precision>2</precision>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>pos5</name>
+      <pv_name>$(device)TARGET-POSITION4</pv_name>
+      <x>40</x>
+      <y>133</y>
+      <width>102</width>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="80" green="73" blue="69">
+        </color>
+      </background_color>
+      <precision>2</precision>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>pos6</name>
+      <pv_name>$(device)TARGET-POSITION5</pv_name>
+      <x>40</x>
+      <y>165</y>
+      <width>102</width>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="80" green="73" blue="69">
+        </color>
+      </background_color>
+      <precision>2</precision>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>pos7</name>
+      <pv_name>$(device)TARGET-POSITION6</pv_name>
+      <x>40</x>
+      <y>197</y>
+      <width>102</width>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="80" green="73" blue="69">
+        </color>
+      </background_color>
+      <precision>2</precision>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>At pos4</name>
+      <pv_name>$(device)TARGET-POSITION3</pv_name>
+      <x>165</x>
+      <y>101</y>
+      <off_color>
+        <color red="40" green="40" blue="40">
+        </color>
+      </off_color>
+      <on_color>
+        <color red="184" green="187" blue="38">
+        </color>
+      </on_color>
+      <square>true</square>
+      <actions>
+      </actions>
+      <rules>
+        <rule name="New Rule" prop_id="on_color" out_exp="false">
+          <exp bool_exp="(pv1-20 &lt; pv0) &amp;&amp; (pv0 &lt; pv1+20)">
+            <value>
+              <color red="184" green="187" blue="38">
+              </color>
+            </value>
+          </exp>
+          <exp bool_exp="!((pv1-20 &lt; pv0) &amp;&amp; (pv0 &lt; pv1+20))">
+            <value>
+              <color red="40" green="40" blue="40">
+              </color>
+            </value>
+          </exp>
+          <pv_name>$(device)MAIN-ENCODER-READING</pv_name>
+          <pv_name>$(device)TARGET-POSITION3</pv_name>
+        </rule>
+      </rules>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>At pos4_1</name>
+      <pv_name>$(device)TARGET-POSITION2</pv_name>
+      <x>165</x>
+      <y>69</y>
+      <off_color>
+        <color red="40" green="40" blue="40">
+        </color>
+      </off_color>
+      <on_color>
+        <color red="184" green="187" blue="38">
+        </color>
+      </on_color>
+      <square>true</square>
+      <actions>
+      </actions>
+      <rules>
+        <rule name="New Rule" prop_id="on_color" out_exp="false">
+          <exp bool_exp="(pv1-20 &lt; pv0) &amp;&amp; (pv0 &lt; pv1+20)">
+            <value>
+              <color red="184" green="187" blue="38">
+              </color>
+            </value>
+          </exp>
+          <exp bool_exp="!((pv1-20 &lt; pv0) &amp;&amp; (pv0 &lt; pv1+20))">
+            <value>
+              <color red="40" green="40" blue="40">
+              </color>
+            </value>
+          </exp>
+          <pv_name>$(device)MAIN-ENCODER-READING</pv_name>
+          <pv_name>$(device)TARGET-POSITION2</pv_name>
+        </rule>
+      </rules>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>At pos4_2</name>
+      <pv_name>$(device)TARGET-POSITION1</pv_name>
+      <x>165</x>
+      <y>37</y>
+      <off_color>
+        <color red="40" green="40" blue="40">
+        </color>
+      </off_color>
+      <on_color>
+        <color red="184" green="187" blue="38">
+        </color>
+      </on_color>
+      <square>true</square>
+      <actions>
+      </actions>
+      <rules>
+        <rule name="New Rule" prop_id="on_color" out_exp="false">
+          <exp bool_exp="(pv1-20 &lt; pv0) &amp;&amp; (pv0 &lt; pv1+20)">
+            <value>
+              <color red="184" green="187" blue="38">
+              </color>
+            </value>
+          </exp>
+          <exp bool_exp="!((pv1-20 &lt; pv0) &amp;&amp; (pv0 &lt; pv1+20))">
+            <value>
+              <color red="40" green="40" blue="40">
+              </color>
+            </value>
+          </exp>
+          <pv_name>$(device)MAIN-ENCODER-READING</pv_name>
+          <pv_name>$(device)TARGET-POSITION1</pv_name>
+        </rule>
+      </rules>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>At pos4_3</name>
+      <pv_name>$(device)TARGET-POSITION0</pv_name>
+      <x>165</x>
+      <y>5</y>
+      <off_color>
+        <color red="40" green="40" blue="40">
+        </color>
+      </off_color>
+      <on_color>
+        <color red="184" green="187" blue="38">
+        </color>
+      </on_color>
+      <square>true</square>
+      <actions>
+      </actions>
+      <rules>
+        <rule name="New Rule" prop_id="on_color" out_exp="false">
+          <exp bool_exp="(pv1-20 &lt; pv0) &amp;&amp; (pv0 &lt; pv1+20)">
+            <value>
+              <color red="184" green="187" blue="38">
+              </color>
+            </value>
+          </exp>
+          <exp bool_exp="!((pv1-20 &lt; pv0) &amp;&amp; (pv0 &lt; pv1+20))">
+            <value>
+              <color red="40" green="40" blue="40">
+              </color>
+            </value>
+          </exp>
+          <pv_name>$(device)MAIN-ENCODER-READING</pv_name>
+          <pv_name>$(device)TARGET-POSITION0</pv_name>
+        </rule>
+      </rules>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>At pos4_4</name>
+      <pv_name>$(device)TARGET-POSITION4</pv_name>
+      <x>165</x>
+      <y>133</y>
+      <off_color>
+        <color red="40" green="40" blue="40">
+        </color>
+      </off_color>
+      <on_color>
+        <color red="184" green="187" blue="38">
+        </color>
+      </on_color>
+      <square>true</square>
+      <actions>
+      </actions>
+      <rules>
+        <rule name="New Rule" prop_id="on_color" out_exp="false">
+          <exp bool_exp="(pv1-20 &lt; pv0) &amp;&amp; (pv0 &lt; pv1+20)">
+            <value>
+              <color red="184" green="187" blue="38">
+              </color>
+            </value>
+          </exp>
+          <exp bool_exp="!((pv1-20 &lt; pv0) &amp;&amp; (pv0 &lt; pv1+20))">
+            <value>
+              <color red="40" green="40" blue="40">
+              </color>
+            </value>
+          </exp>
+          <pv_name>$(device)MAIN-ENCODER-READING</pv_name>
+          <pv_name>$(device)TARGET-POSITION4</pv_name>
+        </rule>
+      </rules>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>At pos4_5</name>
+      <pv_name>$(device)TARGET-POSITION5</pv_name>
+      <x>165</x>
+      <y>165</y>
+      <off_color>
+        <color red="40" green="40" blue="40">
+        </color>
+      </off_color>
+      <on_color>
+        <color red="184" green="187" blue="38">
+        </color>
+      </on_color>
+      <square>true</square>
+      <actions>
+      </actions>
+      <rules>
+        <rule name="New Rule" prop_id="on_color" out_exp="false">
+          <exp bool_exp="(pv1-20 &lt; pv0) &amp;&amp; (pv0 &lt; pv1+20)">
+            <value>
+              <color red="184" green="187" blue="38">
+              </color>
+            </value>
+          </exp>
+          <exp bool_exp="!((pv1-20 &lt; pv0) &amp;&amp; (pv0 &lt; pv1+20))">
+            <value>
+              <color red="40" green="40" blue="40">
+              </color>
+            </value>
+          </exp>
+          <pv_name>$(device)MAIN-ENCODER-READING</pv_name>
+          <pv_name>$(device)TARGET-POSITION5</pv_name>
+        </rule>
+      </rules>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>At pos4_6</name>
+      <pv_name>$(device)TARGET-POSITION6</pv_name>
+      <x>165</x>
+      <y>197</y>
+      <off_color>
+        <color red="40" green="40" blue="40">
+        </color>
+      </off_color>
+      <on_color>
+        <color red="184" green="187" blue="38">
+        </color>
+      </on_color>
+      <square>true</square>
+      <actions>
+      </actions>
+      <rules>
+        <rule name="New Rule" prop_id="on_color" out_exp="false">
+          <exp bool_exp="(pv1-20 &lt; pv0) &amp;&amp; (pv0 &lt; pv1+20)">
+            <value>
+              <color red="184" green="187" blue="38">
+              </color>
+            </value>
+          </exp>
+          <exp bool_exp="!((pv1-20 &lt; pv0) &amp;&amp; (pv0 &lt; pv1+20))">
+            <value>
+              <color red="40" green="40" blue="40">
+              </color>
+            </value>
+          </exp>
+          <pv_name>$(device)MAIN-ENCODER-READING</pv_name>
+          <pv_name>$(device)TARGET-POSITION6</pv_name>
+        </rule>
+      </rules>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Motor menus</name>
+    <actions>
+      <action type="open_display">
+        <file>temperature.bob</file>
+        <macros>
+          <M>$(M)</M>
+          <P>$(P)</P>
+          <device>${device}</device>
+        </macros>
+        <target>window</target>
+        <description>Temperature</description>
+      </action>
+      <action type="open_display">
+        <file>expert_rge.bob</file>
+        <macros>
+          <IOC>${IOC}</IOC>
+          <M>${M}</M>
+          <P>${P}</P>
+          <device>${device}</device>
+        </macros>
+        <target>window</target>
+        <description>Expert</description>
+      </action>
+    </actions>
+    <text>E</text>
+    <x>197</x>
+    <y>14</y>
+    <width>23</width>
+    <height>23</height>
+    <foreground_color>
+      <color red="40" green="40" blue="40">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="146" green="131" blue="116">
+      </color>
+    </background_color>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Comm Status</name>
+    <x>225</x>
+    <y>20</y>
+    <width>230</width>
+    <height>131</height>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <foreground_color>
+      <color red="131" green="165" blue="152">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color name="OPI_Background" red="50" green="50" blue="50">
+      </color>
+    </background_color>
+    <transparent>true</transparent>
+    <actions>
+    </actions>
+    <widget type="rectangle" version="2.0.0">
+      <name>Rounded Rectangle_2</name>
+      <macros>
+        <pv_name></pv_name>
+      </macros>
+      <width>200</width>
+      <height>45</height>
+      <line_width>0</line_width>
+      <line_color>
+        <color name="GRID" red="90" green="90" blue="90">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="80" green="73" blue="69">
+        </color>
+      </background_color>
+      <corner_width>16</corner_width>
+      <corner_height>16</corner_height>
+      <actions>
+      </actions>
+      <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>IOC status</name>
+      <text>IOC Status</text>
+      <x>20</x>
+      <y>15</y>
+      <width>120</width>
+      <height>15</height>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color name="Read_Foreground" red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="rectangle" version="2.0.0">
+      <name>Rounded Rectangle_1</name>
+      <macros>
+        <pv_name></pv_name>
+      </macros>
+      <y>56</y>
+      <width>200</width>
+      <height>45</height>
+      <line_width>0</line_width>
+      <line_color>
+        <color name="GRID" red="90" green="90" blue="90">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="80" green="73" blue="69">
+        </color>
+      </background_color>
+      <corner_width>16</corner_width>
+      <corner_height>16</corner_height>
+      <actions>
+      </actions>
+      <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Controller status</name>
+      <text>Controller Status</text>
+      <x>20</x>
+      <y>71</y>
+      <width>120</width>
+      <height>15</height>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color name="Read_Foreground" red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>IOC down alert</name>
+      <pv_name>$(device)PIEZOMOTOR-IOC-HEARTBEAT</pv_name>
+      <x>160</x>
+      <y>12</y>
+      <off_color>
+        <color red="40" green="40" blue="40">
+        </color>
+      </off_color>
+      <on_color>
+        <color red="184" green="187" blue="38">
+        </color>
+      </on_color>
+      <square>true</square>
+      <actions>
+      </actions>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>Comm error alert</name>
+      <pv_name>$(device)PIEZOMOTOR-CONNECTION</pv_name>
+      <x>160</x>
+      <y>68</y>
+      <off_color>
+        <color red="251" green="73" blue="52">
+        </color>
+      </off_color>
+      <on_color>
+        <color red="184" green="187" blue="38">
+        </color>
+      </on_color>
+      <square>true</square>
+      <actions>
+      </actions>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Targets display</name>
+    <x>475</x>
+    <width>100</width>
+    <height>345</height>
+    <style>3</style>
+    <transparent>true</transparent>
+    <widget type="rectangle" version="2.0.0">
+      <name>Band</name>
+      <x>30</x>
+      <width>40</width>
+      <height>345</height>
+      <line_color>
+        <color name="Text" red="0" green="0" blue="0">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="184" green="115" blue="51">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="ellipse" version="2.0.0">
+      <name>Target 0</name>
+      <x>40</x>
+      <y>270</y>
+      <width>20</width>
+      <height>20</height>
+      <line_color>
+        <color name="Text" red="0" green="0" blue="0">
+        </color>
+      </line_color>
+      <background_color>
+        <color name="Button_Background" red="210" green="210" blue="210">
+        </color>
+      </background_color>
+      <rules>
+        <rule name="New Rule" prop_id="y" out_exp="true">
+          <exp bool_exp="true">
+            <expression>(pv1 - pv0)/20000 + 150</expression>
+          </exp>
+          <pv_name>$(device)MAIN-ENCODER-READING</pv_name>
+          <pv_name>$(device)TARGET-POSITION5</pv_name>
+        </rule>
+      </rules>
+    </widget>
+    <widget type="ellipse" version="2.0.0">
+      <name>Target 1</name>
+      <x>40</x>
+      <y>226</y>
+      <width>20</width>
+      <height>20</height>
+      <line_color>
+        <color name="Text" red="0" green="0" blue="0">
+        </color>
+      </line_color>
+      <background_color>
+        <color name="Button_Background" red="210" green="210" blue="210">
+        </color>
+      </background_color>
+      <rules>
+        <rule name="New Rule" prop_id="y" out_exp="true">
+          <exp bool_exp="true">
+            <expression>(pv1 - pv0)/20000 + 150</expression>
+          </exp>
+          <pv_name>$(device)MAIN-ENCODER-READING</pv_name>
+          <pv_name>$(device)TARGET-POSITION4</pv_name>
+        </rule>
+      </rules>
+    </widget>
+    <widget type="ellipse" version="2.0.0">
+      <name>Target 2</name>
+      <x>40</x>
+      <y>182</y>
+      <width>20</width>
+      <height>20</height>
+      <line_color>
+        <color name="Text" red="0" green="0" blue="0">
+        </color>
+      </line_color>
+      <background_color>
+        <color name="Button_Background" red="210" green="210" blue="210">
+        </color>
+      </background_color>
+      <rules>
+        <rule name="New Rule" prop_id="y" out_exp="true">
+          <exp bool_exp="true">
+            <expression>(pv1 - pv0)/20000 + 150</expression>
+          </exp>
+          <pv_name>$(device)MAIN-ENCODER-READING</pv_name>
+          <pv_name>$(device)TARGET-POSITION3</pv_name>
+        </rule>
+      </rules>
+    </widget>
+    <widget type="ellipse" version="2.0.0">
+      <name>Target 3</name>
+      <x>40</x>
+      <y>146</y>
+      <width>20</width>
+      <height>20</height>
+      <line_color>
+        <color name="Text" red="0" green="0" blue="0">
+        </color>
+      </line_color>
+      <background_color>
+        <color name="Button_Background" red="210" green="210" blue="210">
+        </color>
+      </background_color>
+      <rules>
+        <rule name="position" prop_id="y" out_exp="true">
+          <exp bool_exp="true">
+            <expression>(pv1 - pv0)/20000 + 150</expression>
+          </exp>
+          <pv_name>$(device)MAIN-ENCODER-READING</pv_name>
+          <pv_name>$(device)TARGET-POSITION2</pv_name>
+        </rule>
+        <rule name="visibility" prop_id="visible" out_exp="false">
+          <exp bool_exp="(pv1 - pv0)/20000 + 150 &gt; 0">
+            <value>true</value>
+          </exp>
+          <exp bool_exp="(pv1 - pv0)/20000 + 150 &lt; 0">
+            <value>false</value>
+          </exp>
+          <pv_name>$(device)MAIN-ENCODER-READING</pv_name>
+          <pv_name>$(device)TARGET-POSITION2</pv_name>
+        </rule>
+      </rules>
+    </widget>
+    <widget type="ellipse" version="2.0.0">
+      <name>Target 4</name>
+      <x>40</x>
+      <y>101</y>
+      <width>20</width>
+      <height>20</height>
+      <line_color>
+        <color name="Text" red="0" green="0" blue="0">
+        </color>
+      </line_color>
+      <background_color>
+        <color name="Button_Background" red="210" green="210" blue="210">
+        </color>
+      </background_color>
+      <rules>
+        <rule name="position" prop_id="y" out_exp="true">
+          <exp bool_exp="true">
+            <expression>(pv1 - pv0)/20000 + 150</expression>
+          </exp>
+          <pv_name>$(device)MAIN-ENCODER-READING</pv_name>
+          <pv_name>$(device)TARGET-POSITION1</pv_name>
+        </rule>
+        <rule name="visibility" prop_id="visible" out_exp="false">
+          <exp bool_exp="(pv1 - pv0)/20000 + 150 &gt; 0">
+            <value>true</value>
+          </exp>
+          <exp bool_exp="(pv1 - pv0)/20000 + 150 &lt; 0">
+            <value>false</value>
+          </exp>
+          <pv_name>$(device)MAIN-ENCODER-READING</pv_name>
+          <pv_name>$(device)TARGET-POSITION1</pv_name>
+        </rule>
+      </rules>
+    </widget>
+    <widget type="ellipse" version="2.0.0">
+      <name>Target 5</name>
+      <x>40</x>
+      <y>65</y>
+      <width>20</width>
+      <height>20</height>
+      <line_color>
+        <color name="Text" red="0" green="0" blue="0">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="40" green="40" blue="40">
+        </color>
+      </background_color>
+      <rules>
+        <rule name="position" prop_id="y" out_exp="true">
+          <exp bool_exp="true">
+            <expression>(pv1 - pv0)/20000 + 150</expression>
+          </exp>
+          <pv_name>$(device)MAIN-ENCODER-READING</pv_name>
+          <pv_name>$(device)TARGET-POSITION0</pv_name>
+        </rule>
+        <rule name="Visiblity" prop_id="visible" out_exp="false">
+          <exp bool_exp="(pv1 - pv0)/20000 + 150 &gt; 0">
+            <value>true</value>
+          </exp>
+          <exp bool_exp="(pv1 - pv0)/20000 + 150 &lt; 0">
+            <value>false</value>
+          </exp>
+          <pv_name>$(device)MAIN-ENCODER-READING</pv_name>
+          <pv_name>$(device)TARGET-POSITION0</pv_name>
+        </rule>
+      </rules>
+    </widget>
+    <widget type="ellipse" version="2.0.0">
+      <name>Target 6</name>
+      <x>40</x>
+      <y>310</y>
+      <width>20</width>
+      <height>20</height>
+      <line_color>
+        <color name="Text" red="0" green="0" blue="0">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="40" green="40" blue="40">
+        </color>
+      </background_color>
+      <rules>
+        <rule name="New Rule" prop_id="y" out_exp="true">
+          <exp bool_exp="true">
+            <expression>(pv1 - pv0)/20000 + 150</expression>
+          </exp>
+          <pv_name>$(device)MAIN-ENCODER-READING</pv_name>
+          <pv_name>$(device)TARGET-POSITION6</pv_name>
+        </rule>
+      </rules>
+    </widget>
+    <widget type="rectangle" version="2.0.0">
+      <name>Beamline</name>
+      <y>159</y>
+      <height>2</height>
+      <line_width>2</line_width>
+      <line_color>
+        <color name="Background" red="255" green="255" blue="255">
+        </color>
+      </line_color>
+    </widget>
+  </widget>
+</display>
