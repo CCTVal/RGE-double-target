@@ -1,7 +1,7 @@
 # btarg device settings, YAML
 # With exception of 'general', each top level key defines a new ioc for that device
 general:
-    prefix: TGT:BTARG
+    prefix: RGE_CCTVAL_TEMP
     log_dir: 'logs'   # path of logs directory
     epics_addr_list: '129.57.163.255'
     #epics_addr_list: '127.255.255.255'
