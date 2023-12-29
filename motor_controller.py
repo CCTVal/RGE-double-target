@@ -19,7 +19,7 @@ import re
 # Set the record prefix
 builder.SetDeviceName("CCTVAL_DT_PMD301")
 motor_temperature_range = {"LOLO": 253, "LOW": 263, "HIGH": 350, "HIHI": 360}
-debug = False
+debug = True
 PIANO_PIN = 23
 LIMIT1_PIN = 24
 
@@ -125,7 +125,7 @@ gpio.setmode(gpio.BCM)
 gpio.setup(23, gpio.IN)
 gpio.setup(24, gpio.IN)
 
-async def stop(should_stop):
+async def stop(should_stop = True):
     if not should_stop:
         return
     with serial.Serial(controller_port.get(), baud_rate.get()) as connection:
@@ -392,28 +392,32 @@ async def update():
                 reading = int(connection.read_until(b"\r").decode().strip().split(":")[1])
                 connection.write(("X1U0\r").encode("ascii"))
                 reading = connection.read_until(b"\r").decode().strip().split(":")[1]
-                cs_com_error.set(int(reading[0]) // 8 == 1)
-                cs_enc_error.set(int(reading[0]) // 4 == 1)
-                cs_voltage_error.set(int(reading[0]) // 2 == 1)
-                cs_cmd_error.set(int(reading[0]) // 1 == 1)
-                cs_reset.set(int(reading[1]) // 8 == 1)
-                cs_x_limit.set(int(reading[1]) // 4 == 1)
-                cs_script.set(int(reading[1]) // 2 == 1)
-                cs_index.set(int(reading[1]) // 1 == 1)
-                cs_servo_mode.set(int(reading[2]) // 8 == 1)
-                limit_reached = int(reading[2]) // 4 == 1
-                cs_target_limit.set(limit_reached)
+                cs_com_error.set(int(reading[0], 16) // 8 == 1)
+                cs_enc_error.set(int(reading[0], 16) // 4 == 1)
+                cs_voltage_error.set(int(reading[0], 16) // 2 == 1)
+                cs_cmd_error.set(int(reading[0], 16) // 1 == 1)
+                cs_reset.set(int(reading[1], 16) // 8 == 1)
+                limit_reached = int(reading[1], 16) // 4 == 1
+                cs_x_limit.set(limit_reached)
                 if limit_reached:
+                    print("limit reached!")
+                    dispatcher(stop)
                     if adc_reading > target_positions[3].get():
+                        print("it's the forward limit!")
                         forward_limit_switch_position.set(adc_reading)
                     else:
+                        print("it's the backward limit!")
                         backward_limit_switch_position.set(adc_reading)
-                cs_target_mode.set(int(reading[2]) // 2 == 1)
-                cs_target_reached.set(int(reading[2]) // 1 == 1)
-                cs_parked.set(int(reading[3]) // 8 == 1)
-                cs_reverse.set(int(reading[3]) // 4 == 1)
-                cs_overheat.set(int(reading[3]) // 2 == 1)
-                cs_running.set(int(reading[3]) // 1 == 1)
+                cs_script.set(int(reading[1], 16) // 2 == 1)
+                cs_index.set(int(reading[1], 16) // 1 == 1)
+                cs_servo_mode.set(int(reading[2], 16) // 8 == 1)
+                cs_target_limit.set(int(reading[2], 16) // 4 == 1)
+                cs_target_mode.set(int(reading[2], 16) // 2 == 1)
+                cs_target_reached.set(int(reading[2], 16) // 1 == 1)
+                cs_parked.set(int(reading[3], 16) // 8 == 1)
+                cs_overheat.set(int(reading[3], 16) // 4 == 1)
+                cs_reverse.set(int(reading[3], 16) // 2 == 1)
+                cs_running.set(int(reading[3], 16) // 1 == 1)
 
             piezomotor_connection.set(True)
         except OSError as e:
