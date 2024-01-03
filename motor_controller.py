@@ -1,3 +1,7 @@
+import subprocess
+if subprocess.check_output(["ps", "-e"]).decode("utf-8").count("python") > 1:
+    raise Exception("There's probably another instance of this program already running")
+
 #adc
 import board
 import time
@@ -10,7 +14,7 @@ from ADS1219_lib import ADS1219
 import RPi.GPIO as gpio
 
 import cothread
-from softioc import softioc, builder, asyncio_dispatcher
+from softioc import softioc, builder, asyncio_dispatcher, alarm
 import asyncio
 import serial
 import re
@@ -19,14 +23,15 @@ import re
 # Set the record prefix
 builder.SetDeviceName("CCTVAL_DT_PMD301")
 motor_temperature_range = {"LOLO": 253, "LOW": 263, "HIGH": 350, "HIHI": 360}
-debug = True
+debug = False
 PIANO_PIN = 23
-LIMIT1_PIN = 24
+LIMIT1_PIN = 18
+LIMIT2_PIN = 22
 
 # Create some records
 ## User input records
 user_target_position = builder.aOut('USER-TARGET-POSITION', initial_value = 20, always_update = True,
-                          on_update = lambda v: set_target_position(v)) #dual_go_to(v)
+                          on_update = lambda v: set_target_position(v))
 user_stop = builder.boolOut('SHOULD-STOP', initial_value = False, always_update = True,
                           on_update = lambda v: stop(v))
 user_command = builder.stringOut('USER-MOTOR-COMMAND', initial_value = "", always_update = True,
@@ -62,7 +67,7 @@ linear_potentiometer_reading = builder.aIn('LINEAR-POTENTIOMETER-READING', initi
 motor_speed = builder.aOut('MOTOR-SPEED', initial_value = 500, on_update = lambda v: set_speed(v))
 motor_slow_speed = builder.aIn('MOTOR-SLOW-SPEED', initial_value = 500)
 motor_gain = builder.aIn('MOTOR-GAIN', initial_value = 0.00333)
-noise_supression = builder.aIn('NOISE-SUPRESSION', initial_value = 50)
+noise_supression = builder.aIn('NOISE-SUPRESSION', initial_value = 25)
 main_encoder = builder.stringOut('MAIN-ENCODER', initial_value = "analog")
 
 ## Connection records
@@ -72,10 +77,10 @@ controller_port = builder.stringIn('CONTROLLER-SERIAL-PORT', initial_value = "/d
 baud_rate = builder.aIn('CONTROLLER-BAUD-RATE', initial_value = 115200)
 
 ## Limits and configuration
-forward_limit_switch_position = builder.aIn('FORWARD-LIMIT-SWITCH-POSITION', initial_value = 0)
-backward_limit_switch_position = builder.aIn('BACKWARD-LIMIT-SWITCH-POSITION', initial_value = 0)
-forward_software_limit = builder.aIn('FORWARD-SOFTWARE-LIMIT', initial_value = 0)
-backward_software_limit = builder.aIn('BACKWARD-SOFTWARE-LIMIT', initial_value = 0)
+forward_limit_switch_position = builder.aIn('FORWARD-LIMIT-SWITCH-POSITION', initial_value = -1)
+backward_limit_switch_position = builder.aIn('BACKWARD-LIMIT-SWITCH-POSITION', initial_value = -1)
+forward_software_limit = builder.aIn('FORWARD-SOFTWARE-LIMIT', initial_value = 3200000)
+backward_software_limit = builder.aIn('BACKWARD-SOFTWARE-LIMIT', initial_value = 5000)
 overstep = 30000
 
 ## Positions for each target being centered on beamline.
@@ -125,12 +130,27 @@ gpio.setmode(gpio.BCM)
 gpio.setup(23, gpio.IN)
 gpio.setup(24, gpio.IN)
 
+def move_to(value):
+    calculated_microsteps = int((value - int(value)) * 8192)
+    calculated_steps = int(value)
+    expected_final_position = main_encoder_reading.get() #+ (value / motor_gain.get())
+    if expected_final_position > forward_software_limit.get():
+        return False
+    if expected_final_position < backward_software_limit.get():
+        return False
+    with serial.Serial(controller_port.get(), baud_rate.get()) as connection:
+        connection.write(("X1J" + str(int(calculated_steps)) + "," + str(int(calculated_microsteps)) + "," + str(int(motor_speed.get())) + "\r").encode("ascii"))
+        reading = connection.read_until(b"\r").decode().strip()
+    return True
+
+
 async def stop(should_stop = True):
     if not should_stop:
         return
     with serial.Serial(controller_port.get(), baud_rate.get()) as connection:
         connection.write(("X1S\r").encode("ascii"))
         _ = connection.read_until(b"\r")
+    await asyncio.sleep(2)
     user_stop.set(False)
     
 async def set_speed(speed):
@@ -140,6 +160,8 @@ async def set_speed(speed):
 async def go_to(position_index, should_go = False):
     if not should_go:
         return
+    user_stop.set(True)
+    await stop()
     user_stop.set(False)
     for i in range(len(go_tos)):
         if i != position_index:
@@ -147,6 +169,7 @@ async def go_to(position_index, should_go = False):
     if main_encoder.get() == "piano":
         await piano_go_to(position_index)
     else: # analog
+        #await dual_go_to(position_index)
         user_target_position.set(target_positions[position_index].get())
     go_tos[position_index].set(False)
 
@@ -210,6 +233,7 @@ async def set_target_position(value=-float("inf")):
             for i in range(int(noise_supression.get())):
                 mean += ads.readDifferential_0_1()
             mean /= noise_supression.get()
+            main_encoder_reading.set(mean)
         with serial.Serial(controller_port.get(), baud_rate.get()) as connection:
             connection.write(("X1S\r").encode("ascii"))
             reading = connection.read_until(b"\r").decode().strip()
@@ -246,6 +270,22 @@ async def measure_piano(step= -1):
     print("suma, ", suma)
     print("piano input", gpio.input(PIANO_PIN))
 
+async def caracterize_potentiometer():
+    while True:
+        with serial.Serial(controller_port.get(), baud_rate.get()) as connection:
+            connection.write(("X1J-100,0," + str(int(motor_speed.get())) + "\r").encode("ascii"))
+            reading = connection.read_until(b"\r").decode().strip()
+        is_moving = True
+        while is_moving:
+            with serial.Serial(controller_port.get(), baud_rate.get()) as connection:
+                connection.write(("X1U\r").encode("ascii"))
+                is_moving = int(re.match(".*\d\d\d(\d)", connection.read_until(b"\r").decode().strip().split(":")[1]).groups()[0]) % 2 == 1
+            await asyncio.sleep(0.01)
+        print(ads.readDifferential_0_1())
+        if cs_x_limit.get():
+            break
+
+
 
 async def piano_go_to(position_index = -float("inf")):
     if position_index == -float("inf"):
@@ -253,7 +293,7 @@ async def piano_go_to(position_index = -float("inf")):
         return
     user_stop.set(False)
     motor_is_moving.set(True)
-    while not cs_x_limit.get():
+    while not (cs_x_limit.get() or user_stop.get()):
         with serial.Serial(controller_port.get(), baud_rate.get()) as connection:
             connection.write(("X1J100,0," + str(int(motor_speed.get())) + "\r").encode("ascii"))
             reading = connection.read_until(b"\r").decode().strip()
@@ -267,6 +307,8 @@ async def piano_go_to(position_index = -float("inf")):
     suma = gpio.input(PIANO_PIN)
     print("The current piano reading is:", suma, "\nThe step lengths are:", end = " ")
     for present in range(int(target_piano_positions[position_index].get())):
+        if user_stop.get():
+            return
         last_piano = suma
         j = 0
         while suma == last_piano:
@@ -301,7 +343,7 @@ async def dual_go_to(position_index = -float("inf")):
     user_stop.set(False)
     piezomotor_connection.set(True)
     motor_is_moving.set(True)
-    while not cs_x_limit.get():
+    while not (cs_x_limit.get() or user_stop.get()):
         with serial.Serial(controller_port.get(), baud_rate.get()) as connection:
             connection.write(("X1J100,0," + str(int(motor_speed.get())) + "\r").encode("ascii"))
             reading = connection.read_until(b"\r").decode().strip()
@@ -311,30 +353,34 @@ async def dual_go_to(position_index = -float("inf")):
         connection.write(("X1S\r").encode("ascii"))
         reading = connection.read_until(b"\r").decode().strip()
 
-    print("\nStarting piano movement. We will move ", target_piano_positions[position_index].get(), "piano steps.")
+    print(position_index)
+    print("\nStarting piano movement. We will move ", target_piano_positions[int(position_index)].get(), "piano steps.")
     suma = gpio.input(PIANO_PIN)
     last_piano = suma
     piano_position = 0
     piano_encoder_reading.set(0)
+    value = target_positions[position_index].get()
     print("The current piano reading is:", suma, "\nThe step lengths are:", end = " ")
     while ads.readDifferential_0_1() - (value + overstep) > 500 and not user_stop.get():
         calculated_steps = ((value + overstep) - ads.readDifferential_0_1()) * motor_gain.get()
         steps = max([-100, calculated_steps])
+        print("We are moving", steps, "steps")
         with serial.Serial(controller_port.get(), baud_rate.get()) as connection:
             connection.write(("X1J" + str(int(steps)) + ",0," + str(int(motor_speed.get())) + "\r").encode("ascii"))
             reading = connection.read_until(b"\r").decode().strip()
         suma = 0
         for i in range(10):
-            suma += gpio.input(PIANO_PIN)
-        suma = round(suma/10.0, -1)
-        if suma != last_piano:
-            last_piano = suma
+            temp_piano = gpio.input(PIANO_PIN)
+            suma += temp_piano # gpio.input(PIANO_PIN)
+        if abs(suma - last_piano) > 5:
+            last_piano = round(suma, -1)
             piano_position += 1
             piano_encoder_reading.set(piano_encoder_reading.get() + 1)
     with serial.Serial(controller_port.get(), baud_rate.get()) as connection:
         connection.write(("X1S\r").encode("ascii"))
         reading = connection.read_until(b"\r").decode().strip()
 
+    mean = ads.readDifferential_0_1()
     while (mean - value) > 1 and not user_stop.get():
         calculated_steps = ((value - mean)) * motor_gain.get()
         print("current position:",mean,"calculated raw steps:", calculated_steps)
@@ -353,9 +399,18 @@ async def dual_go_to(position_index = -float("inf")):
                 is_moving = int(re.match(".*\d\d\d(\d)", connection.read_until(b"\r").decode().strip().split(":")[1]).groups()[0]) % 2 == 1
             await asyncio.sleep(0.01)
         mean = 0
-        for i in range(int(noise_supression.get())):
+        suma = 0
+        noise_sup = noise_supression.get()
+        for i in range(int(noise_sup)):
             mean += ads.readDifferential_0_1()
-        mean /= noise_supression.get()
+            suma += gpio.input(PIANO_PIN)
+        mean /= noise_sup
+        suma = round(suma/noise_sup)
+        main_encoder_reading.set(mean)
+        if suma != last_piano:
+            last_piano = suma
+            piano_position += 1
+            piano_encoder_reading.set(piano_encoder_reading.get() + 1)
     with serial.Serial(controller_port.get(), baud_rate.get()) as connection:
         connection.write(("X1S\r").encode("ascii"))
         reading = connection.read_until(b"\r").decode().strip()
@@ -388,8 +443,8 @@ async def update():
                 connection.write(("X1T\r").encode("ascii"))
                 reading = int(connection.read_until(b"\r").decode().strip().split(":")[1])
                 target_position.set(reading)
-                connection.write(("X1H\r").encode("ascii"))
-                reading = int(connection.read_until(b"\r").decode().strip().split(":")[1])
+                #connection.write(("X1H\r").encode("ascii"))    # speed
+                #reading = int(connection.read_until(b"\r").decode().strip().split(":")[1])
                 connection.write(("X1U0\r").encode("ascii"))
                 reading = connection.read_until(b"\r").decode().strip().split(":")[1]
                 cs_com_error.set(int(reading[0], 16) // 8 == 1)
@@ -401,7 +456,6 @@ async def update():
                 cs_x_limit.set(limit_reached)
                 if limit_reached:
                     print("limit reached!")
-                    dispatcher(stop)
                     if adc_reading > target_positions[3].get():
                         print("it's the forward limit!")
                         forward_limit_switch_position.set(adc_reading)
