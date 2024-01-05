@@ -22,11 +22,10 @@ import re
 #General settings
 # Set the record prefix
 builder.SetDeviceName("CCTVAL_DT_PMD301")
-motor_temperature_range = {"LOLO": 253, "LOW": 263, "HIGH": 350, "HIHI": 360}
 debug = False
 PIANO_PIN = 23
-LIMIT1_PIN = 18
-LIMIT2_PIN = 22
+LIMIT1_PIN = 24
+LIMIT2_PIN = 25
 
 # Create some records
 ## User input records
@@ -59,11 +58,8 @@ motor_is_moving = builder.boolIn('IS-MOVING', initial_value = False)
 
 ## Frequently updated records
 controller_response = builder.stringIn('CONTROLLER-RESPONSE', initial_value = "")
-target_position = builder.aIn('TARGET-POSITION', initial_value = 250)
 main_encoder_reading = builder.aIn('MAIN-ENCODER-READING', initial_value = -1)
-secondary_encoder_reading = builder.aIn('SECONDARY-ENCODER-READING', initial_value = -1)
 piano_encoder_reading = builder.aIn('PIANO-ENCODER-READING', initial_value = -1)
-linear_potentiometer_reading = builder.aIn('LINEAR-POTENTIOMETER-READING', initial_value = -1)
 motor_speed = builder.aOut('MOTOR-SPEED', initial_value = 500, on_update = lambda v: set_speed(v))
 motor_slow_speed = builder.aIn('MOTOR-SLOW-SPEED', initial_value = 500)
 motor_gain = builder.aIn('MOTOR-GAIN', initial_value = 0.00333)
@@ -131,8 +127,9 @@ ads.setExternalReference(0)
 
 
 gpio.setmode(gpio.BCM)
-gpio.setup(23, gpio.IN)
-gpio.setup(24, gpio.IN)
+gpio.setup(PIANO_PIN, gpio.IN)
+gpio.setup(LIMIT1_PIN, gpio.IN)
+gpio.setup(LIMIT2_PIN, gpio.IN)
 
 def move_to(value):
     calculated_microsteps = int((value - int(value)) * 8192)
@@ -161,6 +158,7 @@ def move_to(value):
         with serial.Serial(controller_port.get(), baud_rate.get()) as connection:
             connection.write(("X1J" + str(int(calculated_steps)) + "," + str(int(calculated_microsteps)) + "," + str(int(motor_speed.get())) + "\r").encode("ascii"))
             reading = connection.read_until(b"\r").decode().strip()
+        piezomotor_connection.set(True)
     except OSError as e:
         print("Error connecting to PiezoMotor controller.")
         print(e)
@@ -190,7 +188,7 @@ async def go_to(position_index, should_go = False):
     if not should_go:
         return
     user_stop.set(True)
-    await stop()
+    # await stop() # Comment for high-frequency testing purposes
     user_stop.set(False)
     for i in range(len(go_tos)):
         if i != position_index:
@@ -267,46 +265,6 @@ async def set_target_position(value=-float("inf")):
         print("Error connecting to PiezoMotor controller.")
         print(e)
         piezomotor_connection.set(False)
-
-async def measure():
-    mean = 0
-    for i in range(300):
-        mean += ads.readDifferential_0_1()
-    mean /= 300.0
-    print(mean)
-
-async def measure_piano(step= -1):
-    suma = 0
-    last_piano = gpio.input(PIANO_PIN)
-    print("last piano,", last_piano)
-    while True:
-        with serial.Serial(controller_port.get(), baud_rate.get()) as connection:
-            connection.write(("X1J-10,0," + str(int(motor_speed.get())) + "\r").encode("ascii"))
-            reading = connection.read_until(b"\r").decode().strip()
-        await asyncio.sleep(0.1)
-        suma += 1
-        for i in range(10):
-            if gpio.input(PIANO_PIN) == last_piano:
-                break
-        else:
-            break
-    print("suma, ", suma)
-    print("piano input", gpio.input(PIANO_PIN))
-
-async def caracterize_potentiometer():
-    while True:
-        with serial.Serial(controller_port.get(), baud_rate.get()) as connection:
-            connection.write(("X1J-100,0," + str(int(motor_speed.get())) + "\r").encode("ascii"))
-            reading = connection.read_until(b"\r").decode().strip()
-        is_moving = True
-        while is_moving:
-            with serial.Serial(controller_port.get(), baud_rate.get()) as connection:
-                connection.write(("X1U\r").encode("ascii"))
-                is_moving = int(re.match(".*\d\d\d(\d)", connection.read_until(b"\r").decode().strip().split(":")[1]).groups()[0]) % 2 == 1
-            await asyncio.sleep(0.01)
-        print(ads.readDifferential_0_1())
-        if cs_x_limit.get():
-            break
 
 
 
@@ -460,6 +418,47 @@ async def dual_go_to(position_index = -float("inf")):
     piano_encoder_reading.set_alarm(severity = alarm.MINOR_ALARM if abs(piano_encoder_reading.get() - target_piano_positions[int(position_index)].get()) >= 2 else alarm.NO_ALARM, alarm = alarm.STATE_ALARM)
     motor_is_moving.set(False)
 
+# Calibration functions
+async def measure():
+    mean = 0
+    for i in range(300):
+        mean += ads.readDifferential_0_1()
+    mean /= 300.0
+    print(mean)
+
+async def measure_piano(step= -1):
+    suma = 0
+    last_piano = gpio.input(PIANO_PIN)
+    print("last piano,", last_piano)
+    while True:
+        with serial.Serial(controller_port.get(), baud_rate.get()) as connection:
+            connection.write(("X1J-10,0," + str(int(motor_speed.get())) + "\r").encode("ascii"))
+            reading = connection.read_until(b"\r").decode().strip()
+        await asyncio.sleep(0.1)
+        suma += 1
+        for i in range(10):
+            if gpio.input(PIANO_PIN) == last_piano:
+                break
+        else:
+            break
+    print("suma, ", suma)
+    print("piano input", gpio.input(PIANO_PIN))
+
+async def caracterize_potentiometer():
+    while True:
+        with serial.Serial(controller_port.get(), baud_rate.get()) as connection:
+            connection.write(("X1J-100,0," + str(int(motor_speed.get())) + "\r").encode("ascii"))
+            reading = connection.read_until(b"\r").decode().strip()
+        is_moving = True
+        while is_moving:
+            with serial.Serial(controller_port.get(), baud_rate.get()) as connection:
+                connection.write(("X1U\r").encode("ascii"))
+                is_moving = int(re.match(".*\d\d\d(\d)", connection.read_until(b"\r").decode().strip().split(":")[1]).groups()[0]) % 2 == 1
+            await asyncio.sleep(0.01)
+        print(ads.readDifferential_0_1())
+        if cs_x_limit.get():
+            break
+
 
 # Update global settings parameters
 async def slow_update():
@@ -499,14 +498,18 @@ async def update():
                 cs_x_limit.set(limit_reached)
                 if limit_reached:
                     print("limit reached!")
-                    if adc_reading > target_positions[3].get():
-                        print("it's the forward limit!")
-                        forward_limit_switch.set(True)
-                        forward_limit_switch_position.set(adc_reading)
-                    else:
-                        print("it's the backward limit!")
-                        backward_limit_switch.set(True)
-                        backward_limit_switch_position.set(adc_reading)
+                if not gpio.input(LIMIT1_PIN):
+                    print("it's the forward limit!")
+                    forward_limit_switch.set(True)
+                    forward_limit_switch_position.set(adc_reading)
+                else:
+                    forward_limit_switch.set(False)
+                if not gpio.input(LIMIT2_PIN):
+                    print("it's the backward limit!")
+                    backward_limit_switch.set(True)
+                    backward_limit_switch_position.set(adc_reading)
+                else:
+                    backward_limit_switch.set(False)
                 #cs_script.set(int(reading[1], 16) // 2 == 1)
                 #cs_index.set(int(reading[1], 16) // 1 == 1)
                 cs_servo_mode.set(int(reading[2], 16) // 8 == 1)
