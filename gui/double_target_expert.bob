@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Saved on 2023-12-27 16:39:14 by javier-->
+<!--Saved on 2024-01-05 14:19:51 by javier-->
 <display version="2.0.0">
   <name>double_target_expert</name>
   <macros>
@@ -65,8 +65,8 @@
     <widget type="label" version="2.0.0">
       <name>IOC status_1</name>
       <text>Cmd.</text>
-      <x>20</x>
-      <y>15</y>
+      <x>7</x>
+      <y>14</y>
       <width>120</width>
       <height>15</height>
       <foreground_color>
@@ -89,8 +89,8 @@
     <widget type="label" version="2.0.0">
       <name>Controller status_1</name>
       <text>Rsp.</text>
-      <x>20</x>
-      <y>60</y>
+      <x>7</x>
+      <y>59</y>
       <width>120</width>
       <height>15</height>
       <foreground_color>
@@ -113,8 +113,8 @@
     <widget type="textupdate" version="2.0.0">
       <name>Text Update</name>
       <pv_name>$(device)CONTROLLER-RESPONSE</pv_name>
-      <x>32</x>
-      <y>75</y>
+      <x>19</x>
+      <y>74</y>
       <width>372</width>
       <height>13</height>
       <font>
@@ -143,8 +143,8 @@
     <widget type="textentry" version="3.0.0">
       <name>Text Input</name>
       <pv_name>$(device)USER-MOTOR-COMMAND</pv_name>
-      <x>32</x>
-      <y>30</y>
+      <x>19</x>
+      <y>29</y>
       <width>372</width>
       <font>
         <font family="Sans" style="REGULAR" size="10.891089108910892">
@@ -365,7 +365,7 @@
     <name>IOC down alert_9</name>
     <pv_name>$(device)PIEZOMOTOR-CONTROLLER-SCRIPT-IS-RUNNING</pv_name>
     <x>240</x>
-    <y>190</y>
+    <y>215</y>
     <off_color>
       <color red="40" green="40" blue="40">
       </color>
@@ -383,7 +383,7 @@
     <name>IOC status_9</name>
     <text>Controller script is running</text>
     <x>25</x>
-    <y>190</y>
+    <y>215</y>
     <width>215</width>
     <height>15</height>
     <foreground_color>
@@ -405,9 +405,9 @@
   </widget>
   <widget type="led" version="2.0.0">
     <name>IOC down alert_10</name>
-    <pv_name>$(device)PIEZOMOTOR-CONTROLLER-INDEX-DETECTED</pv_name>
+    <pv_name>$(device)PIEZOMOTOR-CONTROLLER-TARGET-LIMIT</pv_name>
     <x>240</x>
-    <y>215</y>
+    <y>190</y>
     <off_color>
       <color red="40" green="40" blue="40">
       </color>
@@ -423,9 +423,9 @@
   </widget>
   <widget type="label" version="2.0.0">
     <name>IOC status_10</name>
-    <text>Index signal</text>
+    <text>Software limit reached</text>
     <x>25</x>
-    <y>215</y>
+    <y>190</y>
     <width>215</width>
     <height>15</height>
     <foreground_color>
@@ -828,7 +828,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="led" version="2.0.0">
     <name>IOC down alert_13</name>
-    <pv_name>$(device)PIEZOMOTOR-CONTROLLER-RUNNING'</pv_name>
+    <pv_name>$(device)PIEZOMOTOR-CONTROLLER-RUNNING</pv_name>
     <x>240</x>
     <y>265</y>
     <off_color>
@@ -843,5 +843,141 @@ $(pv_value)</tooltip>
     <actions>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="polygon" version="2.0.0">
+    <name>Forward limit switch</name>
+    <x>270</x>
+    <y>170</y>
+    <width>20</width>
+    <points>
+      <point x="0.0" y="0.0">
+      </point>
+      <point x="0.0" y="10.0">
+      </point>
+      <point x="8.0" y="5.0">
+      </point>
+    </points>
+    <line_color>
+      <color red="184" green="187" blue="38">
+      </color>
+    </line_color>
+    <background_color>
+      <color red="184" green="187" blue="38">
+      </color>
+    </background_color>
+    <rules>
+      <rule name="New Rule" prop_id="visible" out_exp="false">
+        <exp bool_exp="pv0">
+          <value>true</value>
+        </exp>
+        <exp bool_exp="!pv0">
+          <value>false</value>
+        </exp>
+        <pv_name>$(device)FORWARD-LIMIT-SWITCH</pv_name>
+      </rule>
+    </rules>
+    <tooltip>Forward limit switch active</tooltip>
+  </widget>
+  <widget type="polygon" version="2.0.0">
+    <name>Backward limit switch</name>
+    <x>222</x>
+    <y>170</y>
+    <width>20</width>
+    <points>
+      <point x="10.0" y="0.0">
+      </point>
+      <point x="10.0" y="10.0">
+      </point>
+      <point x="2.0" y="5.0">
+      </point>
+    </points>
+    <line_color>
+      <color red="184" green="187" blue="38">
+      </color>
+    </line_color>
+    <background_color>
+      <color red="184" green="187" blue="38">
+      </color>
+    </background_color>
+    <rules>
+      <rule name="New Rule" prop_id="visible" out_exp="false">
+        <exp bool_exp="pv0">
+          <value>true</value>
+        </exp>
+        <exp bool_exp="!pv0">
+          <value>false</value>
+        </exp>
+        <pv_name>$(device)BACKWARD-LIMIT-SWITCH</pv_name>
+      </rule>
+    </rules>
+    <tooltip>Backward limit switch active</tooltip>
+  </widget>
+  <widget type="polygon" version="2.0.0">
+    <name>forward soft limit</name>
+    <x>270</x>
+    <y>195</y>
+    <width>20</width>
+    <points>
+      <point x="0.0" y="0.0">
+      </point>
+      <point x="0.0" y="10.0">
+      </point>
+      <point x="8.0" y="5.0">
+      </point>
+    </points>
+    <line_color>
+      <color red="184" green="187" blue="38">
+      </color>
+    </line_color>
+    <background_color>
+      <color red="184" green="187" blue="38">
+      </color>
+    </background_color>
+    <rules>
+      <rule name="New Rule" prop_id="visible" out_exp="false">
+        <exp bool_exp="pv0">
+          <value>true</value>
+        </exp>
+        <exp bool_exp="!pv0">
+          <value>false</value>
+        </exp>
+        <pv_name>$(device)AT-FORWARD-SOFTWARE-LIMIT</pv_name>
+      </rule>
+    </rules>
+    <tooltip>Forward software limit reached</tooltip>
+  </widget>
+  <widget type="polygon" version="2.0.0">
+    <name>Backward soft limit</name>
+    <x>222</x>
+    <y>195</y>
+    <width>20</width>
+    <points>
+      <point x="10.0" y="0.0">
+      </point>
+      <point x="10.0" y="10.0">
+      </point>
+      <point x="2.0" y="5.0">
+      </point>
+    </points>
+    <line_color>
+      <color red="184" green="187" blue="38">
+      </color>
+    </line_color>
+    <background_color>
+      <color red="184" green="187" blue="38">
+      </color>
+    </background_color>
+    <rules>
+      <rule name="New Rule" prop_id="visible" out_exp="false">
+        <exp bool_exp="pv0">
+          <value>true</value>
+        </exp>
+        <exp bool_exp="!pv0">
+          <value>false</value>
+        </exp>
+        <pv_name>$(device)AT-BACKWARD-SOFTWARE-LIMIT</pv_name>
+      </rule>
+    </rules>
+    <tooltip>Backward software limit reached</tooltip>
   </widget>
 </display>
