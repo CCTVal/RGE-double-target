@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Saved on 2024-01-05 14:15:56 by javier-->
+<!--Saved on 2024-01-12 11:26:22 by javier-->
 <display version="2.0.0">
   <name>double_target_main</name>
   <macros>
@@ -1206,6 +1206,54 @@ $(pv_value)</tooltip>
       </background_color>
       <precision>2</precision>
       <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>low limit_4</name>
+      <text>Piano encoder</text>
+      <x>149</x>
+      <y>10</y>
+      <width>110</width>
+      <height>14</height>
+      <foreground_color>
+        <color red="131" green="165" blue="152">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color name="Read_Foreground" red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>low limit_3</name>
+      <text>Analog encoder</text>
+      <x>37</x>
+      <y>10</y>
+      <width>110</width>
+      <height>14</height>
+      <foreground_color>
+        <color red="131" green="165" blue="152">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color name="Read_Foreground" red="255" green="255" blue="255">
+        </color>
+      </background_color>
       <vertical_alignment>1</vertical_alignment>
       <wrap_words>false</wrap_words>
       <actions>
