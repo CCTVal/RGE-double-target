@@ -84,13 +84,13 @@ backward_software_limit_is_reached = builder.boolIn('AT-BACKWARD-SOFTWARE-LIMIT'
 overstep = 30000
 
 ## Positions for each target being centered on beamline.
-target_positions = [builder.aOut('TARGET-POSITION0', initial_value = 5000),
-                    builder.aOut('TARGET-POSITION1', initial_value = 6961),
-                    builder.aOut('TARGET-POSITION2', initial_value = 587000),
-                    builder.aOut('TARGET-POSITION3', initial_value = 1260500),
-                    builder.aOut('TARGET-POSITION4', initial_value = 1932500),
-                    builder.aOut('TARGET-POSITION5', initial_value = 2600300),
-                    builder.aOut('TARGET-POSITION6', initial_value = 3000000)
+target_positions = [builder.aOut('TARGET-POSITION0', initial_value = 6850),
+                    builder.aOut('TARGET-POSITION1', initial_value = 429700),
+                    builder.aOut('TARGET-POSITION2', initial_value = 1076300),
+                    builder.aOut('TARGET-POSITION3', initial_value = 1713800),
+                    builder.aOut('TARGET-POSITION4', initial_value = 2293000),
+                    builder.aOut('TARGET-POSITION5', initial_value = 2700000),
+                    builder.aOut('TARGET-POSITION6', initial_value = 3300000)
                    ]
 
 target_piano_positions = [builder.aOut('TARGET-PIANO-POSITION0', initial_value = 52.2),
@@ -196,7 +196,8 @@ async def go_to(position_index, should_go = False):
     if main_encoder.get() == "piano":
         await piano_go_to(position_index)
     else: # analog
-        await dual_go_to(position_index)
+        #await dual_go_to(position_index)
+        await motor_go_to(position_index)
         #user_target_position.set(target_positions[position_index].get())
     go_tos[position_index].set(False)
 
@@ -299,13 +300,27 @@ async def piano_go_to(position_index = -float("inf")):
             j += 1
             if not move_to(-10):
                 return
-            await asyncio.sleep(0.1)
+            is_moving = True
+            while is_moving:
+                await asyncio.sleep(0.01)
+                try:
+                    with serial.Serial(controller_port.get(), baud_rate.get()) as connection:
+                        connection.write(("X1U\r").encode("ascii"))
+                        is_moving = int(re.match(".*\d\d\d(\d)", connection.read_until(b"\r").decode().strip().split(":")[1]).groups()[0]) % 2 == 1
+                except OSError as e:
+                    print("Error connecting to PiezoMotor controller.")
+                    print(e)
+                    piezomotor_connection.set(False)
             suma = 0
             for i in range(10):
                 suma += gpio.input(PIANO_PIN)
             suma /= 10.0
             suma = round(suma)
         print(str(j), end = ",")
+        if j < 18:
+            print("\nERROR: Piano encoder error!\nLooks like there's been some mis-reading. We'll repeat the movement from the beggining.\n")
+            await piano_go_to(position_index)
+            return
         try:
             with serial.Serial(controller_port.get(), baud_rate.get()) as connection:
                 connection.write(("X1S\r").encode("ascii"))
@@ -322,6 +337,41 @@ async def piano_go_to(position_index = -float("inf")):
     await asyncio.sleep(0.1)
 
     motor_is_moving.set(False)
+
+
+async def motor_go_to(steps):
+    user_stop.set(False)
+    motor_is_moving.set(True)
+    while not (cs_x_limit.get() or user_stop.get()):
+        if not move_to(100):
+            return
+        await asyncio.sleep(0.1)
+    piano_encoder_reading.set(0)
+    await asyncio.sleep(1)
+    try:
+        with serial.Serial(controller_port.get(), baud_rate.get()) as connection:
+            connection.write(("X1S\r").encode("ascii"))
+            reading = connection.read_until(b"\r").decode().strip()
+    except OSError as e:
+        print("Error connecting to PiezoMotor controller.")
+        print(e)
+        piezomotor_connection.set(False)
+    if not move_to(-16*250):
+        print("There's been a fatal error! Call the programmer!")
+    is_moving = True
+    while is_moving:
+        try:
+            with serial.Serial(controller_port.get(), baud_rate.get()) as connection:
+                connection.write(("X1U\r").encode("ascii"))
+                is_moving = int(re.match(".*\d\d\d(\d)", connection.read_until(b"\r").decode().strip().split(":")[1]).groups()[0]) % 2 == 1
+        except OSError as e:
+            print("Error connecting to PiezoMotor controller.")
+            print(e)
+            piezomotor_connection.set(False)
+        await asyncio.sleep(0.01)
+    await asyncio.sleep(1)
+    motor_is_moving.set(False)
+
 
 async def dual_go_to(position_index = -float("inf")):
     if position_index == -float("inf"):
