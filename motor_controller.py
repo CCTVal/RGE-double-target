@@ -60,10 +60,11 @@ motor_is_moving = builder.boolIn('IS-MOVING', initial_value = False)
 controller_response = builder.stringIn('CONTROLLER-RESPONSE', initial_value = "")
 main_encoder_reading = builder.aIn('MAIN-ENCODER-READING', initial_value = -1)
 piano_encoder_reading = builder.aIn('PIANO-ENCODER-READING', initial_value = -1)
+motor_steps_given = builder.aIn('MOTOR-STEPS-GIVEN', initial_value = -1)
 motor_speed = builder.aOut('MOTOR-SPEED', initial_value = 500, on_update = lambda v: set_speed(v))
 motor_slow_speed = builder.aIn('MOTOR-SLOW-SPEED', initial_value = 500)
-motor_gain = builder.aIn('MOTOR-GAIN', initial_value = 0.00333)
-noise_supression = builder.aIn('NOISE-SUPRESSION', initial_value = 25)
+motor_gain = builder.aOut('MOTOR-GAIN', initial_value = 0.00333)
+noise_supression = builder.aOut('NOISE-SUPRESSION', initial_value = 25)
 main_encoder = builder.stringOut('MAIN-ENCODER', initial_value = "analog")
 
 ## Connection records
@@ -84,22 +85,31 @@ backward_software_limit_is_reached = builder.boolIn('AT-BACKWARD-SOFTWARE-LIMIT'
 overstep = 30000
 
 ## Positions for each target being centered on beamline.
-target_positions = [builder.aOut('TARGET-POSITION0', initial_value = 6850),
+target_positions = [builder.aOut('TARGET-POSITION0', initial_value = 850),
                     builder.aOut('TARGET-POSITION1', initial_value = 429700),
                     builder.aOut('TARGET-POSITION2', initial_value = 1076300),
                     builder.aOut('TARGET-POSITION3', initial_value = 1713800),
                     builder.aOut('TARGET-POSITION4', initial_value = 2293000),
-                    builder.aOut('TARGET-POSITION5', initial_value = 2700000),
-                    builder.aOut('TARGET-POSITION6', initial_value = 3300000)
+                    builder.aOut('TARGET-POSITION5', initial_value = 2800000),
+                    builder.aOut('TARGET-POSITION6', initial_value = 3400000)
                    ]
 
-target_piano_positions = [builder.aOut('TARGET-PIANO-POSITION0', initial_value = 52.2),
-                    builder.aOut('TARGET-PIANO-POSITION1', initial_value = 45.5),
-                    builder.aOut('TARGET-PIANO-POSITION2', initial_value = 34.87),
-                    builder.aOut('TARGET-PIANO-POSITION3', initial_value = 25.18),
-                    builder.aOut('TARGET-PIANO-POSITION4', initial_value = 15.282),
-                    builder.aOut('TARGET-PIANO-POSITION5', initial_value = 5.68),
+target_piano_positions = [builder.aOut('TARGET-PIANO-POSITION0', initial_value = 44),
+                    builder.aOut('TARGET-PIANO-POSITION1', initial_value = 34),
+                    builder.aOut('TARGET-PIANO-POSITION2', initial_value = 24.8),
+                    builder.aOut('TARGET-PIANO-POSITION3', initial_value = 16.2),
+                    builder.aOut('TARGET-PIANO-POSITION4', initial_value = 7),
+                    builder.aOut('TARGET-PIANO-POSITION5', initial_value = 3),
                     builder.aOut('TARGET-PIANO-POSITION6', initial_value = 1.5)
+                   ]
+
+target_motor_positions = [builder.aOut('TARGET-MOTOR-POSITION0', initial_value = -4400),
+                    builder.aOut('TARGET-MOTOR-POSITION1', initial_value = -3400),
+                    builder.aOut('TARGET-MOTOR-POSITION2', initial_value = -2480),
+                    builder.aOut('TARGET-MOTOR-POSITION3', initial_value = -1620),
+                    builder.aOut('TARGET-MOTOR-POSITION4', initial_value = -700),
+                    builder.aOut('TARGET-MOTOR-POSITION5', initial_value = -300),
+                    builder.aOut('TARGET-MOTOR-POSITION6', initial_value = -150)
                    ]
 
 go_tos = [builder.boolOut('GO-TO-TARGET-POSITION0', initial_value = False, on_update = lambda v: go_to(0, v)),
@@ -131,6 +141,7 @@ gpio.setup(PIANO_PIN, gpio.IN)
 gpio.setup(LIMIT1_PIN, gpio.IN)
 gpio.setup(LIMIT2_PIN, gpio.IN)
 
+# Sending a movement command to the motor controler
 def move_to(value):
     calculated_microsteps = int((value - int(value)) * 8192)
     calculated_steps = int(value)
@@ -159,6 +170,7 @@ def move_to(value):
             connection.write(("X1J" + str(int(calculated_steps)) + "," + str(int(calculated_microsteps)) + "," + str(int(motor_speed.get())) + "\r").encode("ascii"))
             reading = connection.read_until(b"\r").decode().strip()
         piezomotor_connection.set(True)
+        motor_steps_given.set(motor_steps_given.get() + value)
     except OSError as e:
         print("Error connecting to PiezoMotor controller.")
         print(e)
@@ -184,6 +196,7 @@ async def set_speed(speed):
     if motor_slow_speed.get() > speed:
         motor_slow_speed.set(speed)
 
+# Common movement logic, encoder independent
 async def go_to(position_index, should_go = False):
     if not should_go:
         return
@@ -195,12 +208,14 @@ async def go_to(position_index, should_go = False):
             go_tos[i].set(False)
     if main_encoder.get() == "piano":
         await piano_go_to(position_index)
-    else: # analog
-        #await dual_go_to(position_index)
+    elif main_encoder.get() == "motor":
         await motor_go_to(position_index)
+    else: # analog
+        await dual_go_to(position_index)
         #user_target_position.set(target_positions[position_index].get())
     go_tos[position_index].set(False)
 
+# Send an arbitrary command to the motor controller and get a response.
 async def send_command(value = ""):
     if value[:2] == "X1":
         value = value.strip() + "\r"
@@ -221,6 +236,7 @@ async def send_command(value = ""):
         print(e)
         piezomotor_connection.set(False)
 
+# Move the motor to a specified position using only the analog linear encoder
 async def set_target_position(value=-float("inf")):
     if value == -float("inf"):
         print("Not enough parameters for target position setting")
@@ -268,7 +284,7 @@ async def set_target_position(value=-float("inf")):
         piezomotor_connection.set(False)
 
 
-
+# Move the motor using only the piano encoder as reference.
 async def piano_go_to(position_index = -float("inf")):
     if position_index == -float("inf"):
         print("Not enough parameters for target position setting")
@@ -317,7 +333,7 @@ async def piano_go_to(position_index = -float("inf")):
             suma /= 10.0
             suma = round(suma)
         print(str(j), end = ",")
-        if j < 18:
+        if j < 18 and present != 0:
             print("\nERROR: Piano encoder error!\nLooks like there's been some mis-reading. We'll repeat the movement from the beggining.\n")
             await piano_go_to(position_index)
             return
@@ -331,15 +347,16 @@ async def piano_go_to(position_index = -float("inf")):
             piezomotor_connection.set(False)
         await asyncio.sleep(0.1)
         piano_encoder_reading.set(piano_encoder_reading.get() + 1)
-    remaining_steps = target_piano_positions[position_index].get() - int(target_piano_positions[position_index].get()) * (-256) # That's the amount of motor steps that correspond to one piano encoder step. Must be callibrated as best as possible.
+    remaining_steps = (target_piano_positions[position_index].get() - int(target_piano_positions[position_index].get())) * (-256) # That's the amount of motor steps that correspond to one piano encoder step. Must be callibrated as best as possible.
+    print("remianing steps:" , remaining_steps)
     if not move_to(remaining_steps):
         return
     await asyncio.sleep(0.1)
 
     motor_is_moving.set(False)
 
-
-async def motor_go_to(steps):
+# Move the motor to a specified position using only the motor steps count as reference, using a limit switch as physical reference.
+async def motor_go_to(position_index):
     user_stop.set(False)
     motor_is_moving.set(True)
     while not (cs_x_limit.get() or user_stop.get()):
@@ -356,7 +373,7 @@ async def motor_go_to(steps):
         print("Error connecting to PiezoMotor controller.")
         print(e)
         piezomotor_connection.set(False)
-    if not move_to(-16*250):
+    if not move_to(target_motor_positions[position_index].get()):
         print("There's been a fatal error! Call the programmer!")
     is_moving = True
     while is_moving:
@@ -372,7 +389,7 @@ async def motor_go_to(steps):
     await asyncio.sleep(1)
     motor_is_moving.set(False)
 
-
+# Move the motor to the specified position using the analog encoder as reference, but still counting piano steps so they can be cross-checked.
 async def dual_go_to(position_index = -float("inf")):
     if position_index == -float("inf"):
         print("Not enough parameters for target position setting")
