@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Saved on 2024-01-12 11:26:22 by javier-->
+<!--Saved on 2024-01-17 10:58:07 by javier-->
 <display version="2.0.0">
   <name>double_target_main</name>
   <macros>
@@ -7,8 +7,8 @@
   </macros>
   <x>500</x>
   <y>500</y>
-  <width>752</width>
-  <height>370</height>
+  <width>900</width>
+  <height>400</height>
   <background_color>
     <color red="40" green="40" blue="40">
     </color>
@@ -29,7 +29,7 @@
     <pv_name>$(device)SHOULD-STOP</pv_name>
     <text>STOP</text>
     <x>60</x>
-    <y>45</y>
+    <y>50</y>
     <foreground_color>
       <color red="40" green="40" blue="40">
       </color>
@@ -67,10 +67,10 @@
   </widget>
   <widget type="group" version="2.0.0">
     <name>Motor Position</name>
-    <x>335</x>
-    <y>103</y>
+    <x>480</x>
+    <y>25</y>
     <width>285</width>
-    <height>262</height>
+    <height>363</height>
     <font>
       <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
       </font>
@@ -91,8 +91,7 @@
       <macros>
         <pv_name></pv_name>
       </macros>
-      <x>5</x>
-      <y>129</y>
+      <y>210</y>
       <width>200</width>
       <height>44</height>
       <line_width>0</line_width>
@@ -114,8 +113,8 @@ $(pv_value)</tooltip>
     <widget type="label" version="2.0.0">
       <name>low limit</name>
       <text>Low Limit</text>
-      <x>25</x>
-      <y>120</y>
+      <x>20</x>
+      <y>201</y>
       <width>110</width>
       <height>14</height>
       <foreground_color>
@@ -138,8 +137,8 @@ $(pv_value)</tooltip>
     <widget type="textupdate" version="2.0.0">
       <name>Lower limit</name>
       <pv_name>$(device)BACKWARD-LIMIT-SWITCH-POSITION</pv_name>
-      <x>25</x>
-      <y>140</y>
+      <x>20</x>
+      <y>221</y>
       <width>120</width>
       <height>19</height>
       <foreground_color>
@@ -162,8 +161,9 @@ $(pv_value)</tooltip>
     </widget>
     <widget type="led" version="2.0.0">
       <name>At low limit</name>
-      <x>165</x>
-      <y>140</y>
+      <pv_name>$(device)BACKWARD-LIMIT-SWITCH</pv_name>
+      <x>160</x>
+      <y>221</y>
       <height>19</height>
       <off_color>
         <color red="40" green="40" blue="40">
@@ -183,8 +183,7 @@ $(pv_value)</tooltip>
       <macros>
         <pv_name></pv_name>
       </macros>
-      <x>5</x>
-      <y>184</y>
+      <y>265</y>
       <width>200</width>
       <height>44</height>
       <line_width>0</line_width>
@@ -206,8 +205,8 @@ $(pv_value)</tooltip>
     <widget type="label" version="2.0.0">
       <name>high limit</name>
       <text>High Limit</text>
-      <x>25</x>
-      <y>175</y>
+      <x>20</x>
+      <y>256</y>
       <width>110</width>
       <height>14</height>
       <foreground_color>
@@ -230,8 +229,8 @@ $(pv_value)</tooltip>
     <widget type="textupdate" version="2.0.0">
       <name>Higher Limit</name>
       <pv_name>$(device)FORWARD-LIMIT-SWITCH-POSITION</pv_name>
-      <x>25</x>
-      <y>196</y>
+      <x>20</x>
+      <y>277</y>
       <width>120</width>
       <height>19</height>
       <foreground_color>
@@ -254,8 +253,9 @@ $(pv_value)</tooltip>
     </widget>
     <widget type="led" version="2.0.0">
       <name>At high limit</name>
-      <x>165</x>
-      <y>196</y>
+      <pv_name>$(device)FORWARD-LIMIT-SWITCH</pv_name>
+      <x>160</x>
+      <y>277</y>
       <height>19</height>
       <off_color>
         <color red="40" green="40" blue="40">
@@ -275,7 +275,7 @@ $(pv_value)</tooltip>
       <macros>
         <pv_name></pv_name>
       </macros>
-      <y>65</y>
+      <y>80</y>
       <width>165</width>
       <height>44</height>
       <line_width>0</line_width>
@@ -298,7 +298,7 @@ $(pv_value)</tooltip>
       <name>low limit_1</name>
       <text>Piano encoder</text>
       <x>20</x>
-      <y>56</y>
+      <y>71</y>
       <width>110</width>
       <height>14</height>
       <foreground_color>
@@ -322,7 +322,7 @@ $(pv_value)</tooltip>
       <name>Lower limit_1</name>
       <pv_name>$(device)PIANO-ENCODER-READING</pv_name>
       <x>20</x>
-      <y>76</y>
+      <y>91</y>
       <width>120</width>
       <height>19</height>
       <foreground_color>
@@ -416,12 +416,121 @@ $(pv_value)</tooltip>
         </color>
       </border_color>
     </widget>
+    <widget type="label" version="2.0.0">
+      <name>Moving</name>
+      <text>Moving</text>
+      <x>180</x>
+      <y>91</y>
+      <width>70</width>
+      <height>25</height>
+      <font>
+        <font family="Sans" style="REGULAR" size="14.851485148514852">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="184" green="187" blue="38">
+        </color>
+      </foreground_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <rules>
+        <rule name="Visibility" prop_id="text" out_exp="false">
+          <exp bool_exp="pv0">
+            <value>Moving</value>
+          </exp>
+          <exp bool_exp="!pv0">
+            <value>Still</value>
+          </exp>
+          <pv_name>$(device)IS-MOVING</pv_name>
+        </rule>
+      </rules>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="rectangle" version="2.0.0">
+      <name>Rounded Rectangle_6</name>
+      <macros>
+        <pv_name></pv_name>
+      </macros>
+      <y>145</y>
+      <width>165</width>
+      <height>44</height>
+      <line_width>0</line_width>
+      <line_color>
+        <color name="GRID" red="90" green="90" blue="90">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="60" green="56" blue="54">
+        </color>
+      </background_color>
+      <corner_width>16</corner_width>
+      <corner_height>16</corner_height>
+      <actions>
+      </actions>
+      <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>low limit_6</name>
+      <text>Motor steps</text>
+      <x>20</x>
+      <y>136</y>
+      <width>110</width>
+      <height>14</height>
+      <foreground_color>
+        <color red="131" green="165" blue="152">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color name="Read_Foreground" red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Lower limit_3</name>
+      <pv_name>$(device)MOTOR-STEPS-GIVEN</pv_name>
+      <x>20</x>
+      <y>156</y>
+      <width>120</width>
+      <height>19</height>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="80" green="73" blue="69">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
   </widget>
   <widget type="group" version="2.0.0">
     <name>Target Switch</name>
-    <x>5</x>
-    <y>80</y>
-    <width>320</width>
+    <x>35</x>
+    <y>103</y>
+    <width>420</width>
     <height>285</height>
     <font>
       <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
@@ -791,8 +900,8 @@ $(pv_value)</tooltip>
     <widget type="led" version="2.0.0">
       <name>At pos4_7</name>
       <pv_name>$(device)TARGET-POSITION3</pv_name>
-      <x>254</x>
-      <y>128</y>
+      <x>357</x>
+      <y>123</y>
       <off_color>
         <color red="40" green="40" blue="40">
         </color>
@@ -827,8 +936,8 @@ $(pv_value)</tooltip>
     <widget type="led" version="2.0.0">
       <name>At pos4_8</name>
       <pv_name>$(device)TARGET-POSITION2</pv_name>
-      <x>254</x>
-      <y>96</y>
+      <x>357</x>
+      <y>91</y>
       <off_color>
         <color red="40" green="40" blue="40">
         </color>
@@ -863,8 +972,8 @@ $(pv_value)</tooltip>
     <widget type="led" version="2.0.0">
       <name>At pos4_9</name>
       <pv_name>$(device)TARGET-POSITION1</pv_name>
-      <x>254</x>
-      <y>64</y>
+      <x>357</x>
+      <y>59</y>
       <off_color>
         <color red="40" green="40" blue="40">
         </color>
@@ -899,8 +1008,8 @@ $(pv_value)</tooltip>
     <widget type="led" version="2.0.0">
       <name>At pos4_10</name>
       <pv_name>$(device)TARGET-POSITION0</pv_name>
-      <x>254</x>
-      <y>32</y>
+      <x>357</x>
+      <y>27</y>
       <off_color>
         <color red="40" green="40" blue="40">
         </color>
@@ -935,8 +1044,8 @@ $(pv_value)</tooltip>
     <widget type="led" version="2.0.0">
       <name>At pos4_11</name>
       <pv_name>$(device)TARGET-POSITION4</pv_name>
-      <x>254</x>
-      <y>160</y>
+      <x>357</x>
+      <y>155</y>
       <off_color>
         <color red="40" green="40" blue="40">
         </color>
@@ -971,8 +1080,8 @@ $(pv_value)</tooltip>
     <widget type="led" version="2.0.0">
       <name>At pos4_12</name>
       <pv_name>$(device)TARGET-POSITION5</pv_name>
-      <x>254</x>
-      <y>192</y>
+      <x>357</x>
+      <y>187</y>
       <off_color>
         <color red="40" green="40" blue="40">
         </color>
@@ -1007,8 +1116,8 @@ $(pv_value)</tooltip>
     <widget type="led" version="2.0.0">
       <name>At pos4_13</name>
       <pv_name>$(device)TARGET-POSITION6</pv_name>
-      <x>254</x>
-      <y>224</y>
+      <x>357</x>
+      <y>219</y>
       <off_color>
         <color red="40" green="40" blue="40">
         </color>
@@ -1263,6 +1372,205 @@ $(pv_value)</tooltip>
         </color>
       </border_color>
     </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>pos1_2</name>
+      <pv_name>$(device)TARGET-MOTOR-POSITION0</pv_name>
+      <x>250</x>
+      <y>32</y>
+      <width>90</width>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="80" green="73" blue="69">
+        </color>
+      </background_color>
+      <precision>2</precision>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>pos2_2</name>
+      <pv_name>$(device)TARGET-MOTOR-POSITION1</pv_name>
+      <x>250</x>
+      <y>64</y>
+      <width>90</width>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="80" green="73" blue="69">
+        </color>
+      </background_color>
+      <precision>2</precision>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>pos3_2</name>
+      <pv_name>$(device)TARGET-MOTOR-POSITION2</pv_name>
+      <x>250</x>
+      <y>96</y>
+      <width>90</width>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="80" green="73" blue="69">
+        </color>
+      </background_color>
+      <precision>2</precision>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>pos4_2</name>
+      <pv_name>$(device)TARGET-MOTOR-POSITION3</pv_name>
+      <x>250</x>
+      <y>128</y>
+      <width>90</width>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="80" green="73" blue="69">
+        </color>
+      </background_color>
+      <precision>2</precision>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>pos5_2</name>
+      <pv_name>$(device)TARGET-MOTOR-POSITION4</pv_name>
+      <x>250</x>
+      <y>160</y>
+      <width>90</width>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="80" green="73" blue="69">
+        </color>
+      </background_color>
+      <precision>2</precision>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>pos6_2</name>
+      <pv_name>$(device)TARGET-MOTOR-POSITION5</pv_name>
+      <x>250</x>
+      <y>192</y>
+      <width>90</width>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="80" green="73" blue="69">
+        </color>
+      </background_color>
+      <precision>2</precision>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>pos7_2</name>
+      <pv_name>$(device)TARGET-MOTOR-POSITION6</pv_name>
+      <x>250</x>
+      <y>224</y>
+      <width>90</width>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="80" green="73" blue="69">
+        </color>
+      </background_color>
+      <precision>2</precision>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>low limit_5</name>
+      <text>Motor steps</text>
+      <x>250</x>
+      <y>10</y>
+      <width>110</width>
+      <height>14</height>
+      <foreground_color>
+        <color red="131" green="165" blue="152">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color name="Read_Foreground" red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
   </widget>
   <widget type="action_button" version="3.0.0">
     <name>Motor menus</name>
@@ -1290,10 +1598,10 @@ $(pv_value)</tooltip>
       </action>
     </actions>
     <text>E</text>
-    <x>197</x>
-    <y>14</y>
-    <width>23</width>
-    <height>23</height>
+    <x>190</x>
+    <y>52</y>
+    <width>25</width>
+    <height>25</height>
     <foreground_color>
       <color red="40" green="40" blue="40">
       </color>
@@ -1307,8 +1615,8 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="group" version="2.0.0">
     <name>Comm Status</name>
-    <x>335</x>
-    <y>20</y>
+    <x>220</x>
+    <y>25</y>
     <width>235</width>
     <height>80</height>
     <font>
@@ -1351,7 +1659,7 @@ $(pv_value)</tooltip>
     </widget>
     <widget type="label" version="2.0.0">
       <name>IOC heartbeat</name>
-      <text>IOC Heartbeat</text>
+      <text>Motor connection</text>
       <x>20</x>
       <y>15</y>
       <width>120</width>
@@ -1375,7 +1683,7 @@ $(pv_value)</tooltip>
     </widget>
     <widget type="led" version="2.0.0">
       <name>IOC down alert</name>
-      <pv_name>$(device)PIEZOMOTOR-IOC-HEARTBEAT</pv_name>
+      <pv_name>$(device)PIEZOMOTOR-CONNECTION</pv_name>
       <x>160</x>
       <y>12</y>
       <off_color>
@@ -1389,12 +1697,23 @@ $(pv_value)</tooltip>
       <square>true</square>
       <actions>
       </actions>
+      <rules>
+        <rule name="communication error" prop_id="on_color" out_exp="false">
+          <exp bool_exp="new exp">
+            <value>
+              <color red="251" green="73" blue="52">
+              </color>
+            </value>
+          </exp>
+          <pv_name>$(device)PIEZOMOTOR-CONTROLLER-COMMUNICATION-ERROR</pv_name>
+        </rule>
+      </rules>
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
   </widget>
   <widget type="group" version="2.0.0">
     <name>Targets display</name>
-    <x>635</x>
+    <x>780</x>
     <width>100</width>
     <height>345</height>
     <style>3</style>
@@ -1621,41 +1940,5 @@ $(pv_value)</tooltip>
         </color>
       </line_color>
     </widget>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Moving</name>
-    <text>Moving</text>
-    <x>533</x>
-    <y>164</y>
-    <width>70</width>
-    <height>25</height>
-    <font>
-      <font family="Sans" style="REGULAR" size="14.851485148514852">
-      </font>
-    </font>
-    <foreground_color>
-      <color red="184" green="187" blue="38">
-      </color>
-    </foreground_color>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <rules>
-      <rule name="Visibility" prop_id="text" out_exp="false">
-        <exp bool_exp="pv0">
-          <value>Moving</value>
-        </exp>
-        <exp bool_exp="!pv0">
-          <value>Still</value>
-        </exp>
-        <pv_name>$(device)IS-MOVING</pv_name>
-      </rule>
-    </rules>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
   </widget>
 </display>

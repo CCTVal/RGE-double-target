@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Saved on 2024-01-05 14:19:51 by javier-->
+<!--Saved on 2024-01-17 11:44:15 by javier-->
 <display version="2.0.0">
   <name>double_target_expert</name>
   <macros>
@@ -7,8 +7,8 @@
   </macros>
   <x>500</x>
   <y>500</y>
-  <width>452</width>
-  <height>630</height>
+  <width>752</width>
+  <height>700</height>
   <background_color>
     <color red="40" green="40" blue="40">
     </color>
@@ -44,8 +44,9 @@
   </widget>
   <widget type="group" version="2.0.0">
     <name>Terminal</name>
-    <y>423</y>
-    <width>433</width>
+    <x>20</x>
+    <y>655</y>
+    <width>455</width>
     <height>131</height>
     <font>
       <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
@@ -65,8 +66,8 @@
     <widget type="label" version="2.0.0">
       <name>IOC status_1</name>
       <text>Cmd.</text>
-      <x>7</x>
-      <y>14</y>
+      <x>20</x>
+      <y>15</y>
       <width>120</width>
       <height>15</height>
       <foreground_color>
@@ -89,8 +90,8 @@
     <widget type="label" version="2.0.0">
       <name>Controller status_1</name>
       <text>Rsp.</text>
-      <x>7</x>
-      <y>59</y>
+      <x>20</x>
+      <y>60</y>
       <width>120</width>
       <height>15</height>
       <foreground_color>
@@ -113,8 +114,8 @@
     <widget type="textupdate" version="2.0.0">
       <name>Text Update</name>
       <pv_name>$(device)CONTROLLER-RESPONSE</pv_name>
-      <x>19</x>
-      <y>74</y>
+      <x>32</x>
+      <y>75</y>
       <width>372</width>
       <height>13</height>
       <font>
@@ -143,8 +144,8 @@
     <widget type="textentry" version="3.0.0">
       <name>Text Input</name>
       <pv_name>$(device)USER-MOTOR-COMMAND</pv_name>
-      <x>19</x>
-      <y>29</y>
+      <x>32</x>
+      <y>30</y>
       <width>372</width>
       <font>
         <font family="Sans" style="REGULAR" size="10.891089108910892">
@@ -169,494 +170,14 @@
       </border_color>
     </widget>
   </widget>
-  <widget type="led" version="2.0.0">
-    <name>IOC down alert_3</name>
-    <pv_name>$(device)PIEZOMOTOR-CONTROLLER-COMMUNICATION-ERROR</pv_name>
-    <x>240</x>
-    <y>40</y>
-    <off_color>
-      <color red="40" green="40" blue="40">
-      </color>
-    </off_color>
-    <on_color>
-      <color red="251" green="73" blue="52">
-      </color>
-    </on_color>
-    <square>true</square>
-    <actions>
-    </actions>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>IOC status_3</name>
-    <text>Controller communication error</text>
-    <x>25</x>
-    <y>40</y>
-    <width>215</width>
-    <height>15</height>
-    <foreground_color>
-      <color red="235" green="219" blue="178">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color name="Read_Foreground" red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="led" version="2.0.0">
-    <name>IOC down alert_5</name>
-    <pv_name>$(device)PIEZOMOTOR-CONTROLLER-VOLTAGE-ERROR</pv_name>
-    <x>240</x>
-    <y>65</y>
-    <off_color>
-      <color red="40" green="40" blue="40">
-      </color>
-    </off_color>
-    <on_color>
-      <color red="251" green="73" blue="52">
-      </color>
-    </on_color>
-    <square>true</square>
-    <actions>
-    </actions>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>IOC status_5</name>
-    <text>Controller voltage error</text>
-    <x>25</x>
-    <y>65</y>
-    <width>215</width>
-    <height>15</height>
-    <foreground_color>
-      <color red="235" green="219" blue="178">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color name="Read_Foreground" red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="led" version="2.0.0">
-    <name>IOC down alert_6</name>
-    <pv_name>$(device)PIEZOMOTOR-CONTROLLER-COMMAND-ERROR</pv_name>
-    <x>240</x>
-    <y>90</y>
-    <off_color>
-      <color red="40" green="40" blue="40">
-      </color>
-    </off_color>
-    <on_color>
-      <color red="251" green="73" blue="52">
-      </color>
-    </on_color>
-    <square>true</square>
-    <actions>
-    </actions>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>IOC status_6</name>
-    <text>Controller command error</text>
-    <x>25</x>
-    <y>90</y>
-    <width>215</width>
-    <height>15</height>
-    <foreground_color>
-      <color red="235" green="219" blue="178">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color name="Read_Foreground" red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>IOC status_7</name>
-    <text>Controller reset</text>
-    <x>25</x>
-    <y>140</y>
-    <width>215</width>
-    <height>15</height>
-    <foreground_color>
-      <color red="235" green="219" blue="178">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color name="Read_Foreground" red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="led" version="2.0.0">
-    <name>IOC down alert_8</name>
-    <pv_name>$(device)PIEZOMOTOR-CONTROLLER-X-LIMIT</pv_name>
-    <x>240</x>
-    <y>165</y>
-    <off_color>
-      <color red="40" green="40" blue="40">
-      </color>
-    </off_color>
-    <on_color>
-      <color red="184" green="187" blue="38">
-      </color>
-    </on_color>
-    <square>true</square>
-    <actions>
-    </actions>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>IOC status_8</name>
-    <text>Limit reached</text>
-    <x>25</x>
-    <y>165</y>
-    <width>215</width>
-    <height>15</height>
-    <foreground_color>
-      <color red="235" green="219" blue="178">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color name="Read_Foreground" red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="led" version="2.0.0">
-    <name>IOC down alert_9</name>
-    <pv_name>$(device)PIEZOMOTOR-CONTROLLER-SCRIPT-IS-RUNNING</pv_name>
-    <x>240</x>
-    <y>215</y>
-    <off_color>
-      <color red="40" green="40" blue="40">
-      </color>
-    </off_color>
-    <on_color>
-      <color red="184" green="187" blue="38">
-      </color>
-    </on_color>
-    <square>true</square>
-    <actions>
-    </actions>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>IOC status_9</name>
-    <text>Controller script is running</text>
-    <x>25</x>
-    <y>215</y>
-    <width>215</width>
-    <height>15</height>
-    <foreground_color>
-      <color red="235" green="219" blue="178">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color name="Read_Foreground" red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="led" version="2.0.0">
-    <name>IOC down alert_10</name>
-    <pv_name>$(device)PIEZOMOTOR-CONTROLLER-TARGET-LIMIT</pv_name>
-    <x>240</x>
-    <y>190</y>
-    <off_color>
-      <color red="40" green="40" blue="40">
-      </color>
-    </off_color>
-    <on_color>
-      <color red="184" green="187" blue="38">
-      </color>
-    </on_color>
-    <square>true</square>
-    <actions>
-    </actions>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>IOC status_10</name>
-    <text>Software limit reached</text>
-    <x>25</x>
-    <y>190</y>
-    <width>215</width>
-    <height>15</height>
-    <foreground_color>
-      <color red="235" green="219" blue="178">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color name="Read_Foreground" red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="led" version="2.0.0">
-    <name>At pos4</name>
-    <pv_name>$(device)PIEZOMOTOR-CONTROLLER-RESET</pv_name>
-    <x>240</x>
-    <y>140</y>
-    <off_color>
-      <color red="40" green="40" blue="40">
-      </color>
-    </off_color>
-    <on_color>
-      <color red="184" green="187" blue="38">
-      </color>
-    </on_color>
-    <square>true</square>
-    <actions>
-    </actions>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="rectangle" version="2.0.0">
-    <name>Rounded Rectangle_2</name>
-    <macros>
-      <pv_name></pv_name>
-    </macros>
-    <x>240</x>
-    <y>312</y>
-    <width>200</width>
-    <height>44</height>
-    <line_width>0</line_width>
-    <line_color>
-      <color name="GRID" red="90" green="90" blue="90">
-      </color>
-    </line_color>
-    <background_color>
-      <color red="60" green="56" blue="54">
-      </color>
-    </background_color>
-    <corner_width>16</corner_width>
-    <corner_height>16</corner_height>
-    <actions>
-    </actions>
-    <tooltip>$(pv_name)
-$(pv_value)</tooltip>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>low limit</name>
-    <text>Piano encoder</text>
-    <x>260</x>
-    <y>303</y>
-    <width>110</width>
-    <height>14</height>
-    <foreground_color>
-      <color red="131" green="165" blue="152">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color name="Read_Foreground" red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>Lower limit</name>
-    <pv_name>$(device)PIANO-ENCODER-READING</pv_name>
-    <x>260</x>
-    <y>323</y>
-    <width>120</width>
-    <height>19</height>
-    <foreground_color>
-      <color red="235" green="219" blue="178">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="80" green="73" blue="69">
-      </color>
-    </background_color>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="led" version="2.0.0">
-    <name>At low limit</name>
-    <pv_name>$(P)$(M)_at_lowlimit</pv_name>
-    <x>400</x>
-    <y>323</y>
-    <height>19</height>
-    <off_color>
-      <color red="40" green="40" blue="40">
-      </color>
-    </off_color>
-    <on_color>
-      <color red="251" green="73" blue="52">
-      </color>
-    </on_color>
-    <square>true</square>
-    <actions>
-    </actions>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="rectangle" version="2.0.0">
-    <name>Rounded Rectangle_4</name>
-    <macros>
-      <pv_name></pv_name>
-    </macros>
-    <x>25</x>
-    <y>313</y>
-    <width>200</width>
-    <height>44</height>
-    <line_width>0</line_width>
-    <line_color>
-      <color name="GRID" red="90" green="90" blue="90">
-      </color>
-    </line_color>
-    <background_color>
-      <color red="60" green="56" blue="54">
-      </color>
-    </background_color>
-    <corner_width>16</corner_width>
-    <corner_height>16</corner_height>
-    <actions>
-    </actions>
-    <tooltip>$(pv_name)
-$(pv_value)</tooltip>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>low limit_2</name>
-    <text>Analog encoder</text>
-    <x>45</x>
-    <y>303</y>
-    <width>110</width>
-    <height>14</height>
-    <foreground_color>
-      <color red="131" green="165" blue="152">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color name="Read_Foreground" red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>Lower limit_2</name>
-    <pv_name>$(device)MAIN-ENCODER-READING</pv_name>
-    <x>45</x>
-    <y>323</y>
-    <width>120</width>
-    <height>19</height>
-    <foreground_color>
-      <color red="235" green="219" blue="178">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="80" green="73" blue="69">
-      </color>
-    </background_color>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="led" version="2.0.0">
-    <name>At low limit_2</name>
-    <pv_name>$(P)$(M)_at_lowlimit</pv_name>
-    <x>185</x>
-    <y>323</y>
-    <height>19</height>
-    <off_color>
-      <color red="40" green="40" blue="40">
-      </color>
-    </off_color>
-    <on_color>
-      <color red="251" green="73" blue="52">
-      </color>
-    </on_color>
-    <square>true</square>
-    <actions>
-    </actions>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
   <widget type="rectangle" version="2.0.0">
     <name>Rounded Rectangle_6</name>
     <macros>
       <pv_name></pv_name>
     </macros>
-    <x>135</x>
-    <y>378</y>
-    <width>200</width>
+    <x>500</x>
+    <y>771</y>
+    <width>270</width>
     <height>44</height>
     <line_width>0</line_width>
     <line_color>
@@ -677,8 +198,8 @@ $(pv_value)</tooltip>
   <widget type="label" version="2.0.0">
     <name>low limit_3</name>
     <text>Active encoder</text>
-    <x>155</x>
-    <y>368</y>
+    <x>515</x>
+    <y>761</y>
     <width>110</width>
     <height>14</height>
     <foreground_color>
@@ -701,9 +222,9 @@ $(pv_value)</tooltip>
   <widget type="choice" version="2.0.0">
     <name>Choice Button</name>
     <pv_name>$(device)MAIN-ENCODER</pv_name>
-    <x>160</x>
-    <y>388</y>
-    <width>150</width>
+    <x>535</x>
+    <y>781</y>
+    <width>200</width>
     <height>25</height>
     <background_color>
       <color red="146" green="131" blue="116">
@@ -716,268 +237,1382 @@ $(pv_value)</tooltip>
     <items>
       <item>analog</item>
       <item>piano</item>
+      <item>motor</item>
     </items>
   </widget>
-  <widget type="label" version="2.0.0">
-    <name>IOC status_11</name>
-    <text>Motor parked</text>
-    <x>25</x>
-    <y>240</y>
-    <width>215</width>
-    <height>15</height>
+  <widget type="group" version="2.0.0">
+    <name>Target Switch</name>
+    <x>340</x>
+    <y>60</y>
+    <width>360</width>
+    <height>295</height>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
     <foreground_color>
-      <color red="235" green="219" blue="178">
+      <color red="131" green="165" blue="152">
       </color>
     </foreground_color>
     <background_color>
-      <color name="Read_Foreground" red="255" green="255" blue="255">
+      <color red="40" green="40" blue="40">
       </color>
     </background_color>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
+    <transparent>true</transparent>
     <actions>
     </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
+    <widget type="label" version="2.0.0">
+      <name>low limit_7</name>
+      <text>Piano encoder</text>
+      <x>124</x>
+      <y>14</y>
+      <width>110</width>
+      <height>14</height>
+      <foreground_color>
+        <color red="131" green="165" blue="152">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color name="Read_Foreground" red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>low limit_8</name>
+      <text>Analog encoder</text>
+      <x>12</x>
+      <y>14</y>
+      <width>110</width>
+      <height>14</height>
+      <foreground_color>
+        <color red="131" green="165" blue="152">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color name="Read_Foreground" red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>low limit_9</name>
+      <text>Motor steps</text>
+      <x>225</x>
+      <y>14</y>
+      <width>110</width>
+      <height>14</height>
+      <foreground_color>
+        <color red="131" green="165" blue="152">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color name="Read_Foreground" red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Entry</name>
+      <pv_name>$(device)TARGET-POSITION0</pv_name>
+      <x>12</x>
+      <y>36</y>
+      <width>102</width>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="80" green="73" blue="69">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Entry_1</name>
+      <pv_name>$(device)TARGET-POSITION1</pv_name>
+      <x>12</x>
+      <y>68</y>
+      <width>102</width>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="80" green="73" blue="69">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Entry_2</name>
+      <pv_name>$(device)TARGET-POSITION2</pv_name>
+      <x>12</x>
+      <y>100</y>
+      <width>102</width>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="80" green="73" blue="69">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Entry_3</name>
+      <pv_name>$(device)TARGET-POSITION3</pv_name>
+      <x>12</x>
+      <y>132</y>
+      <width>102</width>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="80" green="73" blue="69">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Entry_4</name>
+      <pv_name>$(device)TARGET-POSITION4</pv_name>
+      <x>12</x>
+      <y>164</y>
+      <width>102</width>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="80" green="73" blue="69">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Entry_5</name>
+      <pv_name>$(device)TARGET-POSITION5</pv_name>
+      <x>12</x>
+      <y>196</y>
+      <width>102</width>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="80" green="73" blue="69">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Entry_6</name>
+      <pv_name>$(device)TARGET-POSITION6</pv_name>
+      <x>12</x>
+      <y>228</y>
+      <width>102</width>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="80" green="73" blue="69">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Entry_7</name>
+      <pv_name>$(device)TARGET-PIANO-POSITION0</pv_name>
+      <x>124</x>
+      <y>36</y>
+      <width>90</width>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="80" green="73" blue="69">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Entry_8</name>
+      <pv_name>$(device)TARGET-PIANO-POSITION1</pv_name>
+      <x>124</x>
+      <y>68</y>
+      <width>90</width>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="80" green="73" blue="69">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Entry_9</name>
+      <pv_name>$(device)TARGET-PIANO-POSITION2</pv_name>
+      <x>124</x>
+      <y>100</y>
+      <width>90</width>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="80" green="73" blue="69">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Entry_10</name>
+      <pv_name>$(device)TARGET-PIANO-POSITION3</pv_name>
+      <x>124</x>
+      <y>132</y>
+      <width>90</width>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="80" green="73" blue="69">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Entry_11</name>
+      <pv_name>$(device)TARGET-PIANO-POSITION4</pv_name>
+      <x>124</x>
+      <y>164</y>
+      <width>90</width>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="80" green="73" blue="69">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Entry_12</name>
+      <pv_name>$(device)TARGET-PIANO-POSITION5</pv_name>
+      <x>124</x>
+      <y>196</y>
+      <width>90</width>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="80" green="73" blue="69">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Entry_13</name>
+      <pv_name>$(device)TARGET-PIANO-POSITION6</pv_name>
+      <x>124</x>
+      <y>228</y>
+      <width>90</width>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="80" green="73" blue="69">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Entry_14</name>
+      <pv_name>$(device)TARGET-MOTOR-POSITION5</pv_name>
+      <x>225</x>
+      <y>196</y>
+      <width>90</width>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="80" green="73" blue="69">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Entry_15</name>
+      <pv_name>$(device)TARGET-MOTOR-POSITION4</pv_name>
+      <x>225</x>
+      <y>164</y>
+      <width>90</width>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="80" green="73" blue="69">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Entry_16</name>
+      <pv_name>$(device)TARGET-MOTOR-POSITION3</pv_name>
+      <x>225</x>
+      <y>132</y>
+      <width>90</width>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="80" green="73" blue="69">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Entry_17</name>
+      <pv_name>$(device)TARGET-MOTOR-POSITION2</pv_name>
+      <x>225</x>
+      <y>100</y>
+      <width>90</width>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="80" green="73" blue="69">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Entry_18</name>
+      <pv_name>$(device)TARGET-MOTOR-POSITION1</pv_name>
+      <x>225</x>
+      <y>68</y>
+      <width>90</width>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="80" green="73" blue="69">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Entry_19</name>
+      <pv_name>$(device)TARGET-MOTOR-POSITION6</pv_name>
+      <x>225</x>
+      <y>228</y>
+      <width>90</width>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="80" green="73" blue="69">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Entry_20</name>
+      <pv_name>$(device)TARGET-MOTOR-POSITION0</pv_name>
+      <x>225</x>
+      <y>36</y>
+      <width>90</width>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="80" green="73" blue="69">
+        </color>
+      </background_color>
+    </widget>
   </widget>
-  <widget type="led" version="2.0.0">
-    <name>IOC down alert_11</name>
-    <pv_name>$(device)PIEZOMOTOR-CONTROLLER-PARKED</pv_name>
-    <x>240</x>
-    <y>240</y>
-    <off_color>
-      <color red="40" green="40" blue="40">
-      </color>
-    </off_color>
-    <on_color>
-      <color red="184" green="187" blue="38">
-      </color>
-    </on_color>
-    <square>true</square>
-    <actions>
-    </actions>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="led" version="2.0.0">
-    <name>IOC down alert_12</name>
-    <pv_name>$(device)PIEZOMOTOR-CONTROLLER-OVERHEAT</pv_name>
-    <x>240</x>
-    <y>115</y>
-    <off_color>
-      <color red="40" green="40" blue="40">
-      </color>
-    </off_color>
-    <on_color>
-      <color red="251" green="73" blue="52">
-      </color>
-    </on_color>
-    <square>true</square>
-    <actions>
-    </actions>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>IOC status_12</name>
-    <text>Controller overheat</text>
-    <x>25</x>
-    <y>115</y>
-    <width>215</width>
-    <height>15</height>
+  <widget type="group" version="2.0.0">
+    <name>Status</name>
+    <x>10</x>
+    <y>60</y>
+    <width>310</width>
+    <height>295</height>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
     <foreground_color>
-      <color red="235" green="219" blue="178">
+      <color red="131" green="165" blue="152">
       </color>
     </foreground_color>
     <background_color>
-      <color name="Read_Foreground" red="255" green="255" blue="255">
+      <color red="40" green="40" blue="40">
       </color>
     </background_color>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
+    <transparent>true</transparent>
     <actions>
     </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
+    <widget type="led" version="2.0.0">
+      <name>IOC down alert_3</name>
+      <pv_name>$(device)PIEZOMOTOR-CONTROLLER-COMMUNICATION-ERROR</pv_name>
+      <x>227</x>
+      <y>14</y>
+      <off_color>
+        <color red="40" green="40" blue="40">
+        </color>
+      </off_color>
+      <on_color>
+        <color red="251" green="73" blue="52">
+        </color>
+      </on_color>
+      <square>true</square>
+      <actions>
+      </actions>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>IOC status_3</name>
+      <text>Controller communication error</text>
+      <x>12</x>
+      <y>14</y>
+      <width>215</width>
+      <height>15</height>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color name="Read_Foreground" red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>IOC down alert_5</name>
+      <pv_name>$(device)PIEZOMOTOR-CONTROLLER-VOLTAGE-ERROR</pv_name>
+      <x>227</x>
+      <y>33</y>
+      <off_color>
+        <color red="40" green="40" blue="40">
+        </color>
+      </off_color>
+      <on_color>
+        <color red="251" green="73" blue="52">
+        </color>
+      </on_color>
+      <square>true</square>
+      <actions>
+      </actions>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>IOC status_5</name>
+      <text>Controller voltage error</text>
+      <x>12</x>
+      <y>33</y>
+      <width>215</width>
+      <height>15</height>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color name="Read_Foreground" red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>IOC down alert_6</name>
+      <pv_name>$(device)PIEZOMOTOR-CONTROLLER-COMMAND-ERROR</pv_name>
+      <x>227</x>
+      <y>58</y>
+      <off_color>
+        <color red="40" green="40" blue="40">
+        </color>
+      </off_color>
+      <on_color>
+        <color red="251" green="73" blue="52">
+        </color>
+      </on_color>
+      <square>true</square>
+      <actions>
+      </actions>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>IOC status_6</name>
+      <text>Controller command error</text>
+      <x>12</x>
+      <y>58</y>
+      <width>215</width>
+      <height>15</height>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color name="Read_Foreground" red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>IOC status_7</name>
+      <text>Controller reset</text>
+      <x>12</x>
+      <y>108</y>
+      <width>215</width>
+      <height>15</height>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color name="Read_Foreground" red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>IOC down alert_8</name>
+      <pv_name>$(device)PIEZOMOTOR-CONTROLLER-X-LIMIT</pv_name>
+      <x>227</x>
+      <y>133</y>
+      <off_color>
+        <color red="40" green="40" blue="40">
+        </color>
+      </off_color>
+      <on_color>
+        <color red="184" green="187" blue="38">
+        </color>
+      </on_color>
+      <square>true</square>
+      <actions>
+      </actions>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>IOC status_8</name>
+      <text>Limit reached</text>
+      <x>12</x>
+      <y>133</y>
+      <width>215</width>
+      <height>15</height>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color name="Read_Foreground" red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>IOC down alert_9</name>
+      <pv_name>$(device)PIEZOMOTOR-CONTROLLER-SCRIPT-IS-RUNNING</pv_name>
+      <x>227</x>
+      <y>183</y>
+      <off_color>
+        <color red="40" green="40" blue="40">
+        </color>
+      </off_color>
+      <on_color>
+        <color red="184" green="187" blue="38">
+        </color>
+      </on_color>
+      <square>true</square>
+      <actions>
+      </actions>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>IOC status_9</name>
+      <text>Controller script is running</text>
+      <x>12</x>
+      <y>183</y>
+      <width>215</width>
+      <height>15</height>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color name="Read_Foreground" red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>IOC down alert_10</name>
+      <pv_name>$(device)PIEZOMOTOR-CONTROLLER-TARGET-LIMIT</pv_name>
+      <x>227</x>
+      <y>158</y>
+      <off_color>
+        <color red="40" green="40" blue="40">
+        </color>
+      </off_color>
+      <on_color>
+        <color red="184" green="187" blue="38">
+        </color>
+      </on_color>
+      <square>true</square>
+      <actions>
+      </actions>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>IOC status_10</name>
+      <text>Software limit reached</text>
+      <x>12</x>
+      <y>158</y>
+      <width>215</width>
+      <height>15</height>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color name="Read_Foreground" red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>At pos4</name>
+      <pv_name>$(device)PIEZOMOTOR-CONTROLLER-RESET</pv_name>
+      <x>227</x>
+      <y>108</y>
+      <off_color>
+        <color red="40" green="40" blue="40">
+        </color>
+      </off_color>
+      <on_color>
+        <color red="184" green="187" blue="38">
+        </color>
+      </on_color>
+      <square>true</square>
+      <actions>
+      </actions>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>IOC status_11</name>
+      <text>Motor parked</text>
+      <x>12</x>
+      <y>208</y>
+      <width>215</width>
+      <height>15</height>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color name="Read_Foreground" red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>IOC down alert_11</name>
+      <pv_name>$(device)PIEZOMOTOR-CONTROLLER-PARKED</pv_name>
+      <x>227</x>
+      <y>208</y>
+      <off_color>
+        <color red="40" green="40" blue="40">
+        </color>
+      </off_color>
+      <on_color>
+        <color red="184" green="187" blue="38">
+        </color>
+      </on_color>
+      <square>true</square>
+      <actions>
+      </actions>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>IOC down alert_12</name>
+      <pv_name>$(device)PIEZOMOTOR-CONTROLLER-OVERHEAT</pv_name>
+      <x>227</x>
+      <y>83</y>
+      <off_color>
+        <color red="40" green="40" blue="40">
+        </color>
+      </off_color>
+      <on_color>
+        <color red="251" green="73" blue="52">
+        </color>
+      </on_color>
+      <square>true</square>
+      <actions>
+      </actions>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>IOC status_12</name>
+      <text>Controller overheat</text>
+      <x>12</x>
+      <y>83</y>
+      <width>215</width>
+      <height>15</height>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color name="Read_Foreground" red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>IOC status_13</name>
+      <text>Motor running</text>
+      <x>12</x>
+      <y>233</y>
+      <width>215</width>
+      <height>15</height>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color name="Read_Foreground" red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>IOC down alert_13</name>
+      <pv_name>$(device)PIEZOMOTOR-CONTROLLER-RUNNING</pv_name>
+      <x>227</x>
+      <y>233</y>
+      <off_color>
+        <color red="40" green="40" blue="40">
+        </color>
+      </off_color>
+      <on_color>
+        <color red="184" green="187" blue="38">
+        </color>
+      </on_color>
+      <square>true</square>
+      <actions>
+      </actions>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="polygon" version="2.0.0">
+      <name>Forward limit switch</name>
+      <x>257</x>
+      <y>138</y>
+      <width>20</width>
+      <points>
+        <point x="0.0" y="0.0">
+        </point>
+        <point x="0.0" y="10.0">
+        </point>
+        <point x="8.0" y="5.0">
+        </point>
+      </points>
+      <line_color>
+        <color red="184" green="187" blue="38">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="184" green="187" blue="38">
+        </color>
+      </background_color>
+      <rules>
+        <rule name="New Rule" prop_id="visible" out_exp="false">
+          <exp bool_exp="pv0">
+            <value>true</value>
+          </exp>
+          <exp bool_exp="!pv0">
+            <value>false</value>
+          </exp>
+          <pv_name>$(device)FORWARD-LIMIT-SWITCH</pv_name>
+        </rule>
+      </rules>
+      <tooltip>Forward limit switch active</tooltip>
+    </widget>
+    <widget type="polygon" version="2.0.0">
+      <name>Backward limit switch</name>
+      <x>209</x>
+      <y>138</y>
+      <width>20</width>
+      <points>
+        <point x="10.0" y="0.0">
+        </point>
+        <point x="10.0" y="10.0">
+        </point>
+        <point x="2.0" y="5.0">
+        </point>
+      </points>
+      <line_color>
+        <color red="184" green="187" blue="38">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="184" green="187" blue="38">
+        </color>
+      </background_color>
+      <rules>
+        <rule name="New Rule" prop_id="visible" out_exp="false">
+          <exp bool_exp="pv0">
+            <value>true</value>
+          </exp>
+          <exp bool_exp="!pv0">
+            <value>false</value>
+          </exp>
+          <pv_name>$(device)BACKWARD-LIMIT-SWITCH</pv_name>
+        </rule>
+      </rules>
+      <tooltip>Backward limit switch active</tooltip>
+    </widget>
+    <widget type="polygon" version="2.0.0">
+      <name>forward soft limit</name>
+      <x>257</x>
+      <y>163</y>
+      <width>20</width>
+      <points>
+        <point x="0.0" y="0.0">
+        </point>
+        <point x="0.0" y="10.0">
+        </point>
+        <point x="8.0" y="5.0">
+        </point>
+      </points>
+      <line_color>
+        <color red="184" green="187" blue="38">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="184" green="187" blue="38">
+        </color>
+      </background_color>
+      <rules>
+        <rule name="New Rule" prop_id="visible" out_exp="false">
+          <exp bool_exp="pv0">
+            <value>true</value>
+          </exp>
+          <exp bool_exp="!pv0">
+            <value>false</value>
+          </exp>
+          <pv_name>$(device)AT-FORWARD-SOFTWARE-LIMIT</pv_name>
+        </rule>
+      </rules>
+      <tooltip>Forward software limit reached</tooltip>
+    </widget>
+    <widget type="polygon" version="2.0.0">
+      <name>Backward soft limit</name>
+      <x>209</x>
+      <y>163</y>
+      <width>20</width>
+      <points>
+        <point x="10.0" y="0.0">
+        </point>
+        <point x="10.0" y="10.0">
+        </point>
+        <point x="2.0" y="5.0">
+        </point>
+      </points>
+      <line_color>
+        <color red="184" green="187" blue="38">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="184" green="187" blue="38">
+        </color>
+      </background_color>
+      <rules>
+        <rule name="New Rule" prop_id="visible" out_exp="false">
+          <exp bool_exp="pv0">
+            <value>true</value>
+          </exp>
+          <exp bool_exp="!pv0">
+            <value>false</value>
+          </exp>
+          <pv_name>$(device)AT-BACKWARD-SOFTWARE-LIMIT</pv_name>
+        </rule>
+      </rules>
+      <tooltip>Backward software limit reached</tooltip>
+    </widget>
   </widget>
-  <widget type="label" version="2.0.0">
-    <name>IOC status_13</name>
-    <text>Motor running</text>
-    <x>25</x>
-    <y>265</y>
-    <width>215</width>
-    <height>15</height>
+  <widget type="group" version="2.0.0">
+    <name>Target Calibration</name>
+    <x>340</x>
+    <y>355</y>
+    <width>360</width>
+    <height>285</height>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
     <foreground_color>
-      <color red="235" green="219" blue="178">
+      <color red="131" green="165" blue="152">
       </color>
     </foreground_color>
     <background_color>
-      <color name="Read_Foreground" red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="led" version="2.0.0">
-    <name>IOC down alert_13</name>
-    <pv_name>$(device)PIEZOMOTOR-CONTROLLER-RUNNING</pv_name>
-    <x>240</x>
-    <y>265</y>
-    <off_color>
       <color red="40" green="40" blue="40">
       </color>
-    </off_color>
-    <on_color>
-      <color red="184" green="187" blue="38">
-      </color>
-    </on_color>
-    <square>true</square>
+    </background_color>
+    <transparent>true</transparent>
     <actions>
     </actions>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="polygon" version="2.0.0">
-    <name>Forward limit switch</name>
-    <x>270</x>
-    <y>170</y>
-    <width>20</width>
-    <points>
-      <point x="0.0" y="0.0">
-      </point>
-      <point x="0.0" y="10.0">
-      </point>
-      <point x="8.0" y="5.0">
-      </point>
-    </points>
-    <line_color>
-      <color red="184" green="187" blue="38">
-      </color>
-    </line_color>
-    <background_color>
-      <color red="184" green="187" blue="38">
-      </color>
-    </background_color>
-    <rules>
-      <rule name="New Rule" prop_id="visible" out_exp="false">
-        <exp bool_exp="pv0">
-          <value>true</value>
-        </exp>
-        <exp bool_exp="!pv0">
-          <value>false</value>
-        </exp>
-        <pv_name>$(device)FORWARD-LIMIT-SWITCH</pv_name>
-      </rule>
-    </rules>
-    <tooltip>Forward limit switch active</tooltip>
-  </widget>
-  <widget type="polygon" version="2.0.0">
-    <name>Backward limit switch</name>
-    <x>222</x>
-    <y>170</y>
-    <width>20</width>
-    <points>
-      <point x="10.0" y="0.0">
-      </point>
-      <point x="10.0" y="10.0">
-      </point>
-      <point x="2.0" y="5.0">
-      </point>
-    </points>
-    <line_color>
-      <color red="184" green="187" blue="38">
-      </color>
-    </line_color>
-    <background_color>
-      <color red="184" green="187" blue="38">
-      </color>
-    </background_color>
-    <rules>
-      <rule name="New Rule" prop_id="visible" out_exp="false">
-        <exp bool_exp="pv0">
-          <value>true</value>
-        </exp>
-        <exp bool_exp="!pv0">
-          <value>false</value>
-        </exp>
-        <pv_name>$(device)BACKWARD-LIMIT-SWITCH</pv_name>
-      </rule>
-    </rules>
-    <tooltip>Backward limit switch active</tooltip>
-  </widget>
-  <widget type="polygon" version="2.0.0">
-    <name>forward soft limit</name>
-    <x>270</x>
-    <y>195</y>
-    <width>20</width>
-    <points>
-      <point x="0.0" y="0.0">
-      </point>
-      <point x="0.0" y="10.0">
-      </point>
-      <point x="8.0" y="5.0">
-      </point>
-    </points>
-    <line_color>
-      <color red="184" green="187" blue="38">
-      </color>
-    </line_color>
-    <background_color>
-      <color red="184" green="187" blue="38">
-      </color>
-    </background_color>
-    <rules>
-      <rule name="New Rule" prop_id="visible" out_exp="false">
-        <exp bool_exp="pv0">
-          <value>true</value>
-        </exp>
-        <exp bool_exp="!pv0">
-          <value>false</value>
-        </exp>
-        <pv_name>$(device)AT-FORWARD-SOFTWARE-LIMIT</pv_name>
-      </rule>
-    </rules>
-    <tooltip>Forward software limit reached</tooltip>
-  </widget>
-  <widget type="polygon" version="2.0.0">
-    <name>Backward soft limit</name>
-    <x>222</x>
-    <y>195</y>
-    <width>20</width>
-    <points>
-      <point x="10.0" y="0.0">
-      </point>
-      <point x="10.0" y="10.0">
-      </point>
-      <point x="2.0" y="5.0">
-      </point>
-    </points>
-    <line_color>
-      <color red="184" green="187" blue="38">
-      </color>
-    </line_color>
-    <background_color>
-      <color red="184" green="187" blue="38">
-      </color>
-    </background_color>
-    <rules>
-      <rule name="New Rule" prop_id="visible" out_exp="false">
-        <exp bool_exp="pv0">
-          <value>true</value>
-        </exp>
-        <exp bool_exp="!pv0">
-          <value>false</value>
-        </exp>
-        <pv_name>$(device)AT-BACKWARD-SOFTWARE-LIMIT</pv_name>
-      </rule>
-    </rules>
-    <tooltip>Backward software limit reached</tooltip>
+    <widget type="label" version="2.0.0">
+      <name>low limit_13</name>
+      <text>Piano encoder</text>
+      <x>124</x>
+      <y>14</y>
+      <width>110</width>
+      <height>14</height>
+      <foreground_color>
+        <color red="131" green="165" blue="152">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color name="Read_Foreground" red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>low limit_14</name>
+      <text>Analog encoder</text>
+      <x>12</x>
+      <y>14</y>
+      <width>110</width>
+      <height>14</height>
+      <foreground_color>
+        <color red="131" green="165" blue="152">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color name="Read_Foreground" red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>low limit_15</name>
+      <text>Motor steps</text>
+      <x>225</x>
+      <y>14</y>
+      <width>110</width>
+      <height>14</height>
+      <foreground_color>
+        <color red="131" green="165" blue="152">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color name="Read_Foreground" red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="rectangle" version="2.0.0">
+      <name>Rounded Rectangle_7</name>
+      <macros>
+        <pv_name></pv_name>
+      </macros>
+      <x>2</x>
+      <y>72</y>
+      <width>320</width>
+      <height>44</height>
+      <line_width>0</line_width>
+      <line_color>
+        <color name="GRID" red="90" green="90" blue="90">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="60" green="56" blue="54">
+        </color>
+      </background_color>
+      <corner_width>16</corner_width>
+      <corner_height>16</corner_height>
+      <actions>
+      </actions>
+      <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+    </widget>
+    <widget type="rectangle" version="2.0.0">
+      <name>Rounded Rectangle_8</name>
+      <macros>
+        <pv_name></pv_name>
+      </macros>
+      <x>2</x>
+      <y>127</y>
+      <width>320</width>
+      <height>44</height>
+      <line_width>0</line_width>
+      <line_color>
+        <color name="GRID" red="90" green="90" blue="90">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="60" green="56" blue="54">
+        </color>
+      </background_color>
+      <corner_width>16</corner_width>
+      <corner_height>16</corner_height>
+      <actions>
+      </actions>
+      <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Entry_42</name>
+      <pv_name>$(device)REFERENCE-FORWARD-LIMIT-SWITCH</pv_name>
+      <x>12</x>
+      <y>85</y>
+      <width>102</width>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="80" green="73" blue="69">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Entry_63</name>
+      <pv_name>$(device)REFERENCE-MOTOR-LIMIT-SWITCH</pv_name>
+      <x>225</x>
+      <y>137</y>
+      <width>90</width>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="80" green="73" blue="69">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Entry_64</name>
+      <pv_name>$(device)REFERENCE-PIANO-LIMIT-SWITCH</pv_name>
+      <x>124</x>
+      <y>137</y>
+      <width>90</width>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="80" green="73" blue="69">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Entry_65</name>
+      <pv_name>$(device)REFERENCE-BACKWARD-LIMIT-SWITCH</pv_name>
+      <x>12</x>
+      <y>137</y>
+      <width>102</width>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="80" green="73" blue="69">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>low limit_16</name>
+      <text>Reference forward limit switch</text>
+      <x>12</x>
+      <y>65</y>
+      <width>275</width>
+      <height>14</height>
+      <foreground_color>
+        <color red="131" green="165" blue="152">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color name="Read_Foreground" red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>low limit_17</name>
+      <text>Reference backward limit switch</text>
+      <x>12</x>
+      <y>118</y>
+      <width>275</width>
+      <height>14</height>
+      <foreground_color>
+        <color red="131" green="165" blue="152">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color name="Read_Foreground" red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Motor menus</name>
+      <actions>
+        <action type="write_pv">
+          <pv_name>$(pv_name)</pv_name>
+          <value>1</value>
+          <description>WritePV</description>
+        </action>
+      </actions>
+      <pv_name>$(device)CALIBRATE-ANALOG</pv_name>
+      <text>Auto</text>
+      <x>32</x>
+      <y>192</y>
+      <width>55</width>
+      <height>25</height>
+      <foreground_color>
+        <color red="40" green="40" blue="40">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="146" green="131" blue="116">
+        </color>
+      </background_color>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Motor menus_1</name>
+      <actions>
+        <action type="write_pv">
+          <pv_name>$(pv_name)</pv_name>
+          <value>1</value>
+          <description>WritePV</description>
+        </action>
+      </actions>
+      <pv_name>$(device)CALIBRATE-PIANO</pv_name>
+      <text>Auto</text>
+      <x>142</x>
+      <y>192</y>
+      <width>55</width>
+      <height>25</height>
+      <foreground_color>
+        <color red="40" green="40" blue="40">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="146" green="131" blue="116">
+        </color>
+      </background_color>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Motor menus_2</name>
+      <actions>
+        <action type="write_pv">
+          <pv_name>$(pv_name)</pv_name>
+          <value>1</value>
+          <description>WritePV</description>
+        </action>
+      </actions>
+      <pv_name>$(device)CALIBRATE-MOTOR</pv_name>
+      <text>Auto</text>
+      <x>247</x>
+      <y>192</y>
+      <width>55</width>
+      <height>25</height>
+      <foreground_color>
+        <color red="40" green="40" blue="40">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="146" green="131" blue="116">
+        </color>
+      </background_color>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Motor menus_3</name>
+      <actions>
+        <action type="write_pv">
+          <pv_name>$(pv_name)</pv_name>
+          <value>1</value>
+          <description>WritePV</description>
+        </action>
+      </actions>
+      <pv_name>$(device)CALIBRATE-ALL</pv_name>
+      <text>Calibrate all</text>
+      <x>62</x>
+      <y>232</y>
+      <width>205</width>
+      <height>25</height>
+      <foreground_color>
+        <color red="40" green="40" blue="40">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="146" green="131" blue="116">
+        </color>
+      </background_color>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>0</name>
+      <text> 0</text>
+      <x>124</x>
+      <y>85</y>
+      <width>90</width>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="80" green="73" blue="69">
+        </color>
+      </background_color>
+      <transparent>false</transparent>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>0_1</name>
+      <text> 0</text>
+      <x>225</x>
+      <y>85</y>
+      <width>90</width>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="80" green="73" blue="69">
+        </color>
+      </background_color>
+      <transparent>false</transparent>
+    </widget>
   </widget>
 </display>

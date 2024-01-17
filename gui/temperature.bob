@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Saved on 2023-12-22 14:24:14 by javier-->
+<!--Saved on 2024-01-17 10:31:40 by javier-->
 <display version="2.0.0">
   <name>temperature_rge</name>
   <macros>
@@ -65,7 +65,7 @@
       </point>
     </points>
     <line_color>
-      <color red="235" green="219" blue="178">
+      <color red="24" green="48" blue="196">
       </color>
     </line_color>
   </widget>
@@ -82,169 +82,16 @@
       </point>
     </points>
     <line_color>
-      <color red="235" green="219" blue="178">
+      <color red="191" green="0" blue="0">
       </color>
     </line_color>
-  </widget>
-  <widget type="group" version="2.0.0">
-    <name>Comm Status</name>
-    <x>360</x>
-    <y>20</y>
-    <width>230</width>
-    <height>131</height>
-    <font>
-      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
-      </font>
-    </font>
-    <foreground_color>
-      <color red="131" green="165" blue="152">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color name="OPI_Background" red="50" green="50" blue="50">
-      </color>
-    </background_color>
-    <transparent>true</transparent>
-    <actions>
-    </actions>
-    <widget type="rectangle" version="2.0.0">
-      <name>Rounded Rectangle_2</name>
-      <macros>
-        <pv_name></pv_name>
-      </macros>
-      <width>200</width>
-      <height>45</height>
-      <line_width>0</line_width>
-      <line_color>
-        <color name="GRID" red="90" green="90" blue="90">
-        </color>
-      </line_color>
-      <background_color>
-        <color red="80" green="73" blue="69">
-        </color>
-      </background_color>
-      <corner_width>16</corner_width>
-      <corner_height>16</corner_height>
-      <actions>
-      </actions>
-      <tooltip>$(pv_name)
-$(pv_value)</tooltip>
-    </widget>
-    <widget type="label" version="2.0.0">
-      <name>IOC heartbeat</name>
-      <text>IOC Heartbeat</text>
-      <x>20</x>
-      <y>15</y>
-      <width>120</width>
-      <height>15</height>
-      <foreground_color>
-        <color red="235" green="219" blue="178">
-        </color>
-      </foreground_color>
-      <background_color>
-        <color name="Read_Foreground" red="255" green="255" blue="255">
-        </color>
-      </background_color>
-      <vertical_alignment>1</vertical_alignment>
-      <wrap_words>false</wrap_words>
-      <actions>
-      </actions>
-      <border_color>
-        <color red="0" green="128" blue="255">
-        </color>
-      </border_color>
-    </widget>
-    <widget type="rectangle" version="2.0.0">
-      <name>Rounded Rectangle_1</name>
-      <macros>
-        <pv_name></pv_name>
-      </macros>
-      <y>56</y>
-      <width>200</width>
-      <height>45</height>
-      <line_width>0</line_width>
-      <line_color>
-        <color name="GRID" red="90" green="90" blue="90">
-        </color>
-      </line_color>
-      <background_color>
-        <color red="80" green="73" blue="69">
-        </color>
-      </background_color>
-      <corner_width>16</corner_width>
-      <corner_height>16</corner_height>
-      <actions>
-      </actions>
-      <tooltip>$(pv_name)
-$(pv_value)</tooltip>
-    </widget>
-    <widget type="label" version="2.0.0">
-      <name>Controller status</name>
-      <text>Controller Status</text>
-      <x>20</x>
-      <y>71</y>
-      <width>120</width>
-      <height>15</height>
-      <foreground_color>
-        <color red="235" green="219" blue="178">
-        </color>
-      </foreground_color>
-      <background_color>
-        <color name="Read_Foreground" red="255" green="255" blue="255">
-        </color>
-      </background_color>
-      <vertical_alignment>1</vertical_alignment>
-      <wrap_words>false</wrap_words>
-      <actions>
-      </actions>
-      <border_color>
-        <color red="0" green="128" blue="255">
-        </color>
-      </border_color>
-    </widget>
-    <widget type="led" version="2.0.0">
-      <name>IOC down alert</name>
-      <pv_name>$(P)$(M)_:TEMPERATURE-IOC-HEARTBEAT</pv_name>
-      <x>160</x>
-      <y>12</y>
-      <off_color>
-        <color red="251" green="73" blue="52">
-        </color>
-      </off_color>
-      <on_color>
-        <color red="184" green="187" blue="38">
-        </color>
-      </on_color>
-      <square>true</square>
-      <actions>
-      </actions>
-      <border_alarm_sensitive>false</border_alarm_sensitive>
-    </widget>
-    <widget type="led" version="2.0.0">
-      <name>Comm error alert</name>
-      <pv_name>$(P)$(M)_:LAKESHORE-CONNECTION</pv_name>
-      <x>160</x>
-      <y>68</y>
-      <off_color>
-        <color red="251" green="73" blue="52">
-        </color>
-      </off_color>
-      <on_color>
-        <color red="184" green="187" blue="38">
-        </color>
-      </on_color>
-      <square>true</square>
-      <actions>
-      </actions>
-      <border_alarm_sensitive>false</border_alarm_sensitive>
-    </widget>
   </widget>
   <widget type="group" version="2.0.0">
     <name>Potentiometer window</name>
     <x>160</x>
     <y>430</y>
     <width>342</width>
-    <height>140</height>
+    <height>150</height>
     <foreground_color>
       <color name="Transparent" red="255" green="255" blue="255" alpha="0">
       </color>
@@ -256,9 +103,8 @@ $(pv_value)</tooltip>
     <widget type="rectangle" version="2.0.0">
       <name>Rectangle_5</name>
       <x>2</x>
-      <y>-18</y>
       <width>310</width>
-      <height>110</height>
+      <height>122</height>
       <line_width>2</line_width>
       <line_color>
         <color red="131" green="165" blue="152">
@@ -285,10 +131,6 @@ $(pv_value)</tooltip>
       <y>10</y>
       <width>80</width>
       <height>20</height>
-      <foreground_color>
-        <color red="235" green="219" blue="178">
-        </color>
-      </foreground_color>
       <background_color>
         <color red="146" green="131" blue="116">
         </color>
@@ -414,7 +256,7 @@ $(pv_value)</tooltip>
     <x>15</x>
     <y>53</y>
     <width>310</width>
-    <height>110</height>
+    <height>122</height>
     <line_width>2</line_width>
     <line_color>
       <color red="131" green="165" blue="152">
