@@ -91,7 +91,8 @@ reference_motor_limit_switch = builder.boolIn('REFERENCE-MOTOR-LIMIT-SWITCH', in
 calibrate_analog_pv = builder.boolOut('CALIBRATE-ANALOG', initial_value = False, on_update = lambda v: calibrate_analog(v))
 calibrate_piano_pv = builder.boolOut('CALIBRATE-PIANO', initial_value = False, on_update = lambda v: calibrate_piano(v))
 calibrate_motor_pv = builder.boolOut('CALIBRATE-MOTOR', initial_value = False, on_update = lambda v: calibrate_motor(v))
-calibrate_all_pv = builder.boolOut('CALIBRATE-ANALOG', initial_value = False, on_update = lambda v: calibrate_all(v))
+calibrate_all_pv = builder.boolOut('CALIBRATE-ALL', initial_value = False, on_update = lambda v: calibrate_all(v))
+auto_calibration_pv = builder.boolOut('AUTO-CALIBRATION', initial_value = False)
 
 ## Positions for each target being centered on beamline.
 target_positions = [builder.aOut('TARGET-POSITION0', initial_value = 850),
@@ -186,7 +187,6 @@ def move_to(value):
         piezomotor_connection.set(False, severity = alarm.MAJOR_ALARM, alarm = alarm.COMM_ALARM)
     return True
 
-
 async def stop(should_stop = True):
     if not should_stop:
         return
@@ -205,6 +205,24 @@ async def stop(should_stop = True):
 async def set_speed(speed):
     if motor_slow_speed.get() > speed:
         motor_slow_speed.set(speed)
+
+# returns only when movement has ended (must be awaited).
+async def sync_move(steps = 0):
+    if not move_to(steps):
+        return False;
+    is_moving = True
+    while is_moving:
+        try:
+            with serial.Serial(controller_port.get(), baud_rate.get()) as connection:
+                connection.write(("X1U\r").encode("ascii"))
+                is_moving = int(re.match(".*\d\d\d(\d)", connection.read_until(b"\r").decode().strip().split(":")[1]).groups()[0]) % 2 == 1
+        except OSError as e:
+            print("Error connecting to PiezoMotor controller.")
+            print(e)
+            piezomotor_connection.set(False, severity = alarm.MAJOR_ALARM, alarm = alarm.COMM_ALARM)
+            return False;
+        await asyncio.sleep(0.001)
+    return True;
 
 # Common movement logic, encoder independent
 async def go_to(position_index, should_go = False):
@@ -253,6 +271,8 @@ async def set_target_position(value=-float("inf")):
         print("Not enough parameters for target position setting")
         return
     user_stop.set(False)
+    if auto_calibration_pv.get():
+        await calibrate_analog()
     try:
         motor_is_moving.set(True)
         while abs(ads.readDifferential_0_1() - (value + overstep)) > 500 and not user_stop.get():
@@ -325,19 +345,8 @@ async def piano_go_to(position_index = -float("inf")):
         j = 0
         while suma == last_piano:
             j += 1
-            if not move_to(-10):
+            if not await sync_move(-10):
                 return
-            is_moving = True
-            while is_moving:
-                await asyncio.sleep(0.01)
-                try:
-                    with serial.Serial(controller_port.get(), baud_rate.get()) as connection:
-                        connection.write(("X1U\r").encode("ascii"))
-                        is_moving = int(re.match(".*\d\d\d(\d)", connection.read_until(b"\r").decode().strip().split(":")[1]).groups()[0]) % 2 == 1
-                except OSError as e:
-                    print("Error connecting to PiezoMotor controller.")
-                    print(e)
-                    piezomotor_connection.set(False, severity = alarm.MAJOR_ALARM, alarm = alarm.COMM_ALARM)
             suma = 0
             for i in range(10):
                 suma += gpio.input(PIANO_PIN)
@@ -370,6 +379,8 @@ async def piano_go_to(position_index = -float("inf")):
 async def motor_go_to(position_index):
     user_stop.set(False)
     motor_is_moving.set(True)
+    if auto_calibration_pv.get():
+        await calibrate_motor()
     while not (cs_x_limit.get() or user_stop.get()):
         if not move_to(100):
             return
@@ -407,6 +418,8 @@ async def dual_go_to(position_index = -float("inf")):
         return
     user_stop.set(False)
     motor_is_moving.set(True)
+    if auto_calibration_pv.get():
+        await calibrate_all()
     while not (cs_x_limit.get() or user_stop.get()):
         if not move_to(100):
             return
@@ -457,19 +470,8 @@ async def dual_go_to(position_index = -float("inf")):
         calculated_steps = ((value - mean)) * motor_gain.get()
         if(calculated_steps > 0):
             break
-        if not move_to(calculated_steps):
+        if not await sync_move(calculated_steps):
             return
-        is_moving = True
-        while is_moving:
-            try:
-                with serial.Serial(controller_port.get(), baud_rate.get()) as connection:
-                    connection.write(("X1U\r").encode("ascii"))
-                    is_moving = int(re.match(".*\d\d\d(\d)", connection.read_until(b"\r").decode().strip().split(":")[1]).groups()[0]) % 2 == 1
-            except OSError as e:
-                print("Error connecting to PiezoMotor controller.")
-                print(e)
-                piezomotor_connection.set(False, severity = alarm.MAJOR_ALARM, alarm = alarm.COMM_ALARM)
-            await asyncio.sleep(0.01)
         mean = 0
         suma = 0
         noise_sup = noise_supression.get()
@@ -517,9 +519,8 @@ async def calibrate_analog(should_go = True):
     found_forward_limit = noisy
     
     while not (cs_x_limit.get() or user_stop.get()):
-        if not move_to(100):
+        if not await sync_move(-100):
             return
-        await asyncio.sleep(0.1)
     found_backward_limit = 0
     mean = 0
     noisy = int(noise_supression.get())
@@ -550,26 +551,14 @@ async def calibrate_piano(should_go = True):
     piano_encoder_reading.set(0)
     motor_steps_given.set(0)
     
-    piano_steps =
     suma = gpio.input(PIANO_PIN)
     while not (backward_limit_switch.get() or user_stop.get()):
         last_piano = suma
         j = 0
         while suma == last_piano:
             j += 1
-            if not move_to(-10):
+            if not await sync_move(-10):
                 return
-            is_moving = True
-            while is_moving:
-                await asyncio.sleep(0.01)
-                try:
-                    with serial.Serial(controller_port.get(), baud_rate.get()) as connection:
-                        connection.write(("X1U\r").encode("ascii"))
-                        is_moving = int(re.match(".*\d\d\d(\d)", connection.read_until(b"\r").decode().strip().split(":")[1]).groups()[0]) % 2 == 1
-                except OSError as e:
-                    print("Error connecting to PiezoMotor controller.")
-                    print(e)
-                    piezomotor_connection.set(False, severity = alarm.MAJOR_ALARM, alarm = alarm.COMM_ALARM)
             suma = 0
             for i in range(10):
                 suma += gpio.input(PIANO_PIN)
@@ -643,7 +632,7 @@ async def calibrate_all(should_go = True, skip = 10_000):
             return
         await asyncio.sleep(0.1)
     piano_encoder_reading.set(0)
-    found_forward_limit = 0reference_motor_limit_switch
+    found_forward_limit = reference_motor_limit_switch.get()
     mean = 0
     noisy = int(noise_supression.get())
     for i in range(noisy):
