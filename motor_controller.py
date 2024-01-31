@@ -122,6 +122,10 @@ target_motor_positions = [builder.aOut('TARGET-MOTOR-POSITION0', initial_value =
                     builder.aOut('TARGET-MOTOR-POSITION6', initial_value = -150)
                    ]
 
+analog_offset = builder.aOut('ANALOG-OFFSET', initial_value = 0, on_update = lambda v: apply_offset(v, target_positions))
+piano_offset = builder.aOut('PIANO-OFFSET', initial_value = 0, on_update = lambda v: apply_offset(v, target_piano_positions))
+motor_offset = builder.aOut('MOTOR-OFFSET', initial_value = 0, on_update = lambda v: apply_offset(v, target_motor_positions))
+
 go_tos = [builder.boolOut('GO-TO-TARGET-POSITION0', initial_value = False, on_update = lambda v: go_to(0, v)),
           builder.boolOut('GO-TO-TARGET-POSITION1', initial_value = False, on_update = lambda v: go_to(1, v)),
           builder.boolOut('GO-TO-TARGET-POSITION2', initial_value = False, on_update = lambda v: go_to(2, v)),
@@ -673,6 +677,14 @@ async def calibrate_all(should_go = True, skip = 10_000):
     reference_forward_limit_switch.set(found_forward_limit)
     motor_is_moving.set(False)
     calibrate_all_pv.set(False)
+    return;
+
+async def apply_offset(offset_pv, value, lista):
+    for pv in lista:
+        pv.set(pv.get() + value)
+    analog_offset.set(0)
+    piano_offset.set(0)
+    motor_offset.set(0)
     return;
 
 # Diagnostic funtions

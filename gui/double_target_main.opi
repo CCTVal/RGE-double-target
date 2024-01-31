@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--Saved on 2024-01-30 16:34:23 by javier-->
-<display version="2.0.0">
+<?xml version="1.0" encoding="utf-8"?>
+<display typeId="org.csstudio.opibuilder.Display" version="2.0.0">
   <name>double_target_main</name>
   <macros>
     <device>CCTVAL_DT_PMD301:</device>
@@ -10,14 +9,14 @@
   <width>900</width>
   <height>400</height>
   <background_color>
-    <color red="40" green="40" blue="40">
+    <color blue="40" green="40" red="40">
     </color>
   </background_color>
   <actions>
   </actions>
   <grid_step_x>5</grid_step_x>
   <grid_step_y>5</grid_step_y>
-  <widget type="action_button" version="3.0.0">
+  <widget type="action_button" typeId="org.csstudio.opibuilder.widgets.ActionButton" version="3.0.0">
     <name>Stop</name>
     <actions>
       <action type="write_pv">
@@ -31,16 +30,16 @@
     <x>60</x>
     <y>50</y>
     <foreground_color>
-      <color red="40" green="40" blue="40">
+      <color blue="40" green="40" red="40">
       </color>
     </foreground_color>
     <background_color>
-      <color red="251" green="73" blue="52">
+      <color blue="52" green="73" red="251">
       </color>
     </background_color>
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
-  <widget type="label" version="2.0.0">
+  <widget type="label" typeId="org.csstudio.opibuilder.widgets.Label" version="2.0.0">
     <name>Title</name>
     <text>RG-E Target</text>
     <x>10</x>
@@ -48,11 +47,11 @@
     <width>180</width>
     <height>30</height>
     <font>
-      <font name="Header 1" family="Liberation Sans" style="BOLD" size="22.0">
+      <font family="Liberation Sans" name="Header 1" size="22.0" style="BOLD">
       </font>
     </font>
     <foreground_color>
-      <color red="235" green="219" blue="178">
+      <color blue="178" green="219" red="235">
       </color>
     </foreground_color>
     <horizontal_alignment>1</horizontal_alignment>
@@ -61,46 +60,46 @@
     <actions>
     </actions>
     <border_color>
-      <color red="0" green="128" blue="255">
+      <color blue="255" green="128" red="0">
       </color>
     </border_color>
   </widget>
-  <widget type="group" version="2.0.0">
+  <widget type="group" typeId="org.csstudio.opibuilder.widgets.groupingContainer" version="2.0.0">
     <name>Motor Position</name>
     <x>480</x>
     <y>25</y>
     <width>285</width>
     <height>363</height>
     <font>
-      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      <font family="Liberation Sans" name="Default Bold" size="14.0" style="BOLD">
       </font>
     </font>
     <foreground_color>
-      <color red="131" green="165" blue="152">
+      <color blue="152" green="165" red="131">
       </color>
     </foreground_color>
     <background_color>
-      <color name="OPI_Background" red="50" green="50" blue="50">
+      <color blue="50" green="50" name="OPI_Background" red="50">
       </color>
     </background_color>
     <transparent>true</transparent>
     <actions>
     </actions>
-    <widget type="rectangle" version="2.0.0">
+    <widget type="rectangle" typeId="org.csstudio.opibuilder.widgets.Rectangle" version="2.0.0">
       <name>Rounded Rectangle_2</name>
       <macros>
-        <pv_name></pv_name>
+        <pv_name/>
       </macros>
       <y>210</y>
       <width>200</width>
       <height>44</height>
       <line_width>0</line_width>
       <line_color>
-        <color name="GRID" red="90" green="90" blue="90">
+        <color blue="90" green="90" name="GRID" red="90">
         </color>
       </line_color>
       <background_color>
-        <color red="60" green="56" blue="54">
+        <color blue="54" green="56" red="60">
         </color>
       </background_color>
       <corner_width>16</corner_width>
@@ -110,7 +109,7 @@
       <tooltip>$(pv_name)
 $(pv_value)</tooltip>
     </widget>
-    <widget type="label" version="2.0.0">
+    <widget type="label" typeId="org.csstudio.opibuilder.widgets.Label" version="2.0.0">
       <name>low limit</name>
       <text>Low Limit</text>
       <x>20</x>
@@ -118,11 +117,11 @@ $(pv_value)</tooltip>
       <width>110</width>
       <height>14</height>
       <foreground_color>
-        <color red="131" green="165" blue="152">
+        <color blue="152" green="165" red="131">
         </color>
       </foreground_color>
       <background_color>
-        <color name="Read_Foreground" red="255" green="255" blue="255">
+        <color blue="255" green="255" name="Read_Foreground" red="255">
         </color>
       </background_color>
       <vertical_alignment>1</vertical_alignment>
@@ -130,11 +129,11 @@ $(pv_value)</tooltip>
       <actions>
       </actions>
       <border_color>
-        <color red="0" green="128" blue="255">
+        <color blue="255" green="128" red="0">
         </color>
       </border_color>
     </widget>
-    <widget type="textupdate" version="2.0.0">
+    <widget type="textupdate" typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="2.0.0">
       <name>Lower limit</name>
       <pv_name>$(device)BACKWARD-LIMIT-SWITCH-POSITION</pv_name>
       <x>20</x>
@@ -142,11 +141,11 @@ $(pv_value)</tooltip>
       <width>120</width>
       <height>19</height>
       <foreground_color>
-        <color red="235" green="219" blue="178">
+        <color blue="178" green="219" red="235">
         </color>
       </foreground_color>
       <background_color>
-        <color red="80" green="73" blue="69">
+        <color blue="69" green="73" red="80">
         </color>
       </background_color>
       <horizontal_alignment>1</horizontal_alignment>
@@ -155,22 +154,22 @@ $(pv_value)</tooltip>
       <actions>
       </actions>
       <border_color>
-        <color red="0" green="128" blue="255">
+        <color blue="255" green="128" red="0">
         </color>
       </border_color>
     </widget>
-    <widget type="led" version="2.0.0">
+    <widget type="led" typeId="org.csstudio.opibuilder.widgets.LED" version="2.0.0">
       <name>At low limit</name>
       <pv_name>$(device)BACKWARD-LIMIT-SWITCH</pv_name>
       <x>160</x>
       <y>221</y>
       <height>19</height>
       <off_color>
-        <color red="40" green="40" blue="40">
+        <color blue="40" green="40" red="40">
         </color>
       </off_color>
       <on_color>
-        <color red="251" green="73" blue="52">
+        <color blue="52" green="73" red="251">
         </color>
       </on_color>
       <square>true</square>
@@ -178,21 +177,21 @@ $(pv_value)</tooltip>
       </actions>
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
-    <widget type="rectangle" version="2.0.0">
+    <widget type="rectangle" typeId="org.csstudio.opibuilder.widgets.Rectangle" version="2.0.0">
       <name>Rounded Rectangle_3</name>
       <macros>
-        <pv_name></pv_name>
+        <pv_name/>
       </macros>
       <y>265</y>
       <width>200</width>
       <height>44</height>
       <line_width>0</line_width>
       <line_color>
-        <color name="GRID" red="90" green="90" blue="90">
+        <color blue="90" green="90" name="GRID" red="90">
         </color>
       </line_color>
       <background_color>
-        <color red="60" green="56" blue="54">
+        <color blue="54" green="56" red="60">
         </color>
       </background_color>
       <corner_width>16</corner_width>
@@ -202,7 +201,7 @@ $(pv_value)</tooltip>
       <tooltip>$(pv_name)
 $(pv_value)</tooltip>
     </widget>
-    <widget type="label" version="2.0.0">
+    <widget type="label" typeId="org.csstudio.opibuilder.widgets.Label" version="2.0.0">
       <name>high limit</name>
       <text>High Limit</text>
       <x>20</x>
@@ -210,11 +209,11 @@ $(pv_value)</tooltip>
       <width>110</width>
       <height>14</height>
       <foreground_color>
-        <color red="131" green="165" blue="152">
+        <color blue="152" green="165" red="131">
         </color>
       </foreground_color>
       <background_color>
-        <color name="Read_Foreground" red="255" green="255" blue="255">
+        <color blue="255" green="255" name="Read_Foreground" red="255">
         </color>
       </background_color>
       <vertical_alignment>1</vertical_alignment>
@@ -222,11 +221,11 @@ $(pv_value)</tooltip>
       <actions>
       </actions>
       <border_color>
-        <color red="0" green="128" blue="255">
+        <color blue="255" green="128" red="0">
         </color>
       </border_color>
     </widget>
-    <widget type="textupdate" version="2.0.0">
+    <widget type="textupdate" typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="2.0.0">
       <name>Higher Limit</name>
       <pv_name>$(device)FORWARD-LIMIT-SWITCH-POSITION</pv_name>
       <x>20</x>
@@ -234,11 +233,11 @@ $(pv_value)</tooltip>
       <width>120</width>
       <height>19</height>
       <foreground_color>
-        <color red="235" green="219" blue="178">
+        <color blue="178" green="219" red="235">
         </color>
       </foreground_color>
       <background_color>
-        <color red="80" green="73" blue="69">
+        <color blue="69" green="73" red="80">
         </color>
       </background_color>
       <horizontal_alignment>1</horizontal_alignment>
@@ -247,22 +246,22 @@ $(pv_value)</tooltip>
       <actions>
       </actions>
       <border_color>
-        <color red="0" green="128" blue="255">
+        <color blue="255" green="128" red="0">
         </color>
       </border_color>
     </widget>
-    <widget type="led" version="2.0.0">
+    <widget type="led" typeId="org.csstudio.opibuilder.widgets.LED" version="2.0.0">
       <name>At high limit</name>
       <pv_name>$(device)FORWARD-LIMIT-SWITCH</pv_name>
       <x>160</x>
       <y>277</y>
       <height>19</height>
       <off_color>
-        <color red="40" green="40" blue="40">
+        <color blue="40" green="40" red="40">
         </color>
       </off_color>
       <on_color>
-        <color red="251" green="73" blue="52">
+        <color blue="52" green="73" red="251">
         </color>
       </on_color>
       <square>true</square>
@@ -270,21 +269,21 @@ $(pv_value)</tooltip>
       </actions>
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
-    <widget type="rectangle" version="2.0.0">
+    <widget type="rectangle" typeId="org.csstudio.opibuilder.widgets.Rectangle" version="2.0.0">
       <name>Rounded Rectangle_4</name>
       <macros>
-        <pv_name></pv_name>
+        <pv_name/>
       </macros>
       <y>80</y>
       <width>165</width>
       <height>44</height>
       <line_width>0</line_width>
       <line_color>
-        <color name="GRID" red="90" green="90" blue="90">
+        <color blue="90" green="90" name="GRID" red="90">
         </color>
       </line_color>
       <background_color>
-        <color red="60" green="56" blue="54">
+        <color blue="54" green="56" red="60">
         </color>
       </background_color>
       <corner_width>16</corner_width>
@@ -294,7 +293,7 @@ $(pv_value)</tooltip>
       <tooltip>$(pv_name)
 $(pv_value)</tooltip>
     </widget>
-    <widget type="label" version="2.0.0">
+    <widget type="label" typeId="org.csstudio.opibuilder.widgets.Label" version="2.0.0">
       <name>low limit_1</name>
       <text>Piano encoder</text>
       <x>20</x>
@@ -302,11 +301,11 @@ $(pv_value)</tooltip>
       <width>110</width>
       <height>14</height>
       <foreground_color>
-        <color red="131" green="165" blue="152">
+        <color blue="152" green="165" red="131">
         </color>
       </foreground_color>
       <background_color>
-        <color name="Read_Foreground" red="255" green="255" blue="255">
+        <color blue="255" green="255" name="Read_Foreground" red="255">
         </color>
       </background_color>
       <vertical_alignment>1</vertical_alignment>
@@ -314,11 +313,11 @@ $(pv_value)</tooltip>
       <actions>
       </actions>
       <border_color>
-        <color red="0" green="128" blue="255">
+        <color blue="255" green="128" red="0">
         </color>
       </border_color>
     </widget>
-    <widget type="textupdate" version="2.0.0">
+    <widget type="textupdate" typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="2.0.0">
       <name>Lower limit_1</name>
       <pv_name>$(device)PIANO-ENCODER-READING</pv_name>
       <x>20</x>
@@ -326,11 +325,11 @@ $(pv_value)</tooltip>
       <width>120</width>
       <height>19</height>
       <foreground_color>
-        <color red="235" green="219" blue="178">
+        <color blue="178" green="219" red="235">
         </color>
       </foreground_color>
       <background_color>
-        <color red="80" green="73" blue="69">
+        <color blue="69" green="73" red="80">
         </color>
       </background_color>
       <horizontal_alignment>1</horizontal_alignment>
@@ -339,25 +338,25 @@ $(pv_value)</tooltip>
       <actions>
       </actions>
       <border_color>
-        <color red="0" green="128" blue="255">
+        <color blue="255" green="128" red="0">
         </color>
       </border_color>
     </widget>
-    <widget type="rectangle" version="2.0.0">
+    <widget type="rectangle" typeId="org.csstudio.opibuilder.widgets.Rectangle" version="2.0.0">
       <name>Rounded Rectangle_5</name>
       <macros>
-        <pv_name></pv_name>
+        <pv_name/>
       </macros>
       <y>14</y>
       <width>165</width>
       <height>44</height>
       <line_width>0</line_width>
       <line_color>
-        <color name="GRID" red="90" green="90" blue="90">
+        <color blue="90" green="90" name="GRID" red="90">
         </color>
       </line_color>
       <background_color>
-        <color red="60" green="56" blue="54">
+        <color blue="54" green="56" red="60">
         </color>
       </background_color>
       <corner_width>16</corner_width>
@@ -367,7 +366,7 @@ $(pv_value)</tooltip>
       <tooltip>$(pv_name)
 $(pv_value)</tooltip>
     </widget>
-    <widget type="label" version="2.0.0">
+    <widget type="label" typeId="org.csstudio.opibuilder.widgets.Label" version="2.0.0">
       <name>low limit_2</name>
       <text>Analog encoder</text>
       <x>20</x>
@@ -375,11 +374,11 @@ $(pv_value)</tooltip>
       <width>110</width>
       <height>14</height>
       <foreground_color>
-        <color red="131" green="165" blue="152">
+        <color blue="152" green="165" red="131">
         </color>
       </foreground_color>
       <background_color>
-        <color name="Read_Foreground" red="255" green="255" blue="255">
+        <color blue="255" green="255" name="Read_Foreground" red="255">
         </color>
       </background_color>
       <vertical_alignment>1</vertical_alignment>
@@ -387,11 +386,11 @@ $(pv_value)</tooltip>
       <actions>
       </actions>
       <border_color>
-        <color red="0" green="128" blue="255">
+        <color blue="255" green="128" red="0">
         </color>
       </border_color>
     </widget>
-    <widget type="textupdate" version="2.0.0">
+    <widget type="textupdate" typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="2.0.0">
       <name>Lower limit_2</name>
       <pv_name>$(device)MAIN-ENCODER-READING</pv_name>
       <x>20</x>
@@ -399,11 +398,11 @@ $(pv_value)</tooltip>
       <width>120</width>
       <height>19</height>
       <foreground_color>
-        <color red="235" green="219" blue="178">
+        <color blue="178" green="219" red="235">
         </color>
       </foreground_color>
       <background_color>
-        <color red="80" green="73" blue="69">
+        <color blue="69" green="73" red="80">
         </color>
       </background_color>
       <horizontal_alignment>1</horizontal_alignment>
@@ -412,11 +411,11 @@ $(pv_value)</tooltip>
       <actions>
       </actions>
       <border_color>
-        <color red="0" green="128" blue="255">
+        <color blue="255" green="128" red="0">
         </color>
       </border_color>
     </widget>
-    <widget type="label" version="2.0.0">
+    <widget type="label" typeId="org.csstudio.opibuilder.widgets.Label" version="2.0.0">
       <name>Moving</name>
       <text>Moving</text>
       <x>180</x>
@@ -424,11 +423,11 @@ $(pv_value)</tooltip>
       <width>70</width>
       <height>25</height>
       <font>
-        <font family="Sans" style="REGULAR" size="14.851485148514852">
+        <font family="Sans" size="14.851485148514852" style="REGULAR">
         </font>
       </font>
       <foreground_color>
-        <color red="184" green="187" blue="38">
+        <color blue="38" green="187" red="184">
         </color>
       </foreground_color>
       <horizontal_alignment>1</horizontal_alignment>
@@ -437,7 +436,7 @@ $(pv_value)</tooltip>
       <actions>
       </actions>
       <rules>
-        <rule name="Visibility" prop_id="text" out_exp="false">
+        <rule name="Visibility" out_exp="false" prop_id="text">
           <exp bool_exp="pv0">
             <value>Moving</value>
           </exp>
@@ -448,25 +447,25 @@ $(pv_value)</tooltip>
         </rule>
       </rules>
       <border_color>
-        <color red="0" green="128" blue="255">
+        <color blue="255" green="128" red="0">
         </color>
       </border_color>
     </widget>
-    <widget type="rectangle" version="2.0.0">
+    <widget type="rectangle" typeId="org.csstudio.opibuilder.widgets.Rectangle" version="2.0.0">
       <name>Rounded Rectangle_6</name>
       <macros>
-        <pv_name></pv_name>
+        <pv_name/>
       </macros>
       <y>145</y>
       <width>165</width>
       <height>44</height>
       <line_width>0</line_width>
       <line_color>
-        <color name="GRID" red="90" green="90" blue="90">
+        <color blue="90" green="90" name="GRID" red="90">
         </color>
       </line_color>
       <background_color>
-        <color red="60" green="56" blue="54">
+        <color blue="54" green="56" red="60">
         </color>
       </background_color>
       <corner_width>16</corner_width>
@@ -476,7 +475,7 @@ $(pv_value)</tooltip>
       <tooltip>$(pv_name)
 $(pv_value)</tooltip>
     </widget>
-    <widget type="label" version="2.0.0">
+    <widget type="label" typeId="org.csstudio.opibuilder.widgets.Label" version="2.0.0">
       <name>low limit_6</name>
       <text>Motor steps</text>
       <x>20</x>
@@ -484,11 +483,11 @@ $(pv_value)</tooltip>
       <width>110</width>
       <height>14</height>
       <foreground_color>
-        <color red="131" green="165" blue="152">
+        <color blue="152" green="165" red="131">
         </color>
       </foreground_color>
       <background_color>
-        <color name="Read_Foreground" red="255" green="255" blue="255">
+        <color blue="255" green="255" name="Read_Foreground" red="255">
         </color>
       </background_color>
       <vertical_alignment>1</vertical_alignment>
@@ -496,11 +495,11 @@ $(pv_value)</tooltip>
       <actions>
       </actions>
       <border_color>
-        <color red="0" green="128" blue="255">
+        <color blue="255" green="128" red="0">
         </color>
       </border_color>
     </widget>
-    <widget type="textupdate" version="2.0.0">
+    <widget type="textupdate" typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="2.0.0">
       <name>Lower limit_3</name>
       <pv_name>$(device)MOTOR-STEPS-GIVEN</pv_name>
       <x>20</x>
@@ -508,11 +507,11 @@ $(pv_value)</tooltip>
       <width>120</width>
       <height>19</height>
       <foreground_color>
-        <color red="235" green="219" blue="178">
+        <color blue="178" green="219" red="235">
         </color>
       </foreground_color>
       <background_color>
-        <color red="80" green="73" blue="69">
+        <color blue="69" green="73" red="80">
         </color>
       </background_color>
       <horizontal_alignment>1</horizontal_alignment>
@@ -521,33 +520,33 @@ $(pv_value)</tooltip>
       <actions>
       </actions>
       <border_color>
-        <color red="0" green="128" blue="255">
+        <color blue="255" green="128" red="0">
         </color>
       </border_color>
     </widget>
   </widget>
-  <widget type="group" version="2.0.0">
+  <widget type="group" typeId="org.csstudio.opibuilder.widgets.groupingContainer" version="2.0.0">
     <name>Target Switch</name>
     <x>35</x>
     <y>103</y>
     <width>420</width>
     <height>285</height>
     <font>
-      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      <font family="Liberation Sans" name="Default Bold" size="14.0" style="BOLD">
       </font>
     </font>
     <foreground_color>
-      <color red="131" green="165" blue="152">
+      <color blue="152" green="165" red="131">
       </color>
     </foreground_color>
     <background_color>
-      <color red="40" green="40" blue="40">
+      <color blue="40" green="40" red="40">
       </color>
     </background_color>
     <transparent>true</transparent>
     <actions>
     </actions>
-    <widget type="action_button" version="3.0.0">
+    <widget type="action_button" typeId="org.csstudio.opibuilder.widgets.ActionButton" version="3.0.0">
       <name>Go to pos1</name>
       <actions>
         <action type="write_pv">
@@ -561,18 +560,18 @@ $(pv_value)</tooltip>
       <y>27</y>
       <width>30</width>
       <foreground_color>
-        <color red="40" green="40" blue="40">
+        <color blue="40" green="40" red="40">
         </color>
       </foreground_color>
       <background_color>
-        <color red="146" green="131" blue="116">
+        <color blue="116" green="131" red="146">
         </color>
       </background_color>
       <border_alarm_sensitive>false</border_alarm_sensitive>
       <show_confirm_dialog>true</show_confirm_dialog>
       <confirm_message>Have you received an explicit request from RG-E to switch to A target?</confirm_message>
     </widget>
-    <widget type="action_button" version="3.0.0">
+    <widget type="action_button" typeId="org.csstudio.opibuilder.widgets.ActionButton" version="3.0.0">
       <name>Go to pos2</name>
       <actions>
         <action type="write_pv">
@@ -586,18 +585,18 @@ $(pv_value)</tooltip>
       <y>59</y>
       <width>30</width>
       <foreground_color>
-        <color red="40" green="40" blue="40">
+        <color blue="40" green="40" red="40">
         </color>
       </foreground_color>
       <background_color>
-        <color red="146" green="131" blue="116">
+        <color blue="116" green="131" red="146">
         </color>
       </background_color>
       <border_alarm_sensitive>false</border_alarm_sensitive>
       <show_confirm_dialog>true</show_confirm_dialog>
       <confirm_message>Have you received an explicit request from RG-E to switch to B target?</confirm_message>
     </widget>
-    <widget type="action_button" version="3.0.0">
+    <widget type="action_button" typeId="org.csstudio.opibuilder.widgets.ActionButton" version="3.0.0">
       <name>Go to pos3</name>
       <actions>
         <action type="write_pv">
@@ -611,18 +610,18 @@ $(pv_value)</tooltip>
       <y>91</y>
       <width>30</width>
       <foreground_color>
-        <color red="40" green="40" blue="40">
+        <color blue="40" green="40" red="40">
         </color>
       </foreground_color>
       <background_color>
-        <color red="146" green="131" blue="116">
+        <color blue="116" green="131" red="146">
         </color>
       </background_color>
       <border_alarm_sensitive>false</border_alarm_sensitive>
       <show_confirm_dialog>true</show_confirm_dialog>
       <confirm_message>Have you received an explicit request from RG-E to switch to C target?</confirm_message>
     </widget>
-    <widget type="action_button" version="3.0.0">
+    <widget type="action_button" typeId="org.csstudio.opibuilder.widgets.ActionButton" version="3.0.0">
       <name>Go to pos4</name>
       <actions>
         <action type="write_pv">
@@ -636,18 +635,18 @@ $(pv_value)</tooltip>
       <y>123</y>
       <width>30</width>
       <foreground_color>
-        <color red="40" green="40" blue="40">
+        <color blue="40" green="40" red="40">
         </color>
       </foreground_color>
       <background_color>
-        <color red="146" green="131" blue="116">
+        <color blue="116" green="131" red="146">
         </color>
       </background_color>
       <border_alarm_sensitive>false</border_alarm_sensitive>
       <show_confirm_dialog>true</show_confirm_dialog>
       <confirm_message>Have you received an explicit request from RG-E to switch to D target?</confirm_message>
     </widget>
-    <widget type="action_button" version="3.0.0">
+    <widget type="action_button" typeId="org.csstudio.opibuilder.widgets.ActionButton" version="3.0.0">
       <name>Go to pos5</name>
       <actions>
         <action type="write_pv">
@@ -661,18 +660,18 @@ $(pv_value)</tooltip>
       <y>155</y>
       <width>30</width>
       <foreground_color>
-        <color red="40" green="40" blue="40">
+        <color blue="40" green="40" red="40">
         </color>
       </foreground_color>
       <background_color>
-        <color red="146" green="131" blue="116">
+        <color blue="116" green="131" red="146">
         </color>
       </background_color>
       <border_alarm_sensitive>false</border_alarm_sensitive>
       <show_confirm_dialog>true</show_confirm_dialog>
       <confirm_message>Have you received an explicit request from RG-E to switch to E target?</confirm_message>
     </widget>
-    <widget type="action_button" version="3.0.0">
+    <widget type="action_button" typeId="org.csstudio.opibuilder.widgets.ActionButton" version="3.0.0">
       <name>Go to pos6</name>
       <actions>
         <action type="write_pv">
@@ -686,18 +685,18 @@ $(pv_value)</tooltip>
       <y>187</y>
       <width>30</width>
       <foreground_color>
-        <color red="40" green="40" blue="40">
+        <color blue="40" green="40" red="40">
         </color>
       </foreground_color>
       <background_color>
-        <color red="146" green="131" blue="116">
+        <color blue="116" green="131" red="146">
         </color>
       </background_color>
       <border_alarm_sensitive>false</border_alarm_sensitive>
       <show_confirm_dialog>true</show_confirm_dialog>
       <confirm_message>Have you received an explicit request from RG-E to switch to F target?</confirm_message>
     </widget>
-    <widget type="action_button" version="3.0.0">
+    <widget type="action_button" typeId="org.csstudio.opibuilder.widgets.ActionButton" version="3.0.0">
       <name>Go to pos7</name>
       <actions>
         <action type="write_pv">
@@ -711,29 +710,29 @@ $(pv_value)</tooltip>
       <y>219</y>
       <width>30</width>
       <foreground_color>
-        <color red="40" green="40" blue="40">
+        <color blue="40" green="40" red="40">
         </color>
       </foreground_color>
       <background_color>
-        <color red="146" green="131" blue="116">
+        <color blue="116" green="131" red="146">
         </color>
       </background_color>
       <border_alarm_sensitive>false</border_alarm_sensitive>
       <show_confirm_dialog>true</show_confirm_dialog>
       <confirm_message>Have you received an explicit request from RG-E to switch to G target?</confirm_message>
     </widget>
-    <widget type="textupdate" version="2.0.0">
+    <widget type="textupdate" typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="2.0.0">
       <name>pos1</name>
       <pv_name>$(device)TARGET-POSITION0</pv_name>
       <x>37</x>
       <y>32</y>
       <width>102</width>
       <foreground_color>
-        <color red="235" green="219" blue="178">
+        <color blue="178" green="219" red="235">
         </color>
       </foreground_color>
       <background_color>
-        <color red="80" green="73" blue="69">
+        <color blue="69" green="73" red="80">
         </color>
       </background_color>
       <precision>2</precision>
@@ -743,22 +742,22 @@ $(pv_value)</tooltip>
       <actions>
       </actions>
       <border_color>
-        <color red="0" green="128" blue="255">
+        <color blue="255" green="128" red="0">
         </color>
       </border_color>
     </widget>
-    <widget type="textupdate" version="2.0.0">
+    <widget type="textupdate" typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="2.0.0">
       <name>pos2</name>
       <pv_name>$(device)TARGET-POSITION1</pv_name>
       <x>37</x>
       <y>64</y>
       <width>102</width>
       <foreground_color>
-        <color red="235" green="219" blue="178">
+        <color blue="178" green="219" red="235">
         </color>
       </foreground_color>
       <background_color>
-        <color red="80" green="73" blue="69">
+        <color blue="69" green="73" red="80">
         </color>
       </background_color>
       <precision>2</precision>
@@ -768,22 +767,22 @@ $(pv_value)</tooltip>
       <actions>
       </actions>
       <border_color>
-        <color red="0" green="128" blue="255">
+        <color blue="255" green="128" red="0">
         </color>
       </border_color>
     </widget>
-    <widget type="textupdate" version="2.0.0">
+    <widget type="textupdate" typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="2.0.0">
       <name>pos3</name>
       <pv_name>$(device)TARGET-POSITION2</pv_name>
       <x>37</x>
       <y>96</y>
       <width>102</width>
       <foreground_color>
-        <color red="235" green="219" blue="178">
+        <color blue="178" green="219" red="235">
         </color>
       </foreground_color>
       <background_color>
-        <color red="80" green="73" blue="69">
+        <color blue="69" green="73" red="80">
         </color>
       </background_color>
       <precision>2</precision>
@@ -793,22 +792,22 @@ $(pv_value)</tooltip>
       <actions>
       </actions>
       <border_color>
-        <color red="0" green="128" blue="255">
+        <color blue="255" green="128" red="0">
         </color>
       </border_color>
     </widget>
-    <widget type="textupdate" version="2.0.0">
+    <widget type="textupdate" typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="2.0.0">
       <name>pos4</name>
       <pv_name>$(device)TARGET-POSITION3</pv_name>
       <x>37</x>
       <y>128</y>
       <width>102</width>
       <foreground_color>
-        <color red="235" green="219" blue="178">
+        <color blue="178" green="219" red="235">
         </color>
       </foreground_color>
       <background_color>
-        <color red="80" green="73" blue="69">
+        <color blue="69" green="73" red="80">
         </color>
       </background_color>
       <precision>2</precision>
@@ -818,22 +817,22 @@ $(pv_value)</tooltip>
       <actions>
       </actions>
       <border_color>
-        <color red="0" green="128" blue="255">
+        <color blue="255" green="128" red="0">
         </color>
       </border_color>
     </widget>
-    <widget type="textupdate" version="2.0.0">
+    <widget type="textupdate" typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="2.0.0">
       <name>pos5</name>
       <pv_name>$(device)TARGET-POSITION4</pv_name>
       <x>37</x>
       <y>160</y>
       <width>102</width>
       <foreground_color>
-        <color red="235" green="219" blue="178">
+        <color blue="178" green="219" red="235">
         </color>
       </foreground_color>
       <background_color>
-        <color red="80" green="73" blue="69">
+        <color blue="69" green="73" red="80">
         </color>
       </background_color>
       <precision>2</precision>
@@ -843,22 +842,22 @@ $(pv_value)</tooltip>
       <actions>
       </actions>
       <border_color>
-        <color red="0" green="128" blue="255">
+        <color blue="255" green="128" red="0">
         </color>
       </border_color>
     </widget>
-    <widget type="textupdate" version="2.0.0">
+    <widget type="textupdate" typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="2.0.0">
       <name>pos6</name>
       <pv_name>$(device)TARGET-POSITION5</pv_name>
       <x>37</x>
       <y>192</y>
       <width>102</width>
       <foreground_color>
-        <color red="235" green="219" blue="178">
+        <color blue="178" green="219" red="235">
         </color>
       </foreground_color>
       <background_color>
-        <color red="80" green="73" blue="69">
+        <color blue="69" green="73" red="80">
         </color>
       </background_color>
       <precision>2</precision>
@@ -868,22 +867,22 @@ $(pv_value)</tooltip>
       <actions>
       </actions>
       <border_color>
-        <color red="0" green="128" blue="255">
+        <color blue="255" green="128" red="0">
         </color>
       </border_color>
     </widget>
-    <widget type="textupdate" version="2.0.0">
+    <widget type="textupdate" typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="2.0.0">
       <name>pos7</name>
       <pv_name>$(device)TARGET-POSITION6</pv_name>
       <x>37</x>
       <y>224</y>
       <width>102</width>
       <foreground_color>
-        <color red="235" green="219" blue="178">
+        <color blue="178" green="219" red="235">
         </color>
       </foreground_color>
       <background_color>
-        <color red="80" green="73" blue="69">
+        <color blue="69" green="73" red="80">
         </color>
       </background_color>
       <precision>2</precision>
@@ -893,37 +892,37 @@ $(pv_value)</tooltip>
       <actions>
       </actions>
       <border_color>
-        <color red="0" green="128" blue="255">
+        <color blue="255" green="128" red="0">
         </color>
       </border_color>
     </widget>
-    <widget type="led" version="2.0.0">
+    <widget type="led" typeId="org.csstudio.opibuilder.widgets.LED" version="2.0.0">
       <name>At pos4_7</name>
       <pv_name>$(device)TARGET-POSITION3</pv_name>
       <x>355</x>
       <y>128</y>
       <off_color>
-        <color red="40" green="40" blue="40">
+        <color blue="40" green="40" red="40">
         </color>
       </off_color>
       <on_color>
-        <color red="184" green="187" blue="38">
+        <color blue="38" green="187" red="184">
         </color>
       </on_color>
       <square>true</square>
       <actions>
       </actions>
       <rules>
-        <rule name="New Rule" prop_id="on_color" out_exp="false">
+        <rule name="New Rule" out_exp="false" prop_id="on_color">
           <exp bool_exp="(pv1-200 &lt; pv0) &amp;&amp; (pv0 &lt; pv1+200)">
             <value>
-              <color red="184" green="187" blue="38">
+              <color blue="38" green="187" red="184">
               </color>
             </value>
           </exp>
           <exp bool_exp="!((pv1-200 &lt; pv0) &amp;&amp; (pv0 &lt; pv1+200))">
             <value>
-              <color red="40" green="40" blue="40">
+              <color blue="40" green="40" red="40">
               </color>
             </value>
           </exp>
@@ -933,33 +932,33 @@ $(pv_value)</tooltip>
       </rules>
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
-    <widget type="led" version="2.0.0">
+    <widget type="led" typeId="org.csstudio.opibuilder.widgets.LED" version="2.0.0">
       <name>At pos4_8</name>
       <pv_name>$(device)TARGET-POSITION2</pv_name>
       <x>355</x>
       <y>96</y>
       <off_color>
-        <color red="40" green="40" blue="40">
+        <color blue="40" green="40" red="40">
         </color>
       </off_color>
       <on_color>
-        <color red="184" green="187" blue="38">
+        <color blue="38" green="187" red="184">
         </color>
       </on_color>
       <square>true</square>
       <actions>
       </actions>
       <rules>
-        <rule name="New Rule" prop_id="on_color" out_exp="false">
+        <rule name="New Rule" out_exp="false" prop_id="on_color">
           <exp bool_exp="(pv1-200 &lt; pv0) &amp;&amp; (pv0 &lt; pv1+200)">
             <value>
-              <color red="184" green="187" blue="38">
+              <color blue="38" green="187" red="184">
               </color>
             </value>
           </exp>
           <exp bool_exp="!((pv1-200 &lt; pv0) &amp;&amp; (pv0 &lt; pv1+200))">
             <value>
-              <color red="40" green="40" blue="40">
+              <color blue="40" green="40" red="40">
               </color>
             </value>
           </exp>
@@ -969,33 +968,33 @@ $(pv_value)</tooltip>
       </rules>
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
-    <widget type="led" version="2.0.0">
+    <widget type="led" typeId="org.csstudio.opibuilder.widgets.LED" version="2.0.0">
       <name>At pos4_9</name>
       <pv_name>$(device)TARGET-POSITION1</pv_name>
       <x>355</x>
       <y>64</y>
       <off_color>
-        <color red="40" green="40" blue="40">
+        <color blue="40" green="40" red="40">
         </color>
       </off_color>
       <on_color>
-        <color red="184" green="187" blue="38">
+        <color blue="38" green="187" red="184">
         </color>
       </on_color>
       <square>true</square>
       <actions>
       </actions>
       <rules>
-        <rule name="New Rule" prop_id="on_color" out_exp="false">
+        <rule name="New Rule" out_exp="false" prop_id="on_color">
           <exp bool_exp="(pv1-200 &lt; pv0) &amp;&amp; (pv0 &lt; pv1+200)">
             <value>
-              <color red="184" green="187" blue="38">
+              <color blue="38" green="187" red="184">
               </color>
             </value>
           </exp>
           <exp bool_exp="!((pv1-200 &lt; pv0) &amp;&amp; (pv0 &lt; pv1+200))">
             <value>
-              <color red="40" green="40" blue="40">
+              <color blue="40" green="40" red="40">
               </color>
             </value>
           </exp>
@@ -1005,33 +1004,33 @@ $(pv_value)</tooltip>
       </rules>
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
-    <widget type="led" version="2.0.0">
+    <widget type="led" typeId="org.csstudio.opibuilder.widgets.LED" version="2.0.0">
       <name>At pos4_10</name>
       <pv_name>$(device)TARGET-POSITION0</pv_name>
       <x>355</x>
       <y>32</y>
       <off_color>
-        <color red="40" green="40" blue="40">
+        <color blue="40" green="40" red="40">
         </color>
       </off_color>
       <on_color>
-        <color red="184" green="187" blue="38">
+        <color blue="38" green="187" red="184">
         </color>
       </on_color>
       <square>true</square>
       <actions>
       </actions>
       <rules>
-        <rule name="New Rule" prop_id="on_color" out_exp="false">
+        <rule name="New Rule" out_exp="false" prop_id="on_color">
           <exp bool_exp="(pv1-200 &lt; pv0) &amp;&amp; (pv0 &lt; pv1+200)">
             <value>
-              <color red="184" green="187" blue="38">
+              <color blue="38" green="187" red="184">
               </color>
             </value>
           </exp>
           <exp bool_exp="!((pv1-200 &lt; pv0) &amp;&amp; (pv0 &lt; pv1+200))">
             <value>
-              <color red="40" green="40" blue="40">
+              <color blue="40" green="40" red="40">
               </color>
             </value>
           </exp>
@@ -1041,33 +1040,33 @@ $(pv_value)</tooltip>
       </rules>
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
-    <widget type="led" version="2.0.0">
+    <widget type="led" typeId="org.csstudio.opibuilder.widgets.LED" version="2.0.0">
       <name>At pos4_11</name>
       <pv_name>$(device)TARGET-POSITION4</pv_name>
       <x>355</x>
       <y>160</y>
       <off_color>
-        <color red="40" green="40" blue="40">
+        <color blue="40" green="40" red="40">
         </color>
       </off_color>
       <on_color>
-        <color red="184" green="187" blue="38">
+        <color blue="38" green="187" red="184">
         </color>
       </on_color>
       <square>true</square>
       <actions>
       </actions>
       <rules>
-        <rule name="New Rule" prop_id="on_color" out_exp="false">
+        <rule name="New Rule" out_exp="false" prop_id="on_color">
           <exp bool_exp="(pv1-200 &lt; pv0) &amp;&amp; (pv0 &lt; pv1+200)">
             <value>
-              <color red="184" green="187" blue="38">
+              <color blue="38" green="187" red="184">
               </color>
             </value>
           </exp>
           <exp bool_exp="!((pv1-200 &lt; pv0) &amp;&amp; (pv0 &lt; pv1+200))">
             <value>
-              <color red="40" green="40" blue="40">
+              <color blue="40" green="40" red="40">
               </color>
             </value>
           </exp>
@@ -1077,33 +1076,33 @@ $(pv_value)</tooltip>
       </rules>
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
-    <widget type="led" version="2.0.0">
+    <widget type="led" typeId="org.csstudio.opibuilder.widgets.LED" version="2.0.0">
       <name>At pos4_12</name>
       <pv_name>$(device)TARGET-POSITION5</pv_name>
       <x>355</x>
       <y>192</y>
       <off_color>
-        <color red="40" green="40" blue="40">
+        <color blue="40" green="40" red="40">
         </color>
       </off_color>
       <on_color>
-        <color red="184" green="187" blue="38">
+        <color blue="38" green="187" red="184">
         </color>
       </on_color>
       <square>true</square>
       <actions>
       </actions>
       <rules>
-        <rule name="New Rule" prop_id="on_color" out_exp="false">
+        <rule name="New Rule" out_exp="false" prop_id="on_color">
           <exp bool_exp="(pv1-200 &lt; pv0) &amp;&amp; (pv0 &lt; pv1+200)">
             <value>
-              <color red="184" green="187" blue="38">
+              <color blue="38" green="187" red="184">
               </color>
             </value>
           </exp>
           <exp bool_exp="!((pv1-200 &lt; pv0) &amp;&amp; (pv0 &lt; pv1+200))">
             <value>
-              <color red="40" green="40" blue="40">
+              <color blue="40" green="40" red="40">
               </color>
             </value>
           </exp>
@@ -1113,33 +1112,33 @@ $(pv_value)</tooltip>
       </rules>
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
-    <widget type="led" version="2.0.0">
+    <widget type="led" typeId="org.csstudio.opibuilder.widgets.LED" version="2.0.0">
       <name>At pos4_13</name>
       <pv_name>$(device)TARGET-POSITION6</pv_name>
       <x>355</x>
       <y>224</y>
       <off_color>
-        <color red="40" green="40" blue="40">
+        <color blue="40" green="40" red="40">
         </color>
       </off_color>
       <on_color>
-        <color red="184" green="187" blue="38">
+        <color blue="38" green="187" red="184">
         </color>
       </on_color>
       <square>true</square>
       <actions>
       </actions>
       <rules>
-        <rule name="New Rule" prop_id="on_color" out_exp="false">
+        <rule name="New Rule" out_exp="false" prop_id="on_color">
           <exp bool_exp="(pv1-200 &lt; pv0) &amp;&amp; (pv0 &lt; pv1+200)">
             <value>
-              <color red="184" green="187" blue="38">
+              <color blue="38" green="187" red="184">
               </color>
             </value>
           </exp>
           <exp bool_exp="!((pv1-200 &lt; pv0) &amp;&amp; (pv0 &lt; pv1+200))">
             <value>
-              <color red="40" green="40" blue="40">
+              <color blue="40" green="40" red="40">
               </color>
             </value>
           </exp>
@@ -1149,18 +1148,18 @@ $(pv_value)</tooltip>
       </rules>
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
-    <widget type="textupdate" version="2.0.0">
+    <widget type="textupdate" typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="2.0.0">
       <name>pos1_1</name>
       <pv_name>$(device)TARGET-PIANO-POSITION0</pv_name>
       <x>149</x>
       <y>32</y>
       <width>90</width>
       <foreground_color>
-        <color red="235" green="219" blue="178">
+        <color blue="178" green="219" red="235">
         </color>
       </foreground_color>
       <background_color>
-        <color red="80" green="73" blue="69">
+        <color blue="69" green="73" red="80">
         </color>
       </background_color>
       <precision>2</precision>
@@ -1170,22 +1169,22 @@ $(pv_value)</tooltip>
       <actions>
       </actions>
       <border_color>
-        <color red="0" green="128" blue="255">
+        <color blue="255" green="128" red="0">
         </color>
       </border_color>
     </widget>
-    <widget type="textupdate" version="2.0.0">
+    <widget type="textupdate" typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="2.0.0">
       <name>pos2_1</name>
       <pv_name>$(device)TARGET-PIANO-POSITION1</pv_name>
       <x>149</x>
       <y>64</y>
       <width>90</width>
       <foreground_color>
-        <color red="235" green="219" blue="178">
+        <color blue="178" green="219" red="235">
         </color>
       </foreground_color>
       <background_color>
-        <color red="80" green="73" blue="69">
+        <color blue="69" green="73" red="80">
         </color>
       </background_color>
       <precision>2</precision>
@@ -1195,22 +1194,22 @@ $(pv_value)</tooltip>
       <actions>
       </actions>
       <border_color>
-        <color red="0" green="128" blue="255">
+        <color blue="255" green="128" red="0">
         </color>
       </border_color>
     </widget>
-    <widget type="textupdate" version="2.0.0">
+    <widget type="textupdate" typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="2.0.0">
       <name>pos3_1</name>
       <pv_name>$(device)TARGET-PIANO-POSITION2</pv_name>
       <x>149</x>
       <y>96</y>
       <width>90</width>
       <foreground_color>
-        <color red="235" green="219" blue="178">
+        <color blue="178" green="219" red="235">
         </color>
       </foreground_color>
       <background_color>
-        <color red="80" green="73" blue="69">
+        <color blue="69" green="73" red="80">
         </color>
       </background_color>
       <precision>2</precision>
@@ -1220,22 +1219,22 @@ $(pv_value)</tooltip>
       <actions>
       </actions>
       <border_color>
-        <color red="0" green="128" blue="255">
+        <color blue="255" green="128" red="0">
         </color>
       </border_color>
     </widget>
-    <widget type="textupdate" version="2.0.0">
+    <widget type="textupdate" typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="2.0.0">
       <name>pos4_1</name>
       <pv_name>$(device)TARGET-PIANO-POSITION3</pv_name>
       <x>149</x>
       <y>128</y>
       <width>90</width>
       <foreground_color>
-        <color red="235" green="219" blue="178">
+        <color blue="178" green="219" red="235">
         </color>
       </foreground_color>
       <background_color>
-        <color red="80" green="73" blue="69">
+        <color blue="69" green="73" red="80">
         </color>
       </background_color>
       <precision>2</precision>
@@ -1245,22 +1244,22 @@ $(pv_value)</tooltip>
       <actions>
       </actions>
       <border_color>
-        <color red="0" green="128" blue="255">
+        <color blue="255" green="128" red="0">
         </color>
       </border_color>
     </widget>
-    <widget type="textupdate" version="2.0.0">
+    <widget type="textupdate" typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="2.0.0">
       <name>pos5_1</name>
       <pv_name>$(device)TARGET-PIANO-POSITION4</pv_name>
       <x>149</x>
       <y>160</y>
       <width>90</width>
       <foreground_color>
-        <color red="235" green="219" blue="178">
+        <color blue="178" green="219" red="235">
         </color>
       </foreground_color>
       <background_color>
-        <color red="80" green="73" blue="69">
+        <color blue="69" green="73" red="80">
         </color>
       </background_color>
       <precision>2</precision>
@@ -1270,22 +1269,22 @@ $(pv_value)</tooltip>
       <actions>
       </actions>
       <border_color>
-        <color red="0" green="128" blue="255">
+        <color blue="255" green="128" red="0">
         </color>
       </border_color>
     </widget>
-    <widget type="textupdate" version="2.0.0">
+    <widget type="textupdate" typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="2.0.0">
       <name>pos6_1</name>
       <pv_name>$(device)TARGET-PIANO-POSITION5</pv_name>
       <x>149</x>
       <y>192</y>
       <width>90</width>
       <foreground_color>
-        <color red="235" green="219" blue="178">
+        <color blue="178" green="219" red="235">
         </color>
       </foreground_color>
       <background_color>
-        <color red="80" green="73" blue="69">
+        <color blue="69" green="73" red="80">
         </color>
       </background_color>
       <precision>2</precision>
@@ -1295,22 +1294,22 @@ $(pv_value)</tooltip>
       <actions>
       </actions>
       <border_color>
-        <color red="0" green="128" blue="255">
+        <color blue="255" green="128" red="0">
         </color>
       </border_color>
     </widget>
-    <widget type="textupdate" version="2.0.0">
+    <widget type="textupdate" typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="2.0.0">
       <name>pos7_1</name>
       <pv_name>$(device)TARGET-PIANO-POSITION6</pv_name>
       <x>149</x>
       <y>224</y>
       <width>90</width>
       <foreground_color>
-        <color red="235" green="219" blue="178">
+        <color blue="178" green="219" red="235">
         </color>
       </foreground_color>
       <background_color>
-        <color red="80" green="73" blue="69">
+        <color blue="69" green="73" red="80">
         </color>
       </background_color>
       <precision>2</precision>
@@ -1320,11 +1319,11 @@ $(pv_value)</tooltip>
       <actions>
       </actions>
       <border_color>
-        <color red="0" green="128" blue="255">
+        <color blue="255" green="128" red="0">
         </color>
       </border_color>
     </widget>
-    <widget type="label" version="2.0.0">
+    <widget type="label" typeId="org.csstudio.opibuilder.widgets.Label" version="2.0.0">
       <name>low limit_4</name>
       <text>Piano encoder</text>
       <x>149</x>
@@ -1332,11 +1331,11 @@ $(pv_value)</tooltip>
       <width>110</width>
       <height>14</height>
       <foreground_color>
-        <color red="131" green="165" blue="152">
+        <color blue="152" green="165" red="131">
         </color>
       </foreground_color>
       <background_color>
-        <color name="Read_Foreground" red="255" green="255" blue="255">
+        <color blue="255" green="255" name="Read_Foreground" red="255">
         </color>
       </background_color>
       <vertical_alignment>1</vertical_alignment>
@@ -1344,11 +1343,11 @@ $(pv_value)</tooltip>
       <actions>
       </actions>
       <border_color>
-        <color red="0" green="128" blue="255">
+        <color blue="255" green="128" red="0">
         </color>
       </border_color>
     </widget>
-    <widget type="label" version="2.0.0">
+    <widget type="label" typeId="org.csstudio.opibuilder.widgets.Label" version="2.0.0">
       <name>low limit_3</name>
       <text>Analog encoder</text>
       <x>37</x>
@@ -1356,11 +1355,11 @@ $(pv_value)</tooltip>
       <width>110</width>
       <height>14</height>
       <foreground_color>
-        <color red="131" green="165" blue="152">
+        <color blue="152" green="165" red="131">
         </color>
       </foreground_color>
       <background_color>
-        <color name="Read_Foreground" red="255" green="255" blue="255">
+        <color blue="255" green="255" name="Read_Foreground" red="255">
         </color>
       </background_color>
       <vertical_alignment>1</vertical_alignment>
@@ -1368,22 +1367,22 @@ $(pv_value)</tooltip>
       <actions>
       </actions>
       <border_color>
-        <color red="0" green="128" blue="255">
+        <color blue="255" green="128" red="0">
         </color>
       </border_color>
     </widget>
-    <widget type="textupdate" version="2.0.0">
+    <widget type="textupdate" typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="2.0.0">
       <name>pos1_2</name>
       <pv_name>$(device)TARGET-MOTOR-POSITION0</pv_name>
       <x>250</x>
       <y>32</y>
       <width>90</width>
       <foreground_color>
-        <color red="235" green="219" blue="178">
+        <color blue="178" green="219" red="235">
         </color>
       </foreground_color>
       <background_color>
-        <color red="80" green="73" blue="69">
+        <color blue="69" green="73" red="80">
         </color>
       </background_color>
       <precision>2</precision>
@@ -1393,22 +1392,22 @@ $(pv_value)</tooltip>
       <actions>
       </actions>
       <border_color>
-        <color red="0" green="128" blue="255">
+        <color blue="255" green="128" red="0">
         </color>
       </border_color>
     </widget>
-    <widget type="textupdate" version="2.0.0">
+    <widget type="textupdate" typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="2.0.0">
       <name>pos2_2</name>
       <pv_name>$(device)TARGET-MOTOR-POSITION1</pv_name>
       <x>250</x>
       <y>64</y>
       <width>90</width>
       <foreground_color>
-        <color red="235" green="219" blue="178">
+        <color blue="178" green="219" red="235">
         </color>
       </foreground_color>
       <background_color>
-        <color red="80" green="73" blue="69">
+        <color blue="69" green="73" red="80">
         </color>
       </background_color>
       <precision>2</precision>
@@ -1418,22 +1417,22 @@ $(pv_value)</tooltip>
       <actions>
       </actions>
       <border_color>
-        <color red="0" green="128" blue="255">
+        <color blue="255" green="128" red="0">
         </color>
       </border_color>
     </widget>
-    <widget type="textupdate" version="2.0.0">
+    <widget type="textupdate" typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="2.0.0">
       <name>pos3_2</name>
       <pv_name>$(device)TARGET-MOTOR-POSITION2</pv_name>
       <x>250</x>
       <y>96</y>
       <width>90</width>
       <foreground_color>
-        <color red="235" green="219" blue="178">
+        <color blue="178" green="219" red="235">
         </color>
       </foreground_color>
       <background_color>
-        <color red="80" green="73" blue="69">
+        <color blue="69" green="73" red="80">
         </color>
       </background_color>
       <precision>2</precision>
@@ -1443,22 +1442,22 @@ $(pv_value)</tooltip>
       <actions>
       </actions>
       <border_color>
-        <color red="0" green="128" blue="255">
+        <color blue="255" green="128" red="0">
         </color>
       </border_color>
     </widget>
-    <widget type="textupdate" version="2.0.0">
+    <widget type="textupdate" typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="2.0.0">
       <name>pos4_2</name>
       <pv_name>$(device)TARGET-MOTOR-POSITION3</pv_name>
       <x>250</x>
       <y>128</y>
       <width>90</width>
       <foreground_color>
-        <color red="235" green="219" blue="178">
+        <color blue="178" green="219" red="235">
         </color>
       </foreground_color>
       <background_color>
-        <color red="80" green="73" blue="69">
+        <color blue="69" green="73" red="80">
         </color>
       </background_color>
       <precision>2</precision>
@@ -1468,22 +1467,22 @@ $(pv_value)</tooltip>
       <actions>
       </actions>
       <border_color>
-        <color red="0" green="128" blue="255">
+        <color blue="255" green="128" red="0">
         </color>
       </border_color>
     </widget>
-    <widget type="textupdate" version="2.0.0">
+    <widget type="textupdate" typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="2.0.0">
       <name>pos5_2</name>
       <pv_name>$(device)TARGET-MOTOR-POSITION4</pv_name>
       <x>250</x>
       <y>160</y>
       <width>90</width>
       <foreground_color>
-        <color red="235" green="219" blue="178">
+        <color blue="178" green="219" red="235">
         </color>
       </foreground_color>
       <background_color>
-        <color red="80" green="73" blue="69">
+        <color blue="69" green="73" red="80">
         </color>
       </background_color>
       <precision>2</precision>
@@ -1493,22 +1492,22 @@ $(pv_value)</tooltip>
       <actions>
       </actions>
       <border_color>
-        <color red="0" green="128" blue="255">
+        <color blue="255" green="128" red="0">
         </color>
       </border_color>
     </widget>
-    <widget type="textupdate" version="2.0.0">
+    <widget type="textupdate" typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="2.0.0">
       <name>pos6_2</name>
       <pv_name>$(device)TARGET-MOTOR-POSITION5</pv_name>
       <x>250</x>
       <y>192</y>
       <width>90</width>
       <foreground_color>
-        <color red="235" green="219" blue="178">
+        <color blue="178" green="219" red="235">
         </color>
       </foreground_color>
       <background_color>
-        <color red="80" green="73" blue="69">
+        <color blue="69" green="73" red="80">
         </color>
       </background_color>
       <precision>2</precision>
@@ -1518,22 +1517,22 @@ $(pv_value)</tooltip>
       <actions>
       </actions>
       <border_color>
-        <color red="0" green="128" blue="255">
+        <color blue="255" green="128" red="0">
         </color>
       </border_color>
     </widget>
-    <widget type="textupdate" version="2.0.0">
+    <widget type="textupdate" typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="2.0.0">
       <name>pos7_2</name>
       <pv_name>$(device)TARGET-MOTOR-POSITION6</pv_name>
       <x>250</x>
       <y>224</y>
       <width>90</width>
       <foreground_color>
-        <color red="235" green="219" blue="178">
+        <color blue="178" green="219" red="235">
         </color>
       </foreground_color>
       <background_color>
-        <color red="80" green="73" blue="69">
+        <color blue="69" green="73" red="80">
         </color>
       </background_color>
       <precision>2</precision>
@@ -1543,11 +1542,11 @@ $(pv_value)</tooltip>
       <actions>
       </actions>
       <border_color>
-        <color red="0" green="128" blue="255">
+        <color blue="255" green="128" red="0">
         </color>
       </border_color>
     </widget>
-    <widget type="label" version="2.0.0">
+    <widget type="label" typeId="org.csstudio.opibuilder.widgets.Label" version="2.0.0">
       <name>low limit_5</name>
       <text>Motor steps</text>
       <x>250</x>
@@ -1555,11 +1554,11 @@ $(pv_value)</tooltip>
       <width>110</width>
       <height>14</height>
       <foreground_color>
-        <color red="131" green="165" blue="152">
+        <color blue="152" green="165" red="131">
         </color>
       </foreground_color>
       <background_color>
-        <color name="Read_Foreground" red="255" green="255" blue="255">
+        <color blue="255" green="255" name="Read_Foreground" red="255">
         </color>
       </background_color>
       <vertical_alignment>1</vertical_alignment>
@@ -1567,12 +1566,12 @@ $(pv_value)</tooltip>
       <actions>
       </actions>
       <border_color>
-        <color red="0" green="128" blue="255">
+        <color blue="255" green="128" red="0">
         </color>
       </border_color>
     </widget>
   </widget>
-  <widget type="action_button" version="3.0.0">
+  <widget type="action_button" typeId="org.csstudio.opibuilder.widgets.ActionButton" version="3.0.0">
     <name>Motor menus</name>
     <actions>
       <action type="open_display">
@@ -1603,51 +1602,51 @@ $(pv_value)</tooltip>
     <width>25</width>
     <height>25</height>
     <foreground_color>
-      <color red="40" green="40" blue="40">
+      <color blue="40" green="40" red="40">
       </color>
     </foreground_color>
     <background_color>
-      <color red="146" green="131" blue="116">
+      <color blue="116" green="131" red="146">
       </color>
     </background_color>
     <tooltip>$(actions)</tooltip>
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
-  <widget type="group" version="2.0.0">
+  <widget type="group" typeId="org.csstudio.opibuilder.widgets.groupingContainer" version="2.0.0">
     <name>Comm Status</name>
     <x>220</x>
     <y>25</y>
     <width>235</width>
     <height>80</height>
     <font>
-      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      <font family="Liberation Sans" name="Default Bold" size="14.0" style="BOLD">
       </font>
     </font>
     <foreground_color>
-      <color red="131" green="165" blue="152">
+      <color blue="152" green="165" red="131">
       </color>
     </foreground_color>
     <background_color>
-      <color name="OPI_Background" red="50" green="50" blue="50">
+      <color blue="50" green="50" name="OPI_Background" red="50">
       </color>
     </background_color>
     <transparent>true</transparent>
     <actions>
     </actions>
-    <widget type="rectangle" version="2.0.0">
+    <widget type="rectangle" typeId="org.csstudio.opibuilder.widgets.Rectangle" version="2.0.0">
       <name>Rounded Rectangle_2</name>
       <macros>
-        <pv_name></pv_name>
+        <pv_name/>
       </macros>
       <width>200</width>
       <height>45</height>
       <line_width>0</line_width>
       <line_color>
-        <color name="GRID" red="90" green="90" blue="90">
+        <color blue="90" green="90" name="GRID" red="90">
         </color>
       </line_color>
       <background_color>
-        <color red="80" green="73" blue="69">
+        <color blue="69" green="73" red="80">
         </color>
       </background_color>
       <corner_width>16</corner_width>
@@ -1657,7 +1656,7 @@ $(pv_value)</tooltip>
       <tooltip>$(pv_name)
 $(pv_value)</tooltip>
     </widget>
-    <widget type="label" version="2.0.0">
+    <widget type="label" typeId="org.csstudio.opibuilder.widgets.Label" version="2.0.0">
       <name>IOC heartbeat</name>
       <text>Motor connection</text>
       <x>20</x>
@@ -1665,11 +1664,11 @@ $(pv_value)</tooltip>
       <width>120</width>
       <height>15</height>
       <foreground_color>
-        <color red="235" green="219" blue="178">
+        <color blue="178" green="219" red="235">
         </color>
       </foreground_color>
       <background_color>
-        <color name="Read_Foreground" red="255" green="255" blue="255">
+        <color blue="255" green="255" name="Read_Foreground" red="255">
         </color>
       </background_color>
       <vertical_alignment>1</vertical_alignment>
@@ -1677,31 +1676,31 @@ $(pv_value)</tooltip>
       <actions>
       </actions>
       <border_color>
-        <color red="0" green="128" blue="255">
+        <color blue="255" green="128" red="0">
         </color>
       </border_color>
     </widget>
-    <widget type="led" version="2.0.0">
+    <widget type="led" typeId="org.csstudio.opibuilder.widgets.LED" version="2.0.0">
       <name>IOC down alert</name>
       <pv_name>$(device)PIEZOMOTOR-CONNECTION</pv_name>
       <x>160</x>
       <y>12</y>
       <off_color>
-        <color red="40" green="40" blue="40">
+        <color blue="40" green="40" red="40">
         </color>
       </off_color>
       <on_color>
-        <color red="184" green="187" blue="38">
+        <color blue="38" green="187" red="184">
         </color>
       </on_color>
       <square>true</square>
       <actions>
       </actions>
       <rules>
-        <rule name="communication error" prop_id="on_color" out_exp="false">
+        <rule name="communication error" out_exp="false" prop_id="on_color">
           <exp bool_exp="new exp">
             <value>
-              <color red="251" green="73" blue="52">
+              <color blue="52" green="73" red="251">
               </color>
             </value>
           </exp>
@@ -1711,232 +1710,34 @@ $(pv_value)</tooltip>
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
   </widget>
-  <widget type="group" version="2.0.0">
+  <widget type="group" typeId="org.csstudio.opibuilder.widgets.groupingContainer" version="2.0.0">
     <name>Targets display</name>
     <x>780</x>
     <width>100</width>
     <height>345</height>
     <style>3</style>
     <transparent>true</transparent>
-    <widget type="rectangle" version="2.0.0">
+    <widget type="rectangle" typeId="org.csstudio.opibuilder.widgets.Rectangle" version="2.0.0">
       <name>Band</name>
       <x>30</x>
       <width>40</width>
       <height>345</height>
       <line_color>
-        <color name="Text" red="0" green="0" blue="0">
+        <color blue="0" green="0" name="Text" red="0">
         </color>
       </line_color>
       <background_color>
-        <color red="184" green="115" blue="51">
+        <color blue="51" green="115" red="184">
         </color>
       </background_color>
     </widget>
-    <widget type="ellipse" version="2.0.0">
-      <name>Target 0</name>
-      <x>40</x>
-      <y>270</y>
-      <width>20</width>
-      <height>20</height>
-      <line_color>
-        <color name="Text" red="0" green="0" blue="0">
-        </color>
-      </line_color>
-      <background_color>
-        <color name="Button_Background" red="210" green="210" blue="210">
-        </color>
-      </background_color>
-      <rules>
-        <rule name="New Rule" prop_id="y" out_exp="true">
-          <exp bool_exp="true">
-            <expression>(pv1 - pv0)/20000 + 150</expression>
-          </exp>
-          <pv_name>$(device)MAIN-ENCODER-READING</pv_name>
-          <pv_name>$(device)TARGET-POSITION5</pv_name>
-        </rule>
-      </rules>
-    </widget>
-    <widget type="ellipse" version="2.0.0">
-      <name>Target 1</name>
-      <x>40</x>
-      <y>226</y>
-      <width>20</width>
-      <height>20</height>
-      <line_color>
-        <color name="Text" red="0" green="0" blue="0">
-        </color>
-      </line_color>
-      <background_color>
-        <color name="Button_Background" red="210" green="210" blue="210">
-        </color>
-      </background_color>
-      <rules>
-        <rule name="New Rule" prop_id="y" out_exp="true">
-          <exp bool_exp="true">
-            <expression>(pv1 - pv0)/20000 + 150</expression>
-          </exp>
-          <pv_name>$(device)MAIN-ENCODER-READING</pv_name>
-          <pv_name>$(device)TARGET-POSITION4</pv_name>
-        </rule>
-      </rules>
-    </widget>
-    <widget type="ellipse" version="2.0.0">
-      <name>Target 2</name>
-      <x>40</x>
-      <y>182</y>
-      <width>20</width>
-      <height>20</height>
-      <line_color>
-        <color name="Text" red="0" green="0" blue="0">
-        </color>
-      </line_color>
-      <background_color>
-        <color name="Button_Background" red="210" green="210" blue="210">
-        </color>
-      </background_color>
-      <rules>
-        <rule name="New Rule" prop_id="y" out_exp="true">
-          <exp bool_exp="true">
-            <expression>(pv1 - pv0)/20000 + 150</expression>
-          </exp>
-          <pv_name>$(device)MAIN-ENCODER-READING</pv_name>
-          <pv_name>$(device)TARGET-POSITION3</pv_name>
-        </rule>
-      </rules>
-    </widget>
-    <widget type="ellipse" version="2.0.0">
-      <name>Target 3</name>
-      <x>40</x>
-      <y>146</y>
-      <width>20</width>
-      <height>20</height>
-      <line_color>
-        <color name="Text" red="0" green="0" blue="0">
-        </color>
-      </line_color>
-      <background_color>
-        <color name="Button_Background" red="210" green="210" blue="210">
-        </color>
-      </background_color>
-      <rules>
-        <rule name="position" prop_id="y" out_exp="true">
-          <exp bool_exp="true">
-            <expression>(pv1 - pv0)/20000 + 150</expression>
-          </exp>
-          <pv_name>$(device)MAIN-ENCODER-READING</pv_name>
-          <pv_name>$(device)TARGET-POSITION2</pv_name>
-        </rule>
-        <rule name="visibility" prop_id="visible" out_exp="false">
-          <exp bool_exp="(pv1 - pv0)/20000 + 150 &gt; 0">
-            <value>true</value>
-          </exp>
-          <exp bool_exp="(pv1 - pv0)/20000 + 150 &lt; 0">
-            <value>false</value>
-          </exp>
-          <pv_name>$(device)MAIN-ENCODER-READING</pv_name>
-          <pv_name>$(device)TARGET-POSITION2</pv_name>
-        </rule>
-      </rules>
-    </widget>
-    <widget type="ellipse" version="2.0.0">
-      <name>Target 4</name>
-      <x>40</x>
-      <y>101</y>
-      <width>20</width>
-      <height>20</height>
-      <line_color>
-        <color name="Text" red="0" green="0" blue="0">
-        </color>
-      </line_color>
-      <background_color>
-        <color name="Button_Background" red="210" green="210" blue="210">
-        </color>
-      </background_color>
-      <rules>
-        <rule name="position" prop_id="y" out_exp="true">
-          <exp bool_exp="true">
-            <expression>(pv1 - pv0)/20000 + 150</expression>
-          </exp>
-          <pv_name>$(device)MAIN-ENCODER-READING</pv_name>
-          <pv_name>$(device)TARGET-POSITION1</pv_name>
-        </rule>
-        <rule name="visibility" prop_id="visible" out_exp="false">
-          <exp bool_exp="(pv1 - pv0)/20000 + 150 &gt; 0">
-            <value>true</value>
-          </exp>
-          <exp bool_exp="(pv1 - pv0)/20000 + 150 &lt; 0">
-            <value>false</value>
-          </exp>
-          <pv_name>$(device)MAIN-ENCODER-READING</pv_name>
-          <pv_name>$(device)TARGET-POSITION1</pv_name>
-        </rule>
-      </rules>
-    </widget>
-    <widget type="ellipse" version="2.0.0">
-      <name>Target 5</name>
-      <x>40</x>
-      <y>65</y>
-      <width>20</width>
-      <height>20</height>
-      <line_color>
-        <color name="Text" red="0" green="0" blue="0">
-        </color>
-      </line_color>
-      <background_color>
-        <color red="40" green="40" blue="40">
-        </color>
-      </background_color>
-      <rules>
-        <rule name="position" prop_id="y" out_exp="true">
-          <exp bool_exp="true">
-            <expression>(pv1 - pv0)/20000 + 150</expression>
-          </exp>
-          <pv_name>$(device)MAIN-ENCODER-READING</pv_name>
-          <pv_name>$(device)TARGET-POSITION0</pv_name>
-        </rule>
-        <rule name="Visiblity" prop_id="visible" out_exp="false">
-          <exp bool_exp="(pv1 - pv0)/20000 + 150 &gt; 0">
-            <value>true</value>
-          </exp>
-          <exp bool_exp="(pv1 - pv0)/20000 + 150 &lt; 0">
-            <value>false</value>
-          </exp>
-          <pv_name>$(device)MAIN-ENCODER-READING</pv_name>
-          <pv_name>$(device)TARGET-POSITION0</pv_name>
-        </rule>
-      </rules>
-    </widget>
-    <widget type="ellipse" version="2.0.0">
-      <name>Target 6</name>
-      <x>40</x>
-      <y>310</y>
-      <width>20</width>
-      <height>20</height>
-      <line_color>
-        <color name="Text" red="0" green="0" blue="0">
-        </color>
-      </line_color>
-      <background_color>
-        <color red="40" green="40" blue="40">
-        </color>
-      </background_color>
-      <rules>
-        <rule name="New Rule" prop_id="y" out_exp="true">
-          <exp bool_exp="true">
-            <expression>(pv1 - pv0)/20000 + 150</expression>
-          </exp>
-          <pv_name>$(device)MAIN-ENCODER-READING</pv_name>
-          <pv_name>$(device)TARGET-POSITION6</pv_name>
-        </rule>
-      </rules>
-    </widget>
-    <widget type="rectangle" version="2.0.0">
+    <widget type="rectangle" typeId="org.csstudio.opibuilder.widgets.Rectangle" version="2.0.0">
       <name>Beamline</name>
       <y>159</y>
       <height>2</height>
       <line_width>2</line_width>
       <line_color>
-        <color name="Background" red="255" green="255" blue="255">
+        <color blue="255" green="255" name="Background" red="255">
         </color>
       </line_color>
     </widget>
