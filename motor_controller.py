@@ -22,7 +22,7 @@ import re
 #General settings
 # Set the record prefix
 builder.SetDeviceName("CCTVAL_DT_PMD301")
-debug = False
+debug = True
 PIANO_PIN = 23
 LIMIT1_PIN = 24
 LIMIT2_PIN = 25
@@ -35,6 +35,8 @@ user_stop = builder.boolOut('SHOULD-STOP', initial_value = False, always_update 
                           on_update = lambda v: stop(v))
 user_command = builder.stringOut('USER-MOTOR-COMMAND', initial_value = "", always_update = True,
                           on_update = lambda v: send_command(v))
+step_forward_command = builder.boolOut('STEP-FORWARD', initial_value = False, on_update = lambda v: move_to(500) if v else pass)
+step_backward_command = builder.boolOut('STEP-BACKWARD', initial_value = False, on_update = lambda v: move_to(-500) if v else pass)
 
 ## General information and controller status
 controller_model = builder.stringIn('PIEZOMOTOR-CONTROLLER-VERSION', initial_value = "PMD301X")
@@ -60,6 +62,7 @@ motor_is_moving = builder.boolIn('IS-MOVING', initial_value = False)
 controller_response = builder.stringIn('CONTROLLER-RESPONSE', initial_value = "")
 main_encoder_reading = builder.aIn('MAIN-ENCODER-READING', initial_value = -1)
 piano_encoder_reading = builder.aIn('PIANO-ENCODER-READING', initial_value = -1)
+piano_reading_pv = builder.boolIn('PIANO-READING', initial_value = False)
 motor_steps_given = builder.aIn('MOTOR-STEPS-GIVEN', initial_value = -1)
 motor_speed = builder.aOut('MOTOR-SPEED', initial_value = 500, on_update = lambda v: set_speed(v))
 motor_slow_speed = builder.aIn('MOTOR-SLOW-SPEED', initial_value = 500)
@@ -78,30 +81,30 @@ forward_limit_switch_position = builder.aIn('FORWARD-LIMIT-SWITCH-POSITION', ini
 forward_limit_switch = builder.boolIn('FORWARD-LIMIT-SWITCH', initial_value = False)
 backward_limit_switch_position = builder.aIn('BACKWARD-LIMIT-SWITCH-POSITION', initial_value = -1)
 backward_limit_switch = builder.boolIn('BACKWARD-LIMIT-SWITCH', initial_value = False)
-forward_software_limit = builder.aIn('FORWARD-SOFTWARE-LIMIT', initial_value = 3200000)
+forward_software_limit = builder.aIn('FORWARD-SOFTWARE-LIMIT', initial_value = 5000000)
 forward_software_limit_is_reached = builder.boolIn('AT-FORWARD-SOFTWARE-LIMIT', initial_value = False)
-backward_software_limit = builder.aIn('BACKWARD-SOFTWARE-LIMIT', initial_value = 5000)
+backward_software_limit = builder.aIn('BACKWARD-SOFTWARE-LIMIT', initial_value = -50000)
 backward_software_limit_is_reached = builder.boolIn('AT-BACKWARD-SOFTWARE-LIMIT', initial_value = False)
 overstep = 30000
 
-reference_forward_limit_switch = builder.boolIn('REFERENCE-FORWARD-LIMIT-SWITCH', initial_value = -1)
-reference_backward_limit_switch = builder.boolIn('REFERENCE-BACKWARD-LIMIT-SWITCH', initial_value = -1)
-reference_piano_limit_switch = builder.boolIn('REFERENCE-PIANO-LIMIT-SWITCH', initial_value = -1)
-reference_motor_limit_switch = builder.boolIn('REFERENCE-MOTOR-LIMIT-SWITCH', initial_value = -1)
+reference_forward_limit_switch = builder.aIn('REFERENCE-FORWARD-LIMIT-SWITCH', initial_value = 3924330)
+reference_backward_limit_switch = builder.aIn('REFERENCE-BACKWARD-LIMIT-SWITCH', initial_value = -1840)
+reference_piano_limit_switch = builder.aIn('REFERENCE-PIANO-LIMIT-SWITCH', initial_value = 70)
+reference_motor_limit_switch = builder.aIn('REFERENCE-MOTOR-LIMIT-SWITCH', initial_value = -29660)
 calibrate_analog_pv = builder.boolOut('CALIBRATE-ANALOG', initial_value = False, on_update = lambda v: calibrate_analog(v))
 calibrate_piano_pv = builder.boolOut('CALIBRATE-PIANO', initial_value = False, on_update = lambda v: calibrate_piano(v))
 calibrate_motor_pv = builder.boolOut('CALIBRATE-MOTOR', initial_value = False, on_update = lambda v: calibrate_motor(v))
 calibrate_all_pv = builder.boolOut('CALIBRATE-ALL', initial_value = False, on_update = lambda v: calibrate_all(v))
-auto_calibration_pv = builder.boolOut('AUTO-CALIBRATION', initial_value = False)
+auto_calibration_pv = builder.boolOut('AUTO-CALIBRATION', initial_value = False, on_update = lambda v: print("auto_calibration changed!"))
 
 ## Positions for each target being centered on beamline.
-target_positions = [builder.aOut('TARGET-POSITION0', initial_value = 850),
-                    builder.aOut('TARGET-POSITION1', initial_value = 429700),
-                    builder.aOut('TARGET-POSITION2', initial_value = 1076300),
-                    builder.aOut('TARGET-POSITION3', initial_value = 1713800),
-                    builder.aOut('TARGET-POSITION4', initial_value = 2293000),
-                    builder.aOut('TARGET-POSITION5', initial_value = 2800000),
-                    builder.aOut('TARGET-POSITION6', initial_value = 3400000)
+target_positions = [builder.aOut('TARGET-POSITION0', initial_value = -1830),
+                    builder.aOut('TARGET-POSITION1', initial_value = 444100),
+                    builder.aOut('TARGET-POSITION2', initial_value = 1110350),
+                    builder.aOut('TARGET-POSITION3', initial_value = 1788840),
+                    builder.aOut('TARGET-POSITION4', initial_value = 2482110),
+                    builder.aOut('TARGET-POSITION5', initial_value = 3172510),
+                    builder.aOut('TARGET-POSITION6', initial_value = 3879610)
                    ]
 
 target_piano_positions = [builder.aOut('TARGET-PIANO-POSITION0', initial_value = 44),
@@ -113,12 +116,12 @@ target_piano_positions = [builder.aOut('TARGET-PIANO-POSITION0', initial_value =
                     builder.aOut('TARGET-PIANO-POSITION6', initial_value = 1.5)
                    ]
 
-target_motor_positions = [builder.aOut('TARGET-MOTOR-POSITION0', initial_value = -4400),
-                    builder.aOut('TARGET-MOTOR-POSITION1', initial_value = -3400),
-                    builder.aOut('TARGET-MOTOR-POSITION2', initial_value = -2480),
-                    builder.aOut('TARGET-MOTOR-POSITION3', initial_value = -1620),
-                    builder.aOut('TARGET-MOTOR-POSITION4', initial_value = -700),
-                    builder.aOut('TARGET-MOTOR-POSITION5', initial_value = -300),
+target_motor_positions = [builder.aOut('TARGET-MOTOR-POSITION0', initial_value = -29000),
+                    builder.aOut('TARGET-MOTOR-POSITION1', initial_value = -23000),
+                    builder.aOut('TARGET-MOTOR-POSITION2', initial_value = -17080),
+                    builder.aOut('TARGET-MOTOR-POSITION3', initial_value = -11020),
+                    builder.aOut('TARGET-MOTOR-POSITION4', initial_value = -7000),
+                    builder.aOut('TARGET-MOTOR-POSITION5', initial_value = -2000),
                     builder.aOut('TARGET-MOTOR-POSITION6', initial_value = -150)
                    ]
 
@@ -189,6 +192,8 @@ def move_to(value):
         print("Error connecting to PiezoMotor controller.")
         print(e)
         piezomotor_connection.set(False, severity = alarm.MAJOR_ALARM, alarm = alarm.COMM_ALARM)
+    step_forward_command.set(False)
+    step_backward_command.set(False)
     return True
 
 async def stop(should_stop = True):
@@ -212,9 +217,11 @@ async def set_speed(speed):
 
 # returns only when movement has ended (must be awaited).
 async def sync_move(steps = 0):
+    print("sync move")
     if not move_to(steps):
         return False;
     is_moving = True
+    print("sync move, moving", steps)
     while is_moving:
         try:
             with serial.Serial(controller_port.get(), baud_rate.get()) as connection:
@@ -226,6 +233,7 @@ async def sync_move(steps = 0):
             piezomotor_connection.set(False, severity = alarm.MAJOR_ALARM, alarm = alarm.COMM_ALARM)
             return False;
         await asyncio.sleep(0.001)
+        print("sync move still moving!")
     return True;
 
 # Common movement logic, encoder independent
@@ -508,7 +516,7 @@ async def calibrate_analog(should_go = True):
         return
     await stop(True)
     motor_is_moving.set(True)
-    while not (cs_x_limit.get() or user_stop.get()):
+    while not (cs_x_limit.get() or user_stop.get() or forward_limit_switch.get()):
         if not move_to(100):
             return
         await asyncio.sleep(0.1)
@@ -520,9 +528,11 @@ async def calibrate_analog(should_go = True):
     for i in range(noisy):
         mean += ads.readDifferential_0_1()
     mean /= noisy
-    found_forward_limit = noisy
-    
-    while not (cs_x_limit.get() or user_stop.get()):
+    found_forward_limit = mean
+    print("[Calibrate_analog]::found forward limit:", found_forward_limit)
+    if not await sync_move(-6000):
+        return
+    while not (cs_x_limit.get() or user_stop.get() or backward_limit_switch.get()):
         if not await sync_move(-100):
             return
     found_backward_limit = 0
@@ -531,7 +541,8 @@ async def calibrate_analog(should_go = True):
     for i in range(noisy):
         mean += ads.readDifferential_0_1()
     mean /= noisy
-    found_backward_limit = noisy
+    found_backward_limit = mean
+    print("[Calibrate_analog]::found backward limit:", found_backward_limit)
     
     alpha_0 = reference_backward_limit_switch.get()
     omega_0 = reference_forward_limit_switch.get()
@@ -548,7 +559,7 @@ async def calibrate_piano(should_go = True):
         return
     await stop(True)
     motor_is_moving.set(True)
-    while not (cs_x_limit.get() or user_stop.get()):
+    while not (cs_x_limit.get() or user_stop.get() or forward_limit_switch.get()):
         if not move_to(100):
             return
         await asyncio.sleep(0.1)
@@ -592,22 +603,29 @@ async def calibrate_piano(should_go = True):
     calibrate_piano_pv.set(False)
     return;
     
-async def calibrate_motor(should_go = True, skip = 10_000):
+async def calibrate_motor(should_go = True, skip = -10_000):
+    motor_is_moving.set(True)
     if not should_go:
         return
     await stop(True)
-    motor_is_moving.set(True)
-    while not (cs_x_limit.get() or user_stop.get()):
+#    if skip == -10_000:
+#        skip = target_motor_positions[0].get()
+    print("[calibrate_motor]::will move")
+    while not (user_stop.get() or forward_limit_switch.get()):
         if not move_to(100):
             return
         await asyncio.sleep(0.1)
+    await asyncio.sleep(0.5)
     piano_encoder_reading.set(0)
+    motor_steps_given.set(0)
 
     count = 0
-    while not (cs_x_limit.get() or user_stop.get()):
-        steps = skip if count == 0 else 1
+    print("[calibrate_motor]::will count steps")
+    while not (user_stop.get() or backward_limit_switch.get()):
+        steps = -1
         if not move_to(steps):
             return
+        print("step", end = ", ")
         count += steps
         is_moving = True
         while is_moving:
@@ -615,23 +633,29 @@ async def calibrate_motor(should_go = True, skip = 10_000):
                 connection.write(("X1U\r").encode("ascii"))
                 is_moving = int(re.match(".*\d\d\d(\d)", connection.read_until(b"\r").decode().strip().split(":")[1]).groups()[0]) % 2 == 1
             await asyncio.sleep(0.001)
-    if count == skip:
-        await calibrate_motor(True, skip / 1.5)
-        return;
+#    if count == skip:
+#        await calibrate_motor(True, skip / 1.5)
+#        return;
+    print("[calibrate_motor]::will correct registered positions")
 
     for i in range(len(target_motor_positions)):
         target_motor_positions[i].set( count * target_motor_positions[i].get() / reference_motor_limit_switch.get() )
     reference_motor_limit_switch.set(count)
-    motor_is_moving.set(False)
     calibrate_motor_pv.set(False)
+    motor_is_moving.set(False)
+    await asyncio.sleep(2)
+    print("\nmotor is moving = False")
+    motor_is_moving.set(False)
     return;
 
-async def calibrate_all(should_go = True, skip = 10_000):
+async def calibrate_all(should_go = True, skip = -10_000):
     if not should_go:
         return
     await stop(True)
+    if skip == -10_000:
+        skip = target_motor_positions[0].get()
     motor_is_moving.set(True)
-    while not (cs_x_limit.get() or user_stop.get()):
+    while not (cs_x_limit.get() or user_stop.get() or forward_limit_switch.get()):
         if not move_to(100):
             return
         await asyncio.sleep(0.1)
@@ -642,10 +666,10 @@ async def calibrate_all(should_go = True, skip = 10_000):
     for i in range(noisy):
         mean += ads.readDifferential_0_1()
     mean /= noisy
-    found_forward_limit = noisy
+    found_forward_limit = mean
     count = 0
-    while not (cs_x_limit.get() or user_stop.get()):
-        steps = skip if count == 0 else 1
+    while not (cs_x_limit.get() or user_stop.get() or backward_limit_switch.get()) or (count == 0):
+        steps = skip if count == 0 else -1
         if not move_to(steps):
             return
         count += steps
@@ -656,7 +680,7 @@ async def calibrate_all(should_go = True, skip = 10_000):
                 is_moving = int(re.match(".*\d\d\d(\d)", connection.read_until(b"\r").decode().strip().split(":")[1]).groups()[0]) % 2 == 1
             await asyncio.sleep(0.001)
     if count == skip:
-        await calibrate_motor(True, skip / 1.5)
+        await calibrate_all(True, skip / 1.5)
         return;
     found_backward_limit = 0
     mean = 0
@@ -664,7 +688,7 @@ async def calibrate_all(should_go = True, skip = 10_000):
     for i in range(noisy):
         mean += ads.readDifferential_0_1()
     mean /= noisy
-    found_backward_limit = noisy
+    found_backward_limit = mean
     
     alpha_0 = reference_backward_limit_switch.get()
     omega_0 = reference_forward_limit_switch.get()
@@ -756,6 +780,7 @@ async def update():
                 #target_position.set(reading)
                 #connection.write(("X1H\r").encode("ascii"))    # speed
                 #reading = int(connection.read_until(b"\r").decode().strip().split(":")[1])
+                piano_reading_pv.set(gpio.input(PIANO_PIN))
                 connection.write(("X1U0\r").encode("ascii"))
                 reading = connection.read_until(b"\r").decode().strip().split(":")[1]
                 cs_com_error.set(int(reading[0], 16) // 8 == 1)
@@ -767,14 +792,16 @@ async def update():
                 cs_x_limit.set(limit_reached)
                 if limit_reached:
                     print("limit reached!")
+                    if not gpio.input(LIMIT1_PIN):
+                        print("it's the forward limit!")
+                    if not gpio.input(LIMIT2_PIN):
+                        print("it's the backward limit!")
                 if not gpio.input(LIMIT1_PIN):
-                    print("it's the forward limit!")
                     forward_limit_switch.set(True)
                     forward_limit_switch_position.set(adc_reading)
                 else:
                     forward_limit_switch.set(False)
                 if not gpio.input(LIMIT2_PIN):
-                    print("it's the backward limit!")
                     backward_limit_switch.set(True)
                     backward_limit_switch_position.set(adc_reading)
                 else:
