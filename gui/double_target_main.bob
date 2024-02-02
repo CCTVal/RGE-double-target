@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Saved on 2024-01-30 16:34:23 by javier-->
+<!--Saved on 2024-02-02 14:13:47 by javier-->
 <display version="2.0.0">
   <name>double_target_main</name>
   <macros>
@@ -323,7 +323,7 @@ $(pv_value)</tooltip>
       <pv_name>$(device)PIANO-ENCODER-READING</pv_name>
       <x>20</x>
       <y>91</y>
-      <width>120</width>
+      <width>97</width>
       <height>19</height>
       <foreground_color>
         <color red="235" green="219" blue="178">
@@ -524,6 +524,42 @@ $(pv_value)</tooltip>
         <color red="0" green="128" blue="255">
         </color>
       </border_color>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>At pos4_14</name>
+      <pv_name>$(device)PIANO-READING</pv_name>
+      <x>130</x>
+      <y>91</y>
+      <off_color>
+        <color red="40" green="40" blue="40">
+        </color>
+      </off_color>
+      <on_color>
+        <color red="184" green="187" blue="38">
+        </color>
+      </on_color>
+      <square>true</square>
+      <actions>
+      </actions>
+      <rules>
+        <rule name="New Rule" prop_id="on_color" out_exp="false">
+          <exp bool_exp="(pv1-200 &lt; pv0) &amp;&amp; (pv0 &lt; pv1+200)">
+            <value>
+              <color red="184" green="187" blue="38">
+              </color>
+            </value>
+          </exp>
+          <exp bool_exp="!((pv1-200 &lt; pv0) &amp;&amp; (pv0 &lt; pv1+200))">
+            <value>
+              <color red="40" green="40" blue="40">
+              </color>
+            </value>
+          </exp>
+          <pv_name>$(device)MAIN-ENCODER-READING</pv_name>
+          <pv_name>$(device)TARGET-POSITION0</pv_name>
+        </rule>
+      </rules>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
   </widget>
   <widget type="group" version="2.0.0">
@@ -1715,14 +1751,14 @@ $(pv_value)</tooltip>
     <name>Targets display</name>
     <x>780</x>
     <width>100</width>
-    <height>345</height>
+    <height>388</height>
     <style>3</style>
     <transparent>true</transparent>
     <widget type="rectangle" version="2.0.0">
       <name>Band</name>
       <x>30</x>
       <width>40</width>
-      <height>345</height>
+      <height>388</height>
       <line_color>
         <color name="Text" red="0" green="0" blue="0">
         </color>

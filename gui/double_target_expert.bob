@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Saved on 2024-01-30 15:10:35 by javier-->
+<!--Saved on 2024-02-02 17:09:58 by javier-->
 <display version="2.0.0">
   <name>double_target_expert</name>
   <macros>
@@ -176,7 +176,7 @@
       <pv_name></pv_name>
     </macros>
     <x>40</x>
-    <y>460</y>
+    <y>473</y>
     <width>270</width>
     <height>44</height>
     <line_width>0</line_width>
@@ -199,7 +199,7 @@ $(pv_value)</tooltip>
     <name>low limit_3</name>
     <text>Active encoder</text>
     <x>55</x>
-    <y>450</y>
+    <y>463</y>
     <width>110</width>
     <height>14</height>
     <foreground_color>
@@ -223,7 +223,7 @@ $(pv_value)</tooltip>
     <name>Choice Button</name>
     <pv_name>$(device)MAIN-ENCODER</pv_name>
     <x>75</x>
-    <y>470</y>
+    <y>483</y>
     <width>200</width>
     <height>25</height>
     <background_color>
@@ -241,7 +241,7 @@ $(pv_value)</tooltip>
     </items>
   </widget>
   <widget type="group" version="2.0.0">
-    <name>Target Switch</name>
+    <name>Target Positions</name>
     <x>340</x>
     <y>60</y>
     <width>360</width>
@@ -722,7 +722,7 @@ $(pv_value)</tooltip>
     <x>10</x>
     <y>60</y>
     <width>310</width>
-    <height>325</height>
+    <height>295</height>
     <font>
       <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
       </font>
@@ -1231,6 +1231,7 @@ $(pv_value)</tooltip>
       <x>257</x>
       <y>163</y>
       <width>20</width>
+      <visible>false</visible>
       <points>
         <point x="0.0" y="0.0">
         </point>
@@ -1265,6 +1266,7 @@ $(pv_value)</tooltip>
       <x>209</x>
       <y>163</y>
       <width>20</width>
+      <visible>false</visible>
       <points>
         <point x="10.0" y="0.0">
         </point>
@@ -1555,9 +1557,9 @@ $(pv_value)</tooltip>
       </actions>
       <pv_name>$(device)CALIBRATE-ANALOG</pv_name>
       <text>Calib.</text>
-      <x>37</x>
+      <x>22</x>
       <y>157</y>
-      <width>55</width>
+      <width>90</width>
       <height>25</height>
       <foreground_color>
         <color red="40" green="40" blue="40">
@@ -1567,7 +1569,7 @@ $(pv_value)</tooltip>
         <color red="146" green="131" blue="116">
         </color>
       </background_color>
-      <tooltip>$(actions)</tooltip>
+      <tooltip>$(pv_name)</tooltip>
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="action_button" version="3.0.0">
@@ -1579,11 +1581,11 @@ $(pv_value)</tooltip>
           <description>WritePV</description>
         </action>
       </actions>
-      <pv_name>$(device)CALIBRATE-PIANO</pv_name>
-      <text>Calib.</text>
-      <x>147</x>
-      <y>157</y>
-      <width>55</width>
+      <pv_name>$(device)SEARCH-MOTOR-POSITIONS</pv_name>
+      <text>Establish</text>
+      <x>223</x>
+      <y>196</y>
+      <width>90</width>
       <height>25</height>
       <foreground_color>
         <color red="40" green="40" blue="40">
@@ -1593,7 +1595,7 @@ $(pv_value)</tooltip>
         <color red="146" green="131" blue="116">
         </color>
       </background_color>
-      <tooltip>$(actions)</tooltip>
+      <tooltip>$(pv_name)</tooltip>
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="action_button" version="3.0.0">
@@ -1607,9 +1609,9 @@ $(pv_value)</tooltip>
       </actions>
       <pv_name>$(device)CALIBRATE-MOTOR</pv_name>
       <text>Calib.</text>
-      <x>252</x>
+      <x>223</x>
       <y>157</y>
-      <width>55</width>
+      <width>90</width>
       <height>25</height>
       <foreground_color>
         <color red="40" green="40" blue="40">
@@ -1619,33 +1621,7 @@ $(pv_value)</tooltip>
         <color red="146" green="131" blue="116">
         </color>
       </background_color>
-      <tooltip>$(actions)</tooltip>
-      <border_alarm_sensitive>false</border_alarm_sensitive>
-    </widget>
-    <widget type="action_button" version="3.0.0">
-      <name>Motor menus_3</name>
-      <actions>
-        <action type="write_pv">
-          <pv_name>$(pv_name)</pv_name>
-          <value>1</value>
-          <description>WritePV</description>
-        </action>
-      </actions>
-      <pv_name>$(device)CALIBRATE-ALL</pv_name>
-      <text>Calibrate all</text>
-      <x>62</x>
-      <y>196</y>
-      <width>205</width>
-      <height>25</height>
-      <foreground_color>
-        <color red="40" green="40" blue="40">
-        </color>
-      </foreground_color>
-      <background_color>
-        <color red="146" green="131" blue="116">
-        </color>
-      </background_color>
-      <tooltip>$(actions)</tooltip>
+      <tooltip>$(pv_name)</tooltip>
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="label" version="2.0.0">
@@ -1682,7 +1658,7 @@ $(pv_value)</tooltip>
     </widget>
     <widget type="bool_button" version="2.0.0">
       <name>Boolean Button_2</name>
-      <pv_name>$(device)AUTO_CALIBRATION</pv_name>
+      <pv_name>$(device)AUTO-CALIBRATION</pv_name>
       <x>62</x>
       <y>235</y>
       <width>205</width>
@@ -1706,5 +1682,341 @@ $(pv_value)</tooltip>
         </color>
       </background_color>
     </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Motor menus_3</name>
+      <actions>
+        <action type="write_pv">
+          <pv_name>$(pv_name)</pv_name>
+          <value>1</value>
+          <description>WritePV</description>
+        </action>
+      </actions>
+      <pv_name>$(device)SEARCH-PIANO-POSITIONS</pv_name>
+      <text>Establish</text>
+      <x>122</x>
+      <y>196</y>
+      <width>90</width>
+      <height>25</height>
+      <foreground_color>
+        <color red="40" green="40" blue="40">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="146" green="131" blue="116">
+        </color>
+      </background_color>
+      <tooltip>$(pv_name)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>0_2</name>
+      <text>Calib.</text>
+      <x>122</x>
+      <y>157</y>
+      <width>90</width>
+      <height>25</height>
+      <foreground_color>
+        <color red="80" green="73" blue="69">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="80" green="73" blue="69">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_width>1</border_width>
+      <border_color>
+        <color red="80" green="73" blue="69">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>0_3</name>
+      <text>Establish</text>
+      <x>22</x>
+      <y>196</y>
+      <width>90</width>
+      <height>25</height>
+      <foreground_color>
+        <color red="80" green="73" blue="69">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="80" green="73" blue="69">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_width>1</border_width>
+      <border_color>
+        <color red="80" green="73" blue="69">
+        </color>
+      </border_color>
+    </widget>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Motor menus_4</name>
+    <actions>
+      <action type="write_pv">
+        <pv_name>$(pv_name)</pv_name>
+        <value>1</value>
+        <description>WritePV</description>
+      </action>
+    </actions>
+    <pv_name>$(device)STEP-BACKWARD</pv_name>
+    <text>Step bw.</text>
+    <x>55</x>
+    <y>525</y>
+    <width>90</width>
+    <height>25</height>
+    <foreground_color>
+      <color red="40" green="40" blue="40">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="146" green="131" blue="116">
+      </color>
+    </background_color>
+    <tooltip>Step backward</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Motor menus_5</name>
+    <actions>
+      <action type="write_pv">
+        <pv_name>$(pv_name)</pv_name>
+        <value>1</value>
+        <description>WritePV</description>
+      </action>
+    </actions>
+    <pv_name>$(device)STEP-FORWARD</pv_name>
+    <text>Step fw.</text>
+    <x>205</x>
+    <y>525</y>
+    <width>90</width>
+    <height>25</height>
+    <foreground_color>
+      <color red="40" green="40" blue="40">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="146" green="131" blue="116">
+      </color>
+    </background_color>
+    <tooltip>Step forward</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Motor menus_6</name>
+    <actions>
+      <action type="write_pv">
+        <pv_name>$(pv_name)</pv_name>
+        <value>1</value>
+        <description>WritePV</description>
+      </action>
+    </actions>
+    <pv_name>$(device)SMALL-STEP-BACKWARD</pv_name>
+    <text>&lt;</text>
+    <x>145</x>
+    <y>525</y>
+    <width>10</width>
+    <height>25</height>
+    <foreground_color>
+      <color red="40" green="40" blue="40">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="146" green="131" blue="116">
+      </color>
+    </background_color>
+    <tooltip>Small step backward</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Motor menus_7</name>
+    <actions>
+      <action type="write_pv">
+        <pv_name>$(pv_name)</pv_name>
+        <value>1</value>
+        <description>WritePV</description>
+      </action>
+    </actions>
+    <pv_name>$(device)SMALL-STEP-FORWARD</pv_name>
+    <text>&gt;</text>
+    <x>195</x>
+    <y>525</y>
+    <width>10</width>
+    <height>25</height>
+    <foreground_color>
+      <color red="40" green="40" blue="40">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="146" green="131" blue="116">
+      </color>
+    </background_color>
+    <tooltip>Small step forward</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>Text Entry_24</name>
+    <pv_name>$(device)MOTOR-GAIN</pv_name>
+    <x>52</x>
+    <y>380</y>
+    <width>102</width>
+    <foreground_color>
+      <color red="235" green="219" blue="178">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="80" green="73" blue="69">
+      </color>
+    </background_color>
+    <tooltip>Motor step per each encoder count.</tooltip>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>low limit_11</name>
+    <text>Motor gain</text>
+    <x>40</x>
+    <y>363</y>
+    <width>110</width>
+    <height>14</height>
+    <foreground_color>
+      <color red="131" green="165" blue="152">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color name="Read_Foreground" red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>Text Entry_25</name>
+    <pv_name>$(device)NOISE-SUPRESSION</pv_name>
+    <x>192</x>
+    <y>380</y>
+    <width>102</width>
+    <foreground_color>
+      <color red="235" green="219" blue="178">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="80" green="73" blue="69">
+      </color>
+    </background_color>
+    <tooltip>How many encoder readings are considered for the mean to be used in movement algorithm.</tooltip>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>low limit_12</name>
+    <text>Noise supression</text>
+    <x>180</x>
+    <y>363</y>
+    <width>110</width>
+    <height>14</height>
+    <foreground_color>
+      <color red="131" green="165" blue="152">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color name="Read_Foreground" red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>Text Entry_26</name>
+    <pv_name>$(device)MOTOR-GAIN</pv_name>
+    <x>52</x>
+    <y>427</y>
+    <width>102</width>
+    <foreground_color>
+      <color red="235" green="219" blue="178">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="80" green="73" blue="69">
+      </color>
+    </background_color>
+    <tooltip>Steps away from target to start moving carefully (movement algorithm, second phase)</tooltip>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>low limit_18</name>
+    <text>Overstep</text>
+    <x>40</x>
+    <y>410</y>
+    <width>110</width>
+    <height>14</height>
+    <foreground_color>
+      <color red="131" green="165" blue="152">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color name="Read_Foreground" red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>Text Entry_27</name>
+    <pv_name>$(device)MOTOR-SPEED</pv_name>
+    <x>192</x>
+    <y>427</y>
+    <width>102</width>
+    <foreground_color>
+      <color red="235" green="219" blue="178">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="80" green="73" blue="69">
+      </color>
+    </background_color>
+    <tooltip>Motor speed. Read PMD301 technical manual for details.</tooltip>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>low limit_19</name>
+    <text>Speed</text>
+    <x>180</x>
+    <y>410</y>
+    <width>110</width>
+    <height>14</height>
+    <foreground_color>
+      <color red="131" green="165" blue="152">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color name="Read_Foreground" red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
   </widget>
 </display>
