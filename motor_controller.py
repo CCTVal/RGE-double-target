@@ -340,7 +340,7 @@ async def piano_go_to(position_index = -float("inf")):
         return
     user_stop.set(False)
     motor_is_moving.set(True)
-    while not (cs_x_limit.get() or user_stop.get()):
+    while not (forward_limit_switch.get() or user_stop.get()):
         if not move_to(100):
             return
         await asyncio.sleep(0.1)
@@ -415,6 +415,8 @@ async def motor_go_to(position_index):
         print(e)
         piezomotor_connection.set(False, severity = alarm.MAJOR_ALARM, alarm = alarm.COMM_ALARM)
     for step in range(0,int(target_motor_positions[position_index].get()),-1):
+        if user_stop.get():
+            return
         if not await sync_move(-1):
             print("There's been a fatal error! Call the programmer!")
     await asyncio.sleep(1)
@@ -561,46 +563,7 @@ async def search_piano_positions(should_search):
             mean /= noisy
             old_encoder_reading = encoder_reading
             encoder_reading = mean
-        remaining_steps = (target_piano_positions[position_index].get() - int(target_piano_positions[position_index].get())) * (-256) # That's the amount of motor steps that correspond to one piano encoder step. Must be callibrated as best as possible.
-        target_piano_positions[i].set(piano_encoder_reading.get() - 1 + d)
-        if not move_to(remaining_steps):
-            return
-        print("i:", i)
-        print(target_motor_positions)
-        distance = target_positions[i]
-        encoder_reading = main_encoder_reading.get()
-        d = distance.get()
-        print("distance:", d)
-        while encoder_reading > (d + overstep.get()) and not user_stop.get():
-            if not await sync_move(-1):
-                print("There's been a fatal error! Call the programmer!")
-                return
-            if backward_limit_switch.get():
-                print("Limit switch! Ending motor positions search!")
-                return
-            encoder_reading = ads.readDifferential_0_1()
-        mean = ads.readDifferential_0_1()
-        print("[search motor positions]::gets to overstep")
-        while (mean - d) > 1 and not user_stop.get():
-            if not await sync_move(-1):
-                print("There's been a fatal error! Call the programmer!")
-                return
-            is_moving = True
-            mean = 0
-            noisy = noise_supression.get()
-            for _ in range(int(noisy)):
-                mean += ads.readDifferential_0_1()
-            mean /= noisy
-            main_encoder_reading.set(mean)
-            if backward_limit_switch.get():
-                print("Limit switch! Ending motor positions search!")
-                return
-
-        print("print")
-        print(target_motor_positions)
-        print(i)
-        print(motor_steps_given.get())
-        target_motor_positions[int(i)].set(motor_steps_given.get())
+        target_piano_positions[i].set(piano_encoder_reading.get() - 1 + (d - old_encoder_reading) / (encoder_reading - old_encoder_reading))
         print("Found "+str(i)+" position!")
     await asyncio.sleep(1)
     motor_is_moving.set(False)
@@ -684,7 +647,7 @@ async def calibrate_analog(should_go = True):
     found_forward_limit = 0
     mean = 0
     noisy = int(noise_supression.get())
-    for i in range(noisy):
+    for _ in range(noisy):
         mean += ads.readDifferential_0_1()
     mean /= noisy
     found_forward_limit = mean
@@ -697,7 +660,7 @@ async def calibrate_analog(should_go = True):
     found_backward_limit = 0
     mean = 0
     noisy = int(noise_supression.get())
-    for i in range(noisy):
+    for _ in range(noisy):
         mean += ads.readDifferential_0_1()
     mean /= noisy
     found_backward_limit = mean
@@ -824,7 +787,7 @@ async def measure_piano(step= -1):
     suma = 0
     last_piano = gpio.input(PIANO_PIN)
     print("last piano,", last_piano)
-    while True:
+    while not user_stop.get():
         with serial.Serial(controller_port.get(), baud_rate.get()) as connection:
             connection.write(("X1J-10,0," + str(int(motor_speed.get())) + "\r").encode("ascii"))
             reading = connection.read_until(b"\r").decode().strip()
@@ -839,7 +802,7 @@ async def measure_piano(step= -1):
     print("piano input", gpio.input(PIANO_PIN))
 
 async def caracterize_potentiometer():
-    while True:
+    while not user_stop.get():
         with serial.Serial(controller_port.get(), baud_rate.get()) as connection:
             connection.write(("X1J-100,0," + str(int(motor_speed.get())) + "\r").encode("ascii"))
             reading = connection.read_until(b"\r").decode().strip()
