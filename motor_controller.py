@@ -59,14 +59,23 @@ cs_overheat = builder.boolIn('PIEZOMOTOR-CONTROLLER-OVERHEAT', initial_value = F
 cs_reverse = builder.boolIn('PIEZOMOTOR-CONTROLLER-REVERSE', initial_value = False) # If the last movement was in reverse
 cs_running = builder.boolIn('PIEZOMOTOR-CONTROLLER-RUNNING', initial_value = False)
 motor_is_moving = builder.boolIn('IS-MOVING', initial_value = False)
+controller_response = builder.stringIn('CONTROLLER-RESPONSE', initial_value = "")
 
 ## Frequently updated records
-controller_response = builder.stringIn('CONTROLLER-RESPONSE', initial_value = "")
+centered = builder.mbbIn('CENTERED',
+    'Wire'
+    'C',
+    'Al',
+    'Cu',
+    'Sn',
+    'Pb',
+    'Empty',
+    ('Unknown', 'MAJOR'),
+    initial_value = 'Unknown')
 main_encoder_reading = builder.aIn('MAIN-ENCODER-READING', initial_value = -1)
 piano_encoder_reading = builder.aIn('PIANO-ENCODER-READING', initial_value = -1)
 piano_reading_pv = builder.boolIn('PIANO-READING', initial_value = False)
 motor_steps_given = builder.aIn('MOTOR-STEPS-GIVEN', initial_value = -1)
-main_encoder = builder.stringOut('MAIN-ENCODER', initial_value = "analog")
 
 ## Connection records
 piezomotor_connection = builder.boolIn('PIEZOMOTOR-CONNECTION', initial_value = False)
@@ -83,12 +92,13 @@ backward_limit_switch = builder.boolIn('BACKWARD-LIMIT-SWITCH', initial_value = 
 #forward_software_limit_is_reached = builder.boolIn('AT-FORWARD-SOFTWARE-LIMIT', initial_value = False)
 #backward_software_limit = builder.aIn('BACKWARD-SOFTWARE-LIMIT', initial_value = -50000)
 #backward_software_limit_is_reached = builder.boolIn('AT-BACKWARD-SOFTWARE-LIMIT', initial_value = False)
+main_encoder = builder.stringOut('MAIN-ENCODER', initial_value = "analog")
 motor_gain = builder.aOut('MOTOR-GAIN', initial_value = 0.00333)
 noise_supression = builder.aOut('NOISE-SUPRESSION', initial_value = 25)
 overstep = builder.aOut('OVERSTEP', initial_value = 30000)
-motor_speed = builder.aOut('MOTOR-SPEED', initial_value = 500, on_update = lambda v: set_speed(v))
-motor_slow_speed = builder.aIn('MOTOR-SLOW-SPEED', initial_value = 500)
+motor_speed = builder.aOut('MOTOR-SPEED', initial_value = 500)
 
+## Calibration
 reference_forward_limit_switch = builder.aIn('REFERENCE-FORWARD-LIMIT-SWITCH', initial_value = 3924330)
 reference_backward_limit_switch = builder.aIn('REFERENCE-BACKWARD-LIMIT-SWITCH', initial_value = -1840)
 reference_piano_limit_switch = builder.aIn('REFERENCE-PIANO-LIMIT-SWITCH', initial_value = 70)
@@ -218,10 +228,6 @@ async def stop(should_stop = True):
         piezomotor_connection.set(False, severity = alarm.MAJOR_ALARM, alarm = alarm.COMM_ALARM)
     await asyncio.sleep(2)
     user_stop.set(False)
-    
-async def set_speed(speed):
-    if motor_slow_speed.get() > speed:
-        motor_slow_speed.set(speed)
 
 # returns only when movement has ended (must be awaited).
 async def sync_move(steps = 0):
@@ -247,8 +253,9 @@ async def go_to(position_index, should_go = False):
     if not should_go:
         return
     user_stop.set(True)
-    # await stop() # Comment for high-frequency testing purposes
+    await stop() # Comment for high-frequency testing purposes
     user_stop.set(False)
+    centered.set(7, severity = alarm.MAJOR_ALARM, alarm = alarm.STATE_ALARM)
     for i in range(len(go_tos)):
         if i != position_index:
             go_tos[i].set(False)
@@ -259,6 +266,7 @@ async def go_to(position_index, should_go = False):
     else: # analog
         await dual_go_to(position_index)
         #user_target_position.set(target_positions[position_index].get())
+    centered.set(position_index, severity = alarm.NO_ALARM)
     go_tos[position_index].set(False)
 
 # Send an arbitrary command to the motor controller and get a response.
@@ -767,6 +775,10 @@ async def calibrate_motor(should_go = True, skip = -10_000):
     motor_is_moving.set(False)
     return;
 
+async def calibrate_all(should_go = True):
+    await calibrate_analog(should_go)
+    return;
+
 async def apply_offset(value, lista):
     for pv in lista:
         pv.set(pv.get() + value)
@@ -847,10 +859,13 @@ async def update():
                 piano_reading_pv.set(gpio.input(PIANO_PIN))
                 connection.write(("X1U0\r").encode("ascii"))
                 reading = connection.read_until(b"\r").decode().strip().split(":")[1]
-                cs_com_error.set(int(reading[0], 16) // 8 == 1)
+                communication_error = int(reading[0], 16) // 8
+                cs_com_error.set(communication_error == 1, severity = communication_error, alarm = alarm.STATE_ALARM)
                 cs_enc_error.set(int(reading[0], 16) // 4 == 1)
-                cs_voltage_error.set(int(reading[0], 16) // 2 == 1)
-                cs_cmd_error.set(int(reading[0], 16) // 1 == 1)
+                voltage_error = int(reading[0], 16) // 2
+                cs_voltage_error.set(voltage_error == 1, severity = voltage_error, alarm = alarm.STATE_ALARM)
+                cmd_error = int(reading[0], 16) // 1
+                cs_cmd_error.set(cmd_error == 1, severity = cmd_error, alarm = alarm.STATE_ALARM)
                 cs_reset.set(int(reading[1], 16) // 8 == 1)
                 limit_reached = int(reading[1], 16) // 4 == 1
                 cs_x_limit.set(limit_reached)

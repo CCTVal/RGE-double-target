@@ -1,6 +1,6 @@
 # Phoebus graphic interface
 
-The user interface is intended to be viewed through CS-Studio Phoebus v4.7. From the main screen ´double\_target\_main.bob´, the rest of the screens can be accesed.
+The user interface is intended to be viewed through CS-Studio Phoebus v4.7. From the main screen ``double_target_main.bob``, the rest of the screens can be accesed.
 
 ## Main screen
 
@@ -26,6 +26,14 @@ Next to it there's the menu button, with the options to open the temperature int
 
 ## Temperature interface
 
+Temperature interface revolves around a schematic of the Double Target system, featuring the cryogenic cell in the center (in light yellow) and the solid target system around it. At the top of the image in red, the motor, which has a temperature sensor and heater attached. At the bottom, in blue, the linear potentiometer also has a temperature sensor and heater attached.
+
+Each of them is linked to a section showing the current temperature, the setpoint of the PID control and the output power of the heater. To modify this parameters, click the "Expert" button, which will open an additional temperature window.
+
+## Temperature expert window
+
+This interface has one section for each part (motor / potentiometer), and each of them has the temperature reading, the temperature setpoint (the minimum desired temperature we want to reach), the heater output power, the three PID parameters (proportional, integrative and derivative), a "range" parameter to turn off the heater or use it at low, mid or high power. There's also a manual output control, in heater power output percent, for open-loop control.
+
 ## Expert interface
 
 Do not use.
@@ -34,4 +42,4 @@ If you think you should use it, call someone from the chilean group so they can 
 
 In the remote case they tell you to actually open it, you should see a list of color indicators, the readings of all the encoders and a command terminal.
 
-Most of the indicators are taken directly from the PMD-301 motor controller. For more information on them, look for its corresponding manual. "Limit reached" indicates when the limit switches are activated and it has directional indicators so you will know which of the limits is active. An arrow to the left corresponds to a backward limit activation and an arrow to the right corresponds to a 
+Most of the indicators are taken directly from the PMD-301 motor controller. For more information on them, look for its corresponding manual. "Limit reached" indicates when the limit switches are activated and it has directional indicators so you will know which of the limits is active. An arrow to the left corresponds to a backward limit activation and an arrow to the right corresponds to a forward limit activation.
