@@ -19,40 +19,17 @@ status:   # SoftIOC to switch between target states
 lakeshore_336:
     module: 'devices.ls336'
     autostart: True          # Should IOC Manager try to start this?
-    ip: '192.168.1.118'
+    ip: '192.168.1.117'
     port: '7777'
     timeout: 2
     delay: 2
     channels: # List of channel names in order. If TI is suffix, only one PV is made; for others all PID PVS are made. None indicates an empty channel. Value is output channel
-        - Coolant
-        - Coolant_B_TI
-        - Evaporator
-        - Evaporator_B_TI
+        - Motor
+        - Potentiometer
     out_channels:
-        Coolant: 1
-        Evaporator: 2
+        Motor: 1
+        Potentiometer: 2
     heater_resistance:  # Heaters for channels 1 and 2. First element is nominal as set (25 or 50), second is true as measured.
-        - [25, 24]
-        - [50, 58]
+        - [25, 9] # 4.16 for the heaters
+        - [50, 71] # 55 for the heater
 
-pmd_301:
-    module: 'devices.pmd301'
-    autostart: True
-    # ip: '0.0.0.0'
-    port: 'COM4'
-    timeout: 1
-    delay: 5
-    channels:   # list of "axes" in order. None indicates unused channel.
-        - Ribbon
-        - None
-    locations:    # dict of preset locations (name then degrees from home) defaults for each channel
-        Ribbon:
-            - [0, 970]
-            - [1, 1940]
-            - [2, 2910]
-            - [3, 3880]
-            - [4, 4850]
-            - [5, 5820]
-            - [6, 6790]
-    check_home:    # should it run the home routine before each move
-        Ribbon: False

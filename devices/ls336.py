@@ -46,16 +46,17 @@ class Device():
                 self.pvs[channel + "_Mode"] = builder.mbbOut(channel + "_Mode", *mode_list, on_update_name=self.do_sets)
                 self.pvs[channel + "_Range"] = builder.mbbOut(channel + "_Range", *range_list,
                                                               on_update_name=self.do_sets)
+                self.pvs[channel + "_Max_Current"] = builder.aOut(channel + "_Max_Current", on_update_name=self.do_sets)
 
     def calc_heater_power_limit(self, channel):
         """Calculate power limit for to LS336 heater channel. Needs the channel, and nominal (25 or 50 ohm) and
         real heater resistance from settings file. """
         nominal, real = self.settings['heater_resistance'][int(channel) - 1]
         voltage = 50
-        if channel == 1:
-            current = 2 if (nominal == 25) else 1
-        else:
-            current = 1.41 if (nominal == 25) else 1
+        try:
+            current = self.pvs[self.channels[channel-1] + '_Max_Current'].get()
+        except:
+            current = 2
         pc = current * current * real
         pv = voltage * voltage / real
         p_limit = pc if pc < pv else pv  # power limit from resistance and setting
@@ -85,6 +86,7 @@ class Device():
                 self.pvs[channel + '_Range'].set(int(self.t.read_range(out_channel)))
                 self.pvs[channel + '_SP'].set(self.t.read_setpoint(out_channel))
                 self.pvs[channel + '_Manual'].set(self.t.read_man_heater(out_channel))
+                self.pvs[channel + '_Max_Current'].set(self.t.read_max_current(out_channel))
             except OSError as e:
                 print("Error initializing outs.", e)
                 await self.reconnect()
@@ -117,6 +119,8 @@ class Device():
                 self.pvs[pv_name].set(int(self.t.set_outmode(out_channel, new_value, in_channel, 0)))  # set returned value
             elif 'Range' in pv_name:
                 self.pvs[pv_name].set(int(self.t.set_range(out_channel, new_value)))  # set returned value
+            elif 'Max_Current' in pv_name:
+                self.pvs[pv_name].set(float(self.t.set_max_current(out_channel, new_value))) # set returned value
             else:
                 print('Error, control PV not categorized.')
         except OSError:
@@ -137,6 +141,8 @@ class Device():
                     self.remove_alarm(channel+'_TI')
                     heat = self.t.read_heater(i + 1)
                     self.pvs[channel + '_Heater'].set(heat)
+                    current = float(self.t.read_max_current(i + 1))
+                    self.pvs[channel + '_Max_Current'].set(current)
                     decade = self.pvs[channel + '_Range'].get() - 3
                     if decade == -3:  # "off" range
                         power = 0
@@ -188,6 +194,7 @@ class DeviceConnection():
         self.out_regex = re.compile('(\d),(\d),(\d)')
         self.range_regex = re.compile('(\d)')
         self.setp_regex = re.compile('([+-]\d+.\d+)')
+        self.set_regex = re.compile('(\d+\.?\d*),(\d+\.?\d*),([+-]\d+\.?\d*),(\d+\.?\d*)')
         # self.set_regex = re.compile('SP(\d) VALUE: (\d+.\d+)')
         # self.ok_response_regex = re.compile(b'!a!o!\s\s')
 
@@ -240,6 +247,33 @@ class DeviceConnection():
             print(f"LS336 heater read failed on {self.host}: {e}")
             raise OSError('LS336 heater read')
 
+    def read_max_current(self, channel):
+        '''Read Max User current output (%) for given channel (1 or 2).'''
+        try:
+            self.tn.write(bytes(f"HTRSET? {channel}\n", 'ascii'))
+            data = self.tn.read_until(b'\n', timeout=2).decode('ascii')  # read until carriage return
+            m = self.set_regex.search(data)
+            values = [float(x) for x in m.groups()]
+            return values[2]
+
+        except Exception as e:
+            print(f"LS336 heater manual read failed on {self.host}: {e}")
+            raise OSError('LS336 heater manual read')
+            
+    def set_max_current(self, channel, value):
+        '''Read Max User Current output (%) for given channel (1 or 2).'''
+        try:
+            self.tn.write(bytes(f"HTRSET {channel},{25*channel},0,{value},1\n", 'ascii'))
+            self.tn.write(bytes(f"HTRSET? {channel}\n", 'ascii'))
+            data = self.tn.read_until(b'\n', timeout=2).decode('ascii')  # read until carriage return
+            m = self.set_regex.search(data)
+            values = [float(x) for x in m.groups()]
+            return values[2]
+
+        except Exception as e:
+            print(f"LS336 heater manual set  failed on {self.host}: {e}")
+            raise OSError('LS336 heater manual set')
+    
     def read_man_heater(self, channel):
         '''Read Manual Heater output (%) for given channel (1 or 2).'''
         try:

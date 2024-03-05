@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Saved on 2023-12-22 14:47:32 by javier-->
+<!--Saved on 2024-03-05 20:22:21 by cctval-->
 <display version="2.0.0">
   <name>Lakeshore 336 Heater Controls</name>
   <macros>
-    <system>RGE_CCTVAL_TEMP</system>
+    <system>RGE_CCTVAL_TEMP:</system>
   </macros>
   <width>610</width>
   <height>460</height>
@@ -82,7 +82,7 @@
       </foreground_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>Text Update_1</name>
+      <name>motor read temp</name>
       <pv_name>${system}Motor_TI</pv_name>
       <x>140</x>
       <y>50</y>
@@ -150,8 +150,33 @@
         </color>
       </foreground_color>
     </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_11</name>
+      <text>Setpoint:</text>
+      <x>30</x>
+      <y>70</y>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>motor setpoint</name>
+      <pv_name>${system}Motor_SP</pv_name>
+      <x>140</x>
+      <y>70</y>
+      <width>160</width>
+      <background_color>
+        <color red="147" green="213" blue="200">
+        </color>
+      </background_color>
+      <format>1</format>
+      <precision>3</precision>
+      <show_units>false</show_units>
+      <vertical_alignment>0</vertical_alignment>
+    </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>Spinner</name>
+      <name>motor heater out</name>
       <pv_name>${system}Motor_Heater</pv_name>
       <x>140</x>
       <y>90</y>
@@ -167,31 +192,6 @@
       <format>1</format>
       <precision>3</precision>
       <wrap_words>false</wrap_words>
-    </widget>
-    <widget type="label" version="2.0.0">
-      <name>Label_11</name>
-      <text>Setpoint:</text>
-      <x>30</x>
-      <y>70</y>
-      <foreground_color>
-        <color red="235" green="219" blue="178">
-        </color>
-      </foreground_color>
-    </widget>
-    <widget type="textentry" version="3.0.0">
-      <name>Spinner_1</name>
-      <pv_name>${system}Motor_SP</pv_name>
-      <x>140</x>
-      <y>70</y>
-      <width>160</width>
-      <background_color>
-        <color red="147" green="213" blue="200">
-        </color>
-      </background_color>
-      <format>1</format>
-      <precision>3</precision>
-      <show_units>false</show_units>
-      <vertical_alignment>0</vertical_alignment>
     </widget>
     <widget type="textentry" version="3.0.0">
       <name>Spinner_2</name>
@@ -260,18 +260,6 @@
         </color>
       </foreground_color>
     </widget>
-    <widget type="combo" version="2.0.0">
-      <name>Boolean Button_2</name>
-      <pv_name>${system}Motor_Range</pv_name>
-      <x>140</x>
-      <y>110</y>
-      <width>160</width>
-      <height>20</height>
-      <background_color>
-        <color red="146" green="131" blue="116">
-        </color>
-      </background_color>
-    </widget>
     <widget type="label" version="2.0.0">
       <name>Label_16</name>
       <text>Manual (%):</text>
@@ -313,7 +301,7 @@
       </foreground_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>Spinner_14</name>
+      <name>motor heater out 2</name>
       <pv_name>${system}Motor_Heater_W</pv_name>
       <x>220</x>
       <y>90</y>
@@ -329,6 +317,44 @@
       <format>1</format>
       <precision>3</precision>
       <wrap_words>false</wrap_words>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Spinner_12</name>
+      <pv_name>${system}Motor_Max_Current</pv_name>
+      <x>430</x>
+      <y>110</y>
+      <width>110</width>
+      <background_color>
+        <color red="147" green="213" blue="200">
+        </color>
+      </background_color>
+      <format>1</format>
+      <precision>3</precision>
+      <show_units>false</show_units>
+      <vertical_alignment>0</vertical_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_23</name>
+      <text>max current:</text>
+      <x>320</x>
+      <y>110</y>
+      <width>90</width>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>motor range</name>
+      <pv_name>${system}Motor_Range</pv_name>
+      <x>140</x>
+      <y>110</y>
+      <width>160</width>
+      <height>20</height>
+      <background_color>
+        <color red="146" green="131" blue="116">
+        </color>
+      </background_color>
     </widget>
   </widget>
   <widget type="group" version="2.0.0">
@@ -350,7 +376,7 @@
       </foreground_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>Text Update_2</name>
+      <name>potentiometer read temp</name>
       <pv_name>${system}Potentiometer_TI</pv_name>
       <x>130</x>
       <y>50</y>
@@ -419,8 +445,33 @@
         </color>
       </foreground_color>
     </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_19</name>
+      <text>Setpoint:</text>
+      <x>30</x>
+      <y>70</y>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>potentiometer setpoint</name>
+      <pv_name>${system}Potentiometer_SP</pv_name>
+      <x>130</x>
+      <y>70</y>
+      <width>170</width>
+      <background_color>
+        <color red="147" green="213" blue="200">
+        </color>
+      </background_color>
+      <format>1</format>
+      <precision>3</precision>
+      <show_units>false</show_units>
+      <vertical_alignment>0</vertical_alignment>
+    </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>Spinner_5</name>
+      <name>potentiometer heater out</name>
       <pv_name>${system}Potentiometer_Heater</pv_name>
       <x>130</x>
       <y>90</y>
@@ -436,31 +487,6 @@
       <format>1</format>
       <precision>1</precision>
       <wrap_words>false</wrap_words>
-    </widget>
-    <widget type="label" version="2.0.0">
-      <name>Label_19</name>
-      <text>Setpoint:</text>
-      <x>30</x>
-      <y>70</y>
-      <foreground_color>
-        <color red="235" green="219" blue="178">
-        </color>
-      </foreground_color>
-    </widget>
-    <widget type="textentry" version="3.0.0">
-      <name>Spinner_6</name>
-      <pv_name>${system}Potentiometer_SP</pv_name>
-      <x>130</x>
-      <y>70</y>
-      <width>170</width>
-      <background_color>
-        <color red="147" green="213" blue="200">
-        </color>
-      </background_color>
-      <format>1</format>
-      <precision>3</precision>
-      <show_units>false</show_units>
-      <vertical_alignment>0</vertical_alignment>
     </widget>
     <widget type="textentry" version="3.0.0">
       <name>Spinner_7</name>
@@ -529,18 +555,6 @@
         </color>
       </foreground_color>
     </widget>
-    <widget type="combo" version="2.0.0">
-      <name>Boolean Button_4</name>
-      <pv_name>${system}Potentiometer_Range</pv_name>
-      <x>130</x>
-      <y>110</y>
-      <width>170</width>
-      <height>20</height>
-      <background_color>
-        <color red="146" green="131" blue="116">
-        </color>
-      </background_color>
-    </widget>
     <widget type="label" version="2.0.0">
       <name>Label_21</name>
       <text>Manual Heater:</text>
@@ -582,7 +596,7 @@
       </foreground_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>Spinner_15</name>
+      <name>potentiometer heater out 2</name>
       <pv_name>${system}Potentiometer_Heater_W</pv_name>
       <x>220</x>
       <y>90</y>
@@ -598,6 +612,44 @@
       <format>1</format>
       <precision>2</precision>
       <wrap_words>false</wrap_words>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Spinner_13</name>
+      <pv_name>${system}Potentiometer_Max_Current</pv_name>
+      <x>430</x>
+      <y>110</y>
+      <width>110</width>
+      <background_color>
+        <color red="147" green="213" blue="200">
+        </color>
+      </background_color>
+      <format>1</format>
+      <precision>3</precision>
+      <show_units>false</show_units>
+      <vertical_alignment>0</vertical_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_24</name>
+      <text>max current:</text>
+      <x>320</x>
+      <y>110</y>
+      <width>90</width>
+      <foreground_color>
+        <color red="235" green="219" blue="178">
+        </color>
+      </foreground_color>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>potentiometer range</name>
+      <pv_name>${system}Potentiometer_Range</pv_name>
+      <x>130</x>
+      <y>110</y>
+      <width>170</width>
+      <height>20</height>
+      <background_color>
+        <color red="146" green="131" blue="116">
+        </color>
+      </background_color>
     </widget>
   </widget>
 </display>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Saved on 2024-02-02 14:13:47 by javier-->
+<!--Saved on 2024-03-04 20:29:41 by cctval-->
 <display version="2.0.0">
   <name>double_target_main</name>
   <macros>
@@ -606,7 +606,7 @@ $(pv_value)</tooltip>
       </background_color>
       <border_alarm_sensitive>false</border_alarm_sensitive>
       <show_confirm_dialog>true</show_confirm_dialog>
-      <confirm_message>Have you received an explicit request from RG-E to switch to A target?</confirm_message>
+      <confirm_message>Have you received an explicit request from RG-E to switch to empty target 0?</confirm_message>
     </widget>
     <widget type="action_button" version="3.0.0">
       <name>Go to pos2</name>
@@ -618,7 +618,7 @@ $(pv_value)</tooltip>
         </action>
       </actions>
       <pv_name>$(device)GO-TO-TARGET-POSITION1</pv_name>
-      <text>1</text>
+      <text>Pb</text>
       <y>59</y>
       <width>30</width>
       <foreground_color>
@@ -631,7 +631,7 @@ $(pv_value)</tooltip>
       </background_color>
       <border_alarm_sensitive>false</border_alarm_sensitive>
       <show_confirm_dialog>true</show_confirm_dialog>
-      <confirm_message>Have you received an explicit request from RG-E to switch to B target?</confirm_message>
+      <confirm_message>Have you received an explicit request from RG-E to switch to lead target 1?</confirm_message>
     </widget>
     <widget type="action_button" version="3.0.0">
       <name>Go to pos3</name>
@@ -643,7 +643,7 @@ $(pv_value)</tooltip>
         </action>
       </actions>
       <pv_name>$(device)GO-TO-TARGET-POSITION2</pv_name>
-      <text>2</text>
+      <text>Sn</text>
       <y>91</y>
       <width>30</width>
       <foreground_color>
@@ -656,7 +656,7 @@ $(pv_value)</tooltip>
       </background_color>
       <border_alarm_sensitive>false</border_alarm_sensitive>
       <show_confirm_dialog>true</show_confirm_dialog>
-      <confirm_message>Have you received an explicit request from RG-E to switch to C target?</confirm_message>
+      <confirm_message>Have you received an explicit request from RG-E to switch to tin target 2?</confirm_message>
     </widget>
     <widget type="action_button" version="3.0.0">
       <name>Go to pos4</name>
@@ -668,7 +668,7 @@ $(pv_value)</tooltip>
         </action>
       </actions>
       <pv_name>$(device)GO-TO-TARGET-POSITION3</pv_name>
-      <text>3</text>
+      <text>Cu</text>
       <y>123</y>
       <width>30</width>
       <foreground_color>
@@ -681,7 +681,7 @@ $(pv_value)</tooltip>
       </background_color>
       <border_alarm_sensitive>false</border_alarm_sensitive>
       <show_confirm_dialog>true</show_confirm_dialog>
-      <confirm_message>Have you received an explicit request from RG-E to switch to D target?</confirm_message>
+      <confirm_message>Have you received an explicit request from RG-E to switch to copper target 3?</confirm_message>
     </widget>
     <widget type="action_button" version="3.0.0">
       <name>Go to pos5</name>
@@ -693,7 +693,7 @@ $(pv_value)</tooltip>
         </action>
       </actions>
       <pv_name>$(device)GO-TO-TARGET-POSITION4</pv_name>
-      <text>4</text>
+      <text>Al</text>
       <y>155</y>
       <width>30</width>
       <foreground_color>
@@ -706,7 +706,7 @@ $(pv_value)</tooltip>
       </background_color>
       <border_alarm_sensitive>false</border_alarm_sensitive>
       <show_confirm_dialog>true</show_confirm_dialog>
-      <confirm_message>Have you received an explicit request from RG-E to switch to E target?</confirm_message>
+      <confirm_message>Have you received an explicit request from RG-E to switch to aluminum target 4?</confirm_message>
     </widget>
     <widget type="action_button" version="3.0.0">
       <name>Go to pos6</name>
@@ -718,7 +718,7 @@ $(pv_value)</tooltip>
         </action>
       </actions>
       <pv_name>$(device)GO-TO-TARGET-POSITION5</pv_name>
-      <text>5</text>
+      <text>C</text>
       <y>187</y>
       <width>30</width>
       <foreground_color>
@@ -731,7 +731,7 @@ $(pv_value)</tooltip>
       </background_color>
       <border_alarm_sensitive>false</border_alarm_sensitive>
       <show_confirm_dialog>true</show_confirm_dialog>
-      <confirm_message>Have you received an explicit request from RG-E to switch to F target?</confirm_message>
+      <confirm_message>Have you received an explicit request from RG-E to switch to carbon target 5?</confirm_message>
     </widget>
     <widget type="action_button" version="3.0.0">
       <name>Go to pos7</name>
@@ -743,7 +743,7 @@ $(pv_value)</tooltip>
         </action>
       </actions>
       <pv_name>$(device)GO-TO-TARGET-POSITION6</pv_name>
-      <text>6</text>
+      <text>X</text>
       <y>219</y>
       <width>30</width>
       <foreground_color>
@@ -756,7 +756,7 @@ $(pv_value)</tooltip>
       </background_color>
       <border_alarm_sensitive>false</border_alarm_sensitive>
       <show_confirm_dialog>true</show_confirm_dialog>
-      <confirm_message>Have you received an explicit request from RG-E to switch to G target?</confirm_message>
+      <confirm_message>Have you received an explicit request from RG-E to switch to wired target 6?</confirm_message>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>pos1</name>
@@ -1779,7 +1779,7 @@ $(pv_value)</tooltip>
         </color>
       </line_color>
       <background_color>
-        <color name="Button_Background" red="210" green="210" blue="210">
+        <color name="Text" red="0" green="0" blue="0">
         </color>
       </background_color>
       <rules>
@@ -1827,7 +1827,7 @@ $(pv_value)</tooltip>
         </color>
       </line_color>
       <background_color>
-        <color name="Button_Background" red="210" green="210" blue="210">
+        <color red="209" green="143" blue="77">
         </color>
       </background_color>
       <rules>
@@ -1851,7 +1851,7 @@ $(pv_value)</tooltip>
         </color>
       </line_color>
       <background_color>
-        <color name="Button_Background" red="210" green="210" blue="210">
+        <color red="150" green="150" blue="150">
         </color>
       </background_color>
       <rules>
@@ -1885,7 +1885,7 @@ $(pv_value)</tooltip>
         </color>
       </line_color>
       <background_color>
-        <color name="Button_Background" red="210" green="210" blue="210">
+        <color red="100" green="100" blue="100">
         </color>
       </background_color>
       <rules>
@@ -1949,9 +1949,10 @@ $(pv_value)</tooltip>
       <width>20</width>
       <height>20</height>
       <line_color>
-        <color name="Text" red="0" green="0" blue="0">
+        <color name="Background" red="255" green="255" blue="255">
         </color>
       </line_color>
+      <line_style>3</line_style>
       <background_color>
         <color red="40" green="40" blue="40">
         </color>

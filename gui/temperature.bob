@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Saved on 2024-01-26 10:22:33 by javier-->
+<!--Saved on 2024-03-05 13:15:46 by cctval-->
 <display version="2.0.0">
   <name>temperature_rge</name>
   <macros>
     <IOC>IOC01:</IOC>
     <M>A</M>
     <P>DMC01:</P>
-    <system>RGE_CCTVAL_TEMP</system>
+    <system>RGE_CCTVAL_TEMP:</system>
   </macros>
   <x>500</x>
   <y>500</y>
@@ -239,22 +239,6 @@
       <precision>3</precision>
       <wrap_words>false</wrap_words>
     </widget>
-    <widget type="textupdate" version="2.0.0">
-      <name>Text Update_17</name>
-      <pv_name>${system}Potentiometer_B_TI</pv_name>
-      <x>217</x>
-      <y>42</y>
-      <width>80</width>
-      <foreground_color>
-        <color red="235" green="219" blue="178">
-        </color>
-      </foreground_color>
-      <background_color>
-        <color red="80" green="73" blue="69">
-        </color>
-      </background_color>
-      <precision>3</precision>
-    </widget>
   </widget>
   <widget type="rectangle" version="2.0.0">
     <name>Rectangle_6</name>
@@ -363,22 +347,6 @@
     <format>1</format>
     <precision>3</precision>
     <wrap_words>false</wrap_words>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>Text Update_19</name>
-    <pv_name>${system}Motor_Out_TI</pv_name>
-    <x>237</x>
-    <y>96</y>
-    <width>70</width>
-    <foreground_color>
-      <color red="235" green="219" blue="178">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="80" green="73" blue="69">
-      </color>
-    </background_color>
-    <precision>3</precision>
   </widget>
   <widget type="label" version="2.0.0">
     <name>Label_40</name>
