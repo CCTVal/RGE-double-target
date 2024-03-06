@@ -26,13 +26,17 @@ Next to it there's the menu button, with the options to open the temperature int
 
 ## Temperature interface
 
+![working main screen](docs/temperature_interface.png)
+
 Temperature interface revolves around a schematic of the Double Target system, featuring the cryogenic cell in the center (in light yellow) and the solid target system around it. At the top of the image in red, the motor, which has a temperature sensor and heater attached. At the bottom, in blue, the linear potentiometer also has a temperature sensor and heater attached.
 
-Each of them is linked to a section showing the current temperature, the setpoint of the PID control and the output power of the heater. To modify this parameters, click the "Expert" button, which will open an additional temperature window.
+Each of them is linked to a section showing the current temperature (in Kelvin), the setpoint of the PID control (in Kelvin) and the output power of the heater (in Watts). To modify this parameters, click the "Expert" button, which will open an additional temperature window.
 
 ## Temperature expert window
 
-This interface has one section for each part (motor / potentiometer), and each of them has the temperature reading, the temperature setpoint (the minimum desired temperature we want to reach), the heater output power, the three PID parameters (proportional, integrative and derivative), a "range" parameter to turn off the heater or use it at low, mid or high power. There's also a manual output control, in heater power output percent, for open-loop control.
+![working main screen](docs/temperature_expert_interface.png)
+
+This interface has one section for each part (motor / potentiometer), and each of them has the temperature reading (in Kelvin), the temperature setpoint (the minimum desired temperature we want to reach) (in Kelvin), the heater output power (both in percentage of the maximum configured to the Lakeshore temperature controller and in Watts), the three PID parameters (proportional, integrative and derivative), a "range" parameter to turn `off` the heater or use it at `low` (1%), `mid` (10%) or `high` (100%) power, and a max current parameter setting. There's also a manual output control, in heater power output percent, for open-loop control.
 
 ## Expert interface
 
@@ -40,6 +44,24 @@ Do not use.
 
 If you think you should use it, call someone from the chilean group so they can confirm you not to use it.
 
+![working main screen](docs/expert_interface.png)
+
 In the remote case they tell you to actually open it, you should see a list of color indicators, the readings of all the encoders and a command terminal.
 
 Most of the indicators are taken directly from the PMD-301 motor controller. For more information on them, look for its corresponding manual. "Limit reached" indicates when the limit switches are activated and it has directional indicators so you will know which of the limits is active. An arrow to the left corresponds to a backward limit activation and an arrow to the right corresponds to a forward limit activation.
+
+Below there are some settings parameters for the movement algorithm. `Motor gain` indicates how many motor steps correspond to one linear encoder step. A target change procedure starts with a fast and coarse approximation to the desired target, reaching a different position near the final one before doing a careful and slower movement toward the final destination. The difference between this breakpoint position and final desired position is the `overstep` parameter. During the last phase of mevement, the algorithm reads the analog encoder many times, and takes the mean value. `Noise supression` indicates how many times should it read the encoder to calculate the mean value. For every movement, a `speed` is instructed to the motor.
+
+Normally these shouldn't be changed. The situation for changing them is when it takes too long to reach desired position, or if the first phase of movement gets too close to the desired position, so signal noise gets bigger than `overstep`, for example.
+
+`active encoder` configures which encoder system should guide the movement. When `analog` is chosen, the linear analog potentiometer readings will be used to look for the right position. When `piano` is chosen, the stepper digital system will guide the movement with its one-millimeter steps. `motor` will use no encoder at all, and just instruct the motor to move a certain amount of motor steps. All of these systems have a reasonable precision, being `analog` the most precise as long as electromagnetic noise is not too great, all cables are properly connected and temperature in the system is stable. If any of these conditions are not met, consider changing to `piano` instead. This alternative encoder system is more stable at different temperatures and resistant to noise. Since `motor` provides absolutely no feedback, use it only when no encoder is working and try to repair the encoder as soon as it is possible to go to the experimental hall.
+
+Below that there are four buttons. `Step bw.` ("step backward") moves the system `500` motor steps backwards. Right next to it there is a small `<` button that moves the system `50` motor steps backwards. Likewise, the small `>` button moves the system `50` motor steps forward and `Step fw.` ("step forward") moves it `500` motor steps forward.
+These buttons can be used for calibration and testing, or manual movement in the case you decide to use any external system to check centering of the targets.
+
+The ``Terminal`` section allows you to send commands directly to the PMD301 Piezomotor controller. **Caution!** If you send a text that's not a correct command, it might trigger an unexpected behaviour and the system might need to be rebooted. The terminal should only be used in extreme cases and with the utmost caution.
+
+``Target positions`` panel allows for manual calibration of target reference positions according to each encoder system. For easy modification, there's an additional row `Apply offset`, which, when set to a non-zero value, will add the value to each target reference position.
+
+Finally, ``Target Calibration`` algorithms use the forward and backward limit switches as reference to automatically re-calibrate the targets' positions. The ``Establish`` buttons are for setting the piano and motor reference positions according to the analog encoder ones. ``Auto calibration`` executes the calibration algorithm before each movement.
+**Warning!** The calibration algorithms were not properly tested, so it must be discussed with chilean target group if it is a good idea to use them, so they can give you proper advice on how to use this section and how to check if it worked properly.
