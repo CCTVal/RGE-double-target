@@ -24,9 +24,9 @@ class Device():
         mode_list = ['Off', 'Closed Loop', 'Zone', 'Open Loop']
         range_list = ['Off', 'Low', 'Med', 'High']
 
-        self.p_limit = [self.calc_heater_power_limit(1), self.calc_heater_power_limit(2)]  # LS336 power limits per channel
 
         for channel in settings['channels']:  # set up PVs for each channel
+            print(channel)
             if "_TI" in channel:
                 self.pvs[channel] = builder.aIn(channel, **sevr)
             elif "None" in channel:
@@ -47,20 +47,17 @@ class Device():
                 self.pvs[channel + "_Range"] = builder.mbbOut(channel + "_Range", *range_list,
                                                               on_update_name=self.do_sets)
                 self.pvs[channel + "_Max_Current"] = builder.aOut(channel + "_Max_Current", on_update_name=self.do_sets)
+        
 
     def calc_heater_power_limit(self, channel):
         """Calculate power limit for to LS336 heater channel. Needs the channel, and nominal (25 or 50 ohm) and
         real heater resistance from settings file. """
         nominal, real = self.settings['heater_resistance'][int(channel) - 1]
         voltage = 50
-        try:
-            current = self.pvs[self.channels[channel-1] + '_Max_Current'].get()
-        except:
-            current = 2
+        current = self.pvs[self.channels[channel-1] + '_Max_Current'].get()
         pc = current * current * real
         pv = voltage * voltage / real
         p_limit = pc if pc < pv else pv  # power limit from resistance and setting
-        print(f"Channel {channel} power limit: {p_limit}")
         return p_limit
 
     async def connect(self):
@@ -144,6 +141,7 @@ class Device():
                     current = float(self.t.read_max_current(i + 1))
                     self.pvs[channel + '_Max_Current'].set(current)
                     decade = self.pvs[channel + '_Range'].get() - 3
+                    self.p_limit = [self.calc_heater_power_limit(1), self.calc_heater_power_limit(2)]  # LS336 power limits per channel
                     if decade == -3:  # "off" range
                         power = 0
                     else:

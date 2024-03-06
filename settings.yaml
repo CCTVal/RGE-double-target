@@ -30,6 +30,6 @@ lakeshore_336:
         Motor: 1
         Potentiometer: 2
     heater_resistance:  # Heaters for channels 1 and 2. First element is nominal as set (25 or 50), second is true as measured.
-        - [25, 9] # 4.16 for the heaters
-        - [50, 71] # 55 for the heater
+        - [25, 9] # 4.17 for the heaters
+        - [50, 71] # 52 for the heater
 
