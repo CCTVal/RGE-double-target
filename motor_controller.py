@@ -63,15 +63,15 @@ controller_response = builder.stringIn('CONTROLLER-RESPONSE', initial_value = ""
 
 ## Frequently updated records
 centered = builder.mbbIn('CENTERED',
-    'Wire'
+    'Wire',
     'C',
     'Al',
     'Cu',
     'Sn',
     'Pb',
     'Empty',
-    ('Unknown', 'MAJOR'),
-    initial_value = 'Unknown')
+    ('Unknown', alarm.MAJOR_ALARM),
+    initial_value = 7)
 main_encoder_reading = builder.aIn('MAIN-ENCODER-READING', initial_value = -1)
 piano_encoder_reading = builder.aIn('PIANO-ENCODER-READING', initial_value = -1)
 piano_reading_pv = builder.boolIn('PIANO-READING', initial_value = False)
