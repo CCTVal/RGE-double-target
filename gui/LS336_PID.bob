@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Saved on 2024-03-05 20:22:21 by cctval-->
+<!--Saved on 2024-03-06 13:25:51 by cctval-->
 <display version="2.0.0">
   <name>Lakeshore 336 Heater Controls</name>
   <macros>
@@ -73,8 +73,8 @@
     <transparent>true</transparent>
     <widget type="label" version="2.0.0">
       <name>Label_3</name>
-      <text>Input:</text>
-      <x>30</x>
+      <text>Input (K):</text>
+      <x>10</x>
       <y>50</y>
       <foreground_color>
         <color red="235" green="219" blue="178">
@@ -99,9 +99,10 @@
     </widget>
     <widget type="label" version="2.0.0">
       <name>Label_4</name>
-      <text>Heater Out:</text>
-      <x>30</x>
+      <text>Power Out (%/W):</text>
+      <x>10</x>
       <y>90</y>
+      <width>120</width>
       <foreground_color>
         <color red="235" green="219" blue="178">
         </color>
@@ -152,8 +153,8 @@
     </widget>
     <widget type="label" version="2.0.0">
       <name>Label_11</name>
-      <text>Setpoint:</text>
-      <x>30</x>
+      <text>Setpoint (K):</text>
+      <x>10</x>
       <y>70</y>
       <foreground_color>
         <color red="235" green="219" blue="178">
@@ -253,7 +254,7 @@
     <widget type="label" version="2.0.0">
       <name>Label_15</name>
       <text>Range:</text>
-      <x>30</x>
+      <x>10</x>
       <y>110</y>
       <foreground_color>
         <color red="235" green="219" blue="178">
@@ -263,7 +264,7 @@
     <widget type="label" version="2.0.0">
       <name>Label_16</name>
       <text>Manual (%):</text>
-      <x>30</x>
+      <x>10</x>
       <y>140</y>
       <foreground_color>
         <color red="235" green="219" blue="178">
@@ -302,7 +303,7 @@
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>motor heater out 2</name>
-      <pv_name>${system}Motor_Heater_W</pv_name>
+      <pv_name>${system}Motor_Out_W</pv_name>
       <x>220</x>
       <y>90</y>
       <width>80</width>
@@ -335,10 +336,10 @@
     </widget>
     <widget type="label" version="2.0.0">
       <name>Label_23</name>
-      <text>max current:</text>
+      <text>max current (A):</text>
       <x>320</x>
       <y>110</y>
-      <width>90</width>
+      <width>110</width>
       <foreground_color>
         <color red="235" green="219" blue="178">
         </color>
@@ -367,8 +368,8 @@
     <transparent>true</transparent>
     <widget type="label" version="2.0.0">
       <name>Label_10</name>
-      <text>Input:</text>
-      <x>30</x>
+      <text>Input (K):</text>
+      <x>10</x>
       <y>50</y>
       <foreground_color>
         <color red="235" green="219" blue="178">
@@ -393,9 +394,10 @@
     </widget>
     <widget type="label" version="2.0.0">
       <name>Label_12</name>
-      <text>Heater Output:</text>
-      <x>30</x>
+      <text>Power out (%/W):</text>
+      <x>10</x>
       <y>90</y>
+      <width>120</width>
       <foreground_color>
         <color red="235" green="219" blue="178">
         </color>
@@ -447,8 +449,8 @@
     </widget>
     <widget type="label" version="2.0.0">
       <name>Label_19</name>
-      <text>Setpoint:</text>
-      <x>30</x>
+      <text>Setpoint (K):</text>
+      <x>10</x>
       <y>70</y>
       <foreground_color>
         <color red="235" green="219" blue="178">
@@ -548,7 +550,7 @@
     <widget type="label" version="2.0.0">
       <name>Label_20</name>
       <text>Range:</text>
-      <x>30</x>
+      <x>10</x>
       <y>110</y>
       <foreground_color>
         <color red="235" green="219" blue="178">
@@ -557,8 +559,8 @@
     </widget>
     <widget type="label" version="2.0.0">
       <name>Label_21</name>
-      <text>Manual Heater:</text>
-      <x>30</x>
+      <text>Manual (%):</text>
+      <x>10</x>
       <y>140</y>
       <foreground_color>
         <color red="235" green="219" blue="178">
@@ -597,7 +599,7 @@
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>potentiometer heater out 2</name>
-      <pv_name>${system}Potentiometer_Heater_W</pv_name>
+      <pv_name>${system}Potentiometer_Out_W</pv_name>
       <x>220</x>
       <y>90</y>
       <width>80</width>
@@ -630,10 +632,10 @@
     </widget>
     <widget type="label" version="2.0.0">
       <name>Label_24</name>
-      <text>max current:</text>
+      <text>max current (A):</text>
       <x>320</x>
       <y>110</y>
-      <width>90</width>
+      <width>110</width>
       <foreground_color>
         <color red="235" green="219" blue="178">
         </color>

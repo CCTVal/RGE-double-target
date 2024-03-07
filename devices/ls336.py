@@ -36,6 +36,7 @@ class Device():
                 self.pvs[channel + "_TI"] = builder.aIn(channel + "_TI", **sevr)
                 self.pvs[channel + "_Heater"] = builder.aIn(channel + "_Heater", **sevr)
                 self.pvs[channel + "_Heater_W"] = builder.aIn(channel + "_Heater_W", **sevr)
+                self.pvs[channel + "_Out_W"] = builder.aIn(channel + "_Out_W", **sevr)
 
                 self.pvs[channel + "_Manual"] = builder.aOut(channel + "_Manual", on_update_name=self.do_sets, **sevr)
                 self.pvs[channel + "_kP"] = builder.aOut(channel + "_kP", on_update_name=self.do_sets)
@@ -52,13 +53,14 @@ class Device():
     def calc_heater_power_limit(self, channel):
         """Calculate power limit for to LS336 heater channel. Needs the channel, and nominal (25 or 50 ohm) and
         real heater resistance from settings file. """
-        nominal, real = self.settings['heater_resistance'][int(channel) - 1]
+        nominal, real, heater = self.settings['heater_resistance'][int(channel) - 1]
         voltage = 50
         current = self.pvs[self.channels[channel-1] + '_Max_Current'].get()
         pc = current * current * real
         pv = voltage * voltage / real
         p_limit = pc if pc < pv else pv  # power limit from resistance and setting
-        return p_limit
+        h_limit = p_limit * heater / real
+        return p_limit, h_limit
 
     async def connect(self):
         '''Open connection to device'''
@@ -141,12 +143,18 @@ class Device():
                     current = float(self.t.read_max_current(i + 1))
                     self.pvs[channel + '_Max_Current'].set(current)
                     decade = self.pvs[channel + '_Range'].get() - 3
-                    self.p_limit = [self.calc_heater_power_limit(1), self.calc_heater_power_limit(2)]  # LS336 power limits per channel
+                    out_1, heat_1 = self.calc_heater_power_limit(1)
+                    out_2, heat_2 = self.calc_heater_power_limit(2)
+                    self.p_limit = [out_1, out_2]  # LS336 power limits per channel
+                    h_p_limit = [heat_1, heat_2]
                     if decade == -3:  # "off" range
                         power = 0
+                        heat_power = 0
                     else:
                         power = self.p_limit[self.out_channels[channel] - 1] * 10**decade * heat / 100
-                    self.pvs[channel + '_Heater_W'].set(power)
+                        heat_power = h_p_limit[self.out_channels[channel] - 1] * 10**decade * heat / 100
+                    self.pvs[channel + '_Out_W'].set(power)
+                    self.pvs[channel + '_Heater_W'].set(heat_power)
         except OSError:
             for channel in self.channels:
                 if "None" in channel: continue

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Saved on 2024-02-02 17:09:58 by javier-->
+<!--Saved on 2024-03-06 21:23:48 by cctval-->
 <display version="2.0.0">
   <name>double_target_expert</name>
   <macros>
@@ -452,6 +452,7 @@ $(pv_value)</tooltip>
         <color red="80" green="73" blue="69">
         </color>
       </background_color>
+      <precision>2</precision>
     </widget>
     <widget type="textentry" version="3.0.0">
       <name>Text Entry_8</name>
@@ -467,6 +468,7 @@ $(pv_value)</tooltip>
         <color red="80" green="73" blue="69">
         </color>
       </background_color>
+      <precision>2</precision>
     </widget>
     <widget type="textentry" version="3.0.0">
       <name>Text Entry_9</name>
@@ -482,6 +484,7 @@ $(pv_value)</tooltip>
         <color red="80" green="73" blue="69">
         </color>
       </background_color>
+      <precision>2</precision>
     </widget>
     <widget type="textentry" version="3.0.0">
       <name>Text Entry_10</name>
@@ -497,6 +500,7 @@ $(pv_value)</tooltip>
         <color red="80" green="73" blue="69">
         </color>
       </background_color>
+      <precision>2</precision>
     </widget>
     <widget type="textentry" version="3.0.0">
       <name>Text Entry_11</name>
@@ -512,6 +516,7 @@ $(pv_value)</tooltip>
         <color red="80" green="73" blue="69">
         </color>
       </background_color>
+      <precision>2</precision>
     </widget>
     <widget type="textentry" version="3.0.0">
       <name>Text Entry_12</name>
@@ -527,6 +532,7 @@ $(pv_value)</tooltip>
         <color red="80" green="73" blue="69">
         </color>
       </background_color>
+      <precision>2</precision>
     </widget>
     <widget type="textentry" version="3.0.0">
       <name>Text Entry_13</name>
@@ -542,6 +548,7 @@ $(pv_value)</tooltip>
         <color red="80" green="73" blue="69">
         </color>
       </background_color>
+      <precision>2</precision>
     </widget>
     <widget type="textentry" version="3.0.0">
       <name>Text Entry_14</name>
@@ -677,6 +684,7 @@ $(pv_value)</tooltip>
         <color red="80" green="73" blue="69">
         </color>
       </background_color>
+      <precision>2</precision>
     </widget>
     <widget type="textentry" version="3.0.0">
       <name>Text Entry_23</name>

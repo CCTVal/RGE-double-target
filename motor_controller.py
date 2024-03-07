@@ -22,7 +22,7 @@ import re
 #General settings
 # Set the record prefix
 builder.SetDeviceName("CCTVAL_DT_PMD301")
-debug = True
+debug = False
 PIANO_PIN = 23
 LIMIT1_PIN = 24
 LIMIT2_PIN = 25
@@ -99,8 +99,8 @@ overstep = builder.aOut('OVERSTEP', initial_value = 30000)
 motor_speed = builder.aOut('MOTOR-SPEED', initial_value = 500)
 
 ## Calibration
-reference_forward_limit_switch = builder.aIn('REFERENCE-FORWARD-LIMIT-SWITCH', initial_value = 3924330)
-reference_backward_limit_switch = builder.aIn('REFERENCE-BACKWARD-LIMIT-SWITCH', initial_value = -1840)
+reference_forward_limit_switch = builder.aIn('REFERENCE-FORWARD-LIMIT-SWITCH', initial_value = 3770414)
+reference_backward_limit_switch = builder.aIn('REFERENCE-BACKWARD-LIMIT-SWITCH', initial_value = 6848)
 reference_piano_limit_switch = builder.aIn('REFERENCE-PIANO-LIMIT-SWITCH', initial_value = 70)
 reference_motor_limit_switch = builder.aIn('REFERENCE-MOTOR-LIMIT-SWITCH', initial_value = -29660)
 calibrate_analog_pv = builder.boolOut('CALIBRATE-ANALOG', initial_value = False, on_update = lambda v: calibrate_analog(v))
@@ -112,31 +112,31 @@ search_motor_pos_pv = builder.boolOut('SEARCH-MOTOR-POSITIONS', initial_value = 
 search_piano_pos_pv = builder.boolOut('SEARCH-PIANO-POSITIONS', initial_value = False, on_update = lambda v: search_piano_positions(v))
 
 ## Positions for each target being centered on beamline.
-target_positions = [builder.aOut('TARGET-POSITION0', initial_value = -1830),
-                    builder.aOut('TARGET-POSITION1', initial_value = 444100),
-                    builder.aOut('TARGET-POSITION2', initial_value = 1110350),
-                    builder.aOut('TARGET-POSITION3', initial_value = 1788840),
-                    builder.aOut('TARGET-POSITION4', initial_value = 2482110),
-                    builder.aOut('TARGET-POSITION5', initial_value = 3172510),
+target_positions = [builder.aOut('TARGET-POSITION0', initial_value = -300000),
+                    builder.aOut('TARGET-POSITION1', initial_value = 393120),
+                    builder.aOut('TARGET-POSITION2', initial_value = 1068295),
+                    builder.aOut('TARGET-POSITION3', initial_value = 1735760),
+                    builder.aOut('TARGET-POSITION4', initial_value = 2424250),
+                    builder.aOut('TARGET-POSITION5', initial_value = 3122115),
                     builder.aOut('TARGET-POSITION6', initial_value = 3879610)
                    ]
 
-target_piano_positions = [builder.aOut('TARGET-PIANO-POSITION0', initial_value = 44),
-                    builder.aOut('TARGET-PIANO-POSITION1', initial_value = 34),
-                    builder.aOut('TARGET-PIANO-POSITION2', initial_value = 24.8),
-                    builder.aOut('TARGET-PIANO-POSITION3', initial_value = 16.2),
-                    builder.aOut('TARGET-PIANO-POSITION4', initial_value = 7),
-                    builder.aOut('TARGET-PIANO-POSITION5', initial_value = 3),
-                    builder.aOut('TARGET-PIANO-POSITION6', initial_value = 1.5)
+target_piano_positions = [builder.aOut('TARGET-PIANO-POSITION0', initial_value = 60.0),
+                    builder.aOut('TARGET-PIANO-POSITION1', initial_value = 48.7),
+                    builder.aOut('TARGET-PIANO-POSITION2', initial_value = 38.9),
+                    builder.aOut('TARGET-PIANO-POSITION3', initial_value = 29.1),
+                    builder.aOut('TARGET-PIANO-POSITION4', initial_value = 19.4),
+                    builder.aOut('TARGET-PIANO-POSITION5', initial_value = 9.4),
+                    builder.aOut('TARGET-PIANO-POSITION6', initial_value = 0.0)
                    ]
 
-target_motor_positions = [builder.aOut('TARGET-MOTOR-POSITION0', initial_value = -29000),
-                    builder.aOut('TARGET-MOTOR-POSITION1', initial_value = -23000),
-                    builder.aOut('TARGET-MOTOR-POSITION2', initial_value = -17080),
-                    builder.aOut('TARGET-MOTOR-POSITION3', initial_value = -11020),
-                    builder.aOut('TARGET-MOTOR-POSITION4', initial_value = -7000),
-                    builder.aOut('TARGET-MOTOR-POSITION5', initial_value = -2000),
-                    builder.aOut('TARGET-MOTOR-POSITION6', initial_value = -150)
+target_motor_positions = [builder.aOut('TARGET-MOTOR-POSITION0', initial_value = -35000),
+                    builder.aOut('TARGET-MOTOR-POSITION1', initial_value = -22894),
+                    builder.aOut('TARGET-MOTOR-POSITION2', initial_value = -18176),
+                    builder.aOut('TARGET-MOTOR-POSITION3', initial_value = -13678),
+                    builder.aOut('TARGET-MOTOR-POSITION4', initial_value = -7100),
+                    builder.aOut('TARGET-MOTOR-POSITION5', initial_value = -3188),
+                    builder.aOut('TARGET-MOTOR-POSITION6', initial_value = 0)
                    ]
 
 analog_offset = builder.aOut('ANALOG-OFFSET', initial_value = 0, on_update = lambda v: apply_offset(v, target_positions))
@@ -366,11 +366,11 @@ async def piano_go_to(position_index = -float("inf")):
     print("\nStarting piano movement. We will move ", target_piano_positions[position_index].get(), "piano steps.")
     suma = gpio.input(PIANO_PIN)
     for present in range(int(target_piano_positions[position_index].get())):
-        if user_stop.get():
+        if user_stop.get() or backward_limit_switch.get():
             return
         last_piano = suma
         j = 0
-        while suma == last_piano and not user_stop.get():
+        while suma == last_piano and (not user_stop.get()) and (not backward_limit_switch.get()):
             j += 1
             if not await sync_move(-10):
                 return
@@ -408,7 +408,7 @@ async def motor_go_to(position_index):
     motor_is_moving.set(True)
     if auto_calibration_pv.get():
         await calibrate_motor()
-    while not (cs_x_limit.get() or user_stop.get()):
+    while not (cs_x_limit.get() or user_stop.get() or forward_limit_switch.get()):
         if not move_to(100):
             return
         await asyncio.sleep(0.1)
@@ -423,7 +423,7 @@ async def motor_go_to(position_index):
         print(e)
         piezomotor_connection.set(False, severity = alarm.MAJOR_ALARM, alarm = alarm.COMM_ALARM)
     for step in range(0,int(target_motor_positions[position_index].get()),-1):
-        if user_stop.get():
+        if user_stop.get() or backward_limit_switch.get():
             return
         if not await sync_move(-1):
             print("There's been a fatal error! Call the programmer!")
@@ -439,7 +439,7 @@ async def dual_go_to(position_index = -float("inf")):
     motor_is_moving.set(True)
     if auto_calibration_pv.get():
         await calibrate_all()
-    while not (cs_x_limit.get() or user_stop.get()):
+    while not (cs_x_limit.get() or user_stop.get() or forward_limit_switch.get()):
         if not move_to(100):
             return
         await asyncio.sleep(0.1)
@@ -461,7 +461,7 @@ async def dual_go_to(position_index = -float("inf")):
     piano_position = 0
     piano_encoder_reading.set(0)
     value = target_positions[position_index].get()
-    while ads.readDifferential_0_1() - (value + overstep.get()) > 500 and not user_stop.get():
+    while ads.readDifferential_0_1() - (value + overstep.get()) > 500 and (not user_stop.get()) and (not backward_limit_switch.get()):
         calculated_steps = ((value + overstep.get()) - ads.readDifferential_0_1()) * motor_gain.get()
         steps = max([-100, calculated_steps])
         if not move_to(steps):
@@ -485,7 +485,7 @@ async def dual_go_to(position_index = -float("inf")):
         piezomotor_connection.set(False, severity = alarm.MAJOR_ALARM, alarm = alarm.COMM_ALARM)
 
     mean = ads.readDifferential_0_1()
-    while (mean - value) > 1 and not user_stop.get():
+    while (mean - value) > 1 and (not user_stop.get()) and (not backward_limit_switch.get()):
         calculated_steps = ((value - mean)) * motor_gain.get()
         if(calculated_steps > 0):
             break
