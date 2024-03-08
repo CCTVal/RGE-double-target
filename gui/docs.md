@@ -1,6 +1,17 @@
-# Phoebus graphic interface
+# RG-E Solid target system graphical user interface
 
-The user interface is intended to be viewed through CS-Studio Phoebus v4.7. From the main screen ``double_target_main.bob``, the rest of the screens can be accesed.
+Read this if you want to know how to control the solid target system.
+
+## Introduction
+As you probably know, JLab's Hall B Run Group E experiment is a Double Target one. That means there is a cryogenic, liquid hydrogen target, and a second one, downstream, solid target. Solid target can be switched to different elements. Actually, there are seven possibilities: an empty target, lead, tin, copper, aluminum, carbon and an additional beam calibration target. The beam calibration target is an empty space crossed by two very thin cables, one at 90 degrees from the other. These seven targets are one next to each other in a copper ribbon which can be moved to put each of these at the center of the structure.
+
+The ribbon is attached to a PiezoMotor piezoelectric motor, which has a moving bar that can push and pull the ribbon. At the other side, the motor is attached to the "piano encoder" system, which has one millimeter pieces with alternate electrical charge, so we can count the steps while it is moving to know the current band position. At the other side of the band, there is a linear potentiometer used as analog encoder to double-check the band position.
+
+All of this is connected to an "electric box" with a Raspberry Pi, a motor controller and other stuff in the experimental hall B.
+
+The user interface is intended to be viewed through CS-Studio Phoebus v4.7. If you're reading this, you'll probably be using an older version of CS-Studio, so the screens will look uglier, but it should work the same way.
+
+From the main screen ``double_target_main.bob``, the rest of the screens can be accesed.
 
 ## Main screen
 
@@ -37,6 +48,8 @@ Each of them is linked to a section showing the current temperature (in Kelvin),
 ![working main screen](docs/temperature_expert_interface.png)
 
 This interface has one section for each part (motor / potentiometer), and each of them has the temperature reading (in Kelvin), the temperature setpoint (the minimum desired temperature we want to reach) (in Kelvin), the heater output power (both in percentage of the maximum configured to the Lakeshore temperature controller and in Watts), the three PID parameters (proportional, integrative and derivative), a "range" parameter to turn `off` the heater or use it at `low` (1%), `mid` (10%) or `high` (100%) power, and a max current parameter setting. There's also a manual output control, in heater power output percent, for open-loop control.
+
+Note that the heater output power in this screen is the power used by Lakeshore temperature controller. Part of it is wasted in the wires, and part of it actually reaches the heater. In the normal temperature interface you can see the power actually being used by the heater only.
 
 ## Expert interface
 

@@ -1,6 +1,6 @@
-# Process variables
+# Solid Target Movement
 
-This document list all process variables used for Jefferson Lab's hall B Solid Target movement system on Run Group E Double Target Experiment.
+This document list all process variables used for Jefferson Lab's hall B Solid Target movement system on Run Group E Double Target Experiment. An additional set of PVs is used for temperature control.
 
 Every PV has the prefix ``CCTVAL_DT_PMD301:``, so a PV complete name would look, for example, like this: ``CCTVAL_DT_PMD301:SHOULD-STOP``.
 
@@ -80,7 +80,7 @@ Every PV has the prefix ``CCTVAL_DT_PMD301:``, so a PV complete name would look,
 ## General information and controller status
 
 1. **PIEZOMOTOR-IOC-HEARTBEAT** :: Bool :: Value changed every second.
-1. **CENTERED** :: MBB :: What is centered. Possible values are `Wire`, `C`, `Al`, `Cu`, `Sn`, `Pb`, `Empty` and `Unknown`, corresponding to each target. Value is `Unknown` while moving.
+1. **CENTERED** :: Multi-bit binary :: What is centered. Possible values are `Wire`, `C`, `Al`, `Cu`, `Sn`, `Pb`, `Empty` and `Unknown`, corresponding to each target. Value is `Unknown` while moving.
 1. **PIEZOMOTOR-CONTROLLER-VERSION** :: String :: Obtained directly from PMD301 controller (details in its own manual)
 1. **PIEZOMOTOR-CONTROLLER-COMMUNICATION-ERROR** :: Bool :: Obtained directly from PMD301 controller (details in its own manual)
 1. **PIEZOMOTOR-CONTROLLER-ENCODER-ERROR** :: Bool :: Obtained directly from PMD301 controller (details in its own manual)
@@ -121,3 +121,32 @@ Every PV has the prefix ``CCTVAL_DT_PMD301:``, so a PV complete name would look,
 1. **REFERENCE-BACKWARD-LIMIT-SWITCH** :: Bool :: Analog encoder reading used for last calibration. Will be used for next calibration process.
 1. **REFERENCE-PIANO-LIMIT-SWITCH** :: Bool :: Piano encoder reading used for last calibration. Will be used for next calibration process.
 1. **REFERENCE-MOTOR-LIMIT-SWITCH** :: Bool :: Motor step count used for last calibration. Will be used for next calibration process.
+
+# Solid Target Temperature Control
+
+All temperature-related PVs are managed by a separate IOC on a different device that must be connected to the Lakeshore 336 Temperature Controller. All PVs in this IOC have the prefix ``RGE_CCTVAL_TEMP:``, so a PV complete name would look, for example, like this: ``RGE_CCTVAL_TEMP:Motor_TI``.
+
+1. **Motor_TI** :: Analog :: Kelvin temperature read at motor.
+1. **Motor_Range** :: Multi-bit binary :: How much of max current to actually use as max. Possible values are `Off`, `Low` (1%), `Med` (10%) and `High` (100%)
+1. **Motor_SP** :: Analog :: Temperature setpoint (in Kelvin). Temperature control will try to maintain this temperature in the motor.
+1. **Motor_Heater** :: Analog :: How much current is sent (in percentage of maximum)
+1. **Motor_Heater_W** :: Analog :: How much power in Watts is actually consumed by the heater. This is calculated using current output current and heater's resistance.
+1. **Motor_Out_W** :: Analog :: How much power in Watts is sent from Lakeshore controller.
+1. **Motor_Manual** :: Analog :: Percentage of current sent (manually set)
+1. **Motor_kP** :: Analog :: PID proportional constant
+1. **Motor_kI** :: Analog :: PID integrative constant
+1. **Motor_kD** :: Analog :: PID derivative constant
+1. **Motor_Mode** :: Multi-bit binary :: Control modes. Possible values are `Off`, `Closed Loop`, `Zone`, `Open Loop`
+1. **Motor_Max_Current** :: Analog :: Max current in Amperes that should be sent from Lakeshore temperature controller.
+1. **Potentiometer_TI** :: Analog :: Kelvin temperature read at potentiometer.
+1. **Potentiometer_Range** :: Multi-bit binary :: How much of max current to actually use as max. Possible values are `Off`, `Low` (1%), `Med` (10%) and `High` (100%)
+1. **Potentiometer_SP** :: Analog :: Temperature setpoint (in Kelvin). Temperature control will try to maintain this temperature in the potentiometer.
+1. **Potentiometer_Heater** :: Analog :: How much power is sent (in percentage of maximum)
+1. **Potentiometer_Heater_W** :: Analog :: How much power in Watts is actually consumed by the heater. This is calculated using current output current and heater's resistance.
+1. **Potentiometer_Out_W** :: Analog :: How much power in Watts is sent from Lakeshore controller.
+1. **Potentiometer_Manual** :: Analog :: Percentage of current sent (manually set)
+1. **Potentiometer_kP** :: Analog :: PID proportional constant
+1. **Potentiometer_kI** :: Analog :: PID integrative constant
+1. **Potentiometer_kD** :: Analog :: PID derivative constant
+1. **Potentiometer_Mode** :: Multi-bit binary :: Control modes. Possible values are `Off`, `Closed Loop`, `Zone`, `Open Loop`
+1. **Potentiometer_Max_Current** :: Analog :: Max current in Amperes that should be sent from Lakeshore temperature controller.
