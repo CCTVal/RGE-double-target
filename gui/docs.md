@@ -22,17 +22,17 @@ The main screen has at its left side the "Target Switch" panel, with a list of t
  - Its position, measured by analog linear potentiometer.
  - Its position, in [mm], measured by the "piano" (stepper) encoder.
  - Its position, measured in motor steps needed to reach that position.
- - A color indicator showing if the target is currently centered.
+ - A color indicator showing if the target is currently centered (or at least, it should be).
 
-In order to center an specific target, all that is needed is to press its specific button.
+In order to center an specific target, all that is needed is to press its specific button and wait until the text on the right side says `still`.
 
 Next to this panel, there is the "Motor Position" panel, with the current reading of every encoder, if the ribbon is being moved or still, and the position of both (backward and forward) limit switches. The analog encoder reading should be updated constantly. The piano encoder number is updated only during the last part of the movement. After a movement is finished, both readings should be similar to the reference positions in the "Target Switch" panel. The limit switches positions update when they are activated, with the reading of the analog encoder. Also, when activated, the color indicator next to the number should be turned on.
 
 In the top part there's the communication status panel. It has a heartbeat-type signal that should turn on and off every second as long as the controller is working normally. This may stop for some time while there is some movement operation running, because the controller will be focused in the movement process.
 
-At the right side, there is a visualization of the ribbon with all of the target ribbons. This is done by usin each target's position registered according to the analog encoder and it moves according to the analog encoder reading. The middle line should correspond to the beam, if the beam was centered (we're not directly reading beam deviation here)
+At the right side, there is a visualization of the ribbon with all of the targets. This is done by using each target's position registered according to the analog encoder and it moves according to the analog encoder reading. The middle line should correspond to the beam, if the beam was centered (we're not directly reading beam deviation here)
 
-In the upper left corner, there's a big red "stop" button. This should stop any movement almost immediatly.
+In the upper left corner, there's a big red "stop" button. This should stop any movement almost immediatly and stop you from starting a new one for the next two seconds.
 
 Next to it there's the menu button, with the options to open the temperature interface and the expert interface.
 
@@ -56,7 +56,7 @@ Note that the heater output power in this screen is the power used by Lakeshore 
 
 Do not use.
 
-If you think you should use it, call someone from the chilean group so they can confirm you not to use it.
+If you think you should use it, call someone from the chilean solid target group so they can confirm you not to use it.
 
 ![working main screen](docs/expert_interface.png)
 
@@ -68,7 +68,7 @@ Below there are some settings parameters for the movement algorithm. `Motor gain
 
 Normally these shouldn't be changed. The situation for changing them is when it takes too long to reach desired position, or if the first phase of movement gets too close to the desired position, so signal noise gets bigger than `overstep`, for example.
 
-`active encoder` configures which encoder system should guide the movement. When `analog` is chosen, the linear analog potentiometer readings will be used to look for the right position. When `piano` is chosen, the stepper digital system will guide the movement with its one-millimeter steps. `motor` will use no encoder at all, and just instruct the motor to move a certain amount of motor steps. All of these systems have a reasonable precision, being `analog` the most precise as long as electromagnetic noise is not too great, all cables are properly connected and temperature in the system is stable. If any of these conditions are not met, consider changing to `piano` instead. This alternative encoder system is more stable at different temperatures and resistant to noise. Since `motor` provides absolutely no feedback, use it only when no encoder is working and try to repair the encoder as soon as it is possible to go to the experimental hall.
+`active encoder` configures which encoder system should guide the movement. When `analog` is chosen, the linear analog potentiometer readings will be used to look for the right position. When `piano` is chosen, the stepper digital system will guide the movement with its one-millimeter steps. `motor` will use no encoder at all, and just instruct the motor to move a certain amount of motor steps. All of these systems have a reasonable precision, being `analog` the most precise as long as electromagnetic noise is not too great, all cables are properly connected and temperature in the system is stable. If any of these conditions are not met, consider changing to `piano` instead. This alternative encoder system is more stable at different temperatures and resistant to noise, but it relies on the limit switches as absolute reference. Since `motor` provides absolutely no feedback, use it only when no encoder is working and try to repair the encoder as soon as it is possible to go to the experimental hall. There's a fourth option, `dual`, with a movement algorithm guided by the analog encoder but also counts the piano and motor steps. Only if everything is working properly this can (and should) be used so all the data can be cross-checked.
 
 Below that there are four buttons. `Step bw.` ("step backward") moves the system `500` motor steps backwards. Right next to it there is a small `<` button that moves the system `50` motor steps backwards. Likewise, the small `>` button moves the system `50` motor steps forward and `Step fw.` ("step forward") moves it `500` motor steps forward.
 These buttons can be used for calibration and testing, or manual movement in the case you decide to use any external system to check centering of the targets.
