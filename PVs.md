@@ -124,7 +124,7 @@ Every PV has the prefix ``CCTVAL_DT_PMD301:``, so a PV complete name would look,
 
 # Solid Target Temperature Control
 
-All temperature-related PVs are managed by a separate IOC on a different device that must be connected to the Lakeshore 336 Temperature Controller. All PVs in this IOC have the prefix ``RGE_CCTVAL_TEMP:``, so a PV complete name would look, for example, like this: ``RGE_CCTVAL_TEMP:Motor_TI``.
+All temperature-related PVs are managed by a separate IOC on a different device that must be connected to the Lakeshore 336 Temperature Controller. All PVs in this IOC have the prefix ``CCTVAL_TEMP:``, so a PV complete name would look, for example, like this: ``RGE_CCTVAL_TEMP:Motor_TI``.
 
 1. **Motor_TI** :: Analog :: Kelvin temperature read at motor.
 1. **Motor_Range** :: Multi-bit binary :: How much of max current to actually use as max. Possible values are `Off`, `Low` (1%), `Med` (10%) and `High` (100%)

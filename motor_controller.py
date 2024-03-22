@@ -263,7 +263,9 @@ async def go_to(position_index, should_go = False):
         await piano_go_to(position_index)
     elif main_encoder.get() == "motor":
         await motor_go_to(position_index)
-    else: # analog
+    elif main_encoder.get() == "analog":
+        await set_target_position(target_positions[position_index].get())
+    else: # dual
         await dual_go_to(position_index)
         #user_target_position.set(target_positions[position_index].get())
     centered.set(position_index, severity = alarm.NO_ALARM)
@@ -305,13 +307,15 @@ async def set_target_position(value=-float("inf")):
             calculated_steps = ((value + overstep.get()) - ads.readDifferential_0_1()) * motor_gain.get()
             if not move_to(calculated_steps):
                 return
+            if forward_limit_switch.get() or backward_limit_switch.get():
+                break
             await asyncio.sleep(0.001)
         
         with serial.Serial(controller_port.get(), baud_rate.get()) as connection:
             connection.write(("X1S\r").encode("ascii"))
             reading = connection.read_until(b"\r").decode().strip()
         mean = ads.readDifferential_0_1()
-        while (mean - value) > 1 and not user_stop.get():
+        while (mean - value) > 1 and not user_stop.get() and not backward_limit_switch.get(): 
             calculated_steps = ((value - mean)) * motor_gain.get()
             if(calculated_steps > 0):
                 break
@@ -332,7 +336,7 @@ async def set_target_position(value=-float("inf")):
         with serial.Serial(controller_port.get(), baud_rate.get()) as connection:
             connection.write(("X1S\r").encode("ascii"))
             reading = connection.read_until(b"\r").decode().strip()
-        print("[Set target position]:: breaking at mean read value:", mean)
+        # print("[Set target position]:: breaking at mean read value:", mean)
         motor_is_moving.set(False)
         
     except OSError as e:
@@ -848,14 +852,17 @@ async def update():
     while True:
         ioc_heartbeat.set(not ioc_heartbeat.get())
         try:
+            mean = 0
+            # noise_sup = noise_supression.get()
+            for i in range(8):
+                mean += ads.readDifferential_0_1()
+            mean /= 8
+            adc_reading = mean
+            main_encoder_reading.set(mean, severity = alarm.NO_ALARM)
+            if centered.get() > 0 and centered.get() < 6:
+                if(mean < target_positions[centered.get()].get() - 100_000 or mean > target_positions[centered.get()].get() + 100_000):
+                    main_encoder_reading.set(mean, severity = alarm.MAJOR_ALARM, alarm = alarm.STATE_ALARM)
             with serial.Serial(controller_port.get(), baud_rate.get()) as connection:
-                adc_reading = ads.readDifferential_0_1()
-                main_encoder_reading.set(adc_reading)
-                #connection.write(("X1T\r").encode("ascii"))
-                #reading = int(connection.read_until(b"\r").decode().strip().split(":")[1])
-                #target_position.set(reading)
-                #connection.write(("X1H\r").encode("ascii"))    # speed
-                #reading = int(connection.read_until(b"\r").decode().strip().split(":")[1])
                 piano_reading_pv.set(gpio.input(PIANO_PIN))
                 connection.write(("X1U0\r").encode("ascii"))
                 reading = connection.read_until(b"\r").decode().strip().split(":")[1]

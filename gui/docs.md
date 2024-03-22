@@ -3,24 +3,25 @@
 Read this if you want to know how to control the solid target system.
 
 ## Introduction
-As you probably know, JLab's Hall B Run Group E experiment is a Double Target one. That means there is a cryogenic, liquid hydrogen target, and a second one, downstream, solid target. Solid target can be switched to different elements. Actually, there are seven possibilities: an empty target, lead, tin, copper, aluminum, carbon and an additional beam calibration target. The beam calibration target is an empty space crossed by two very thin cables, one at 90 degrees from the other. These seven targets are one next to each other in a copper ribbon which can be moved to put each of these at the center of the structure.
+As you probably know, JLab's Hall B Run Group E experiment is a Double Target one. That means there is a cryogenic, liquid hydrogen target, and a second one, downstream, solid target. Solid target can be switched to different elements. Actually, there are seven possibilities: an empty target (0), lead (Pb), tin (Sn), copper (Cu), aluminum (Al), carbon (C) and an additional beam calibration target (X). The beam calibration target is an empty space crossed by two very thin tungsten cables, one at 90 degrees from the other. These seven targets are one next to each other in a ribbon which can be moved to put each of these at the center of the structure.
 
-The ribbon is attached to a PiezoMotor piezoelectric motor, which has a moving bar that can push and pull the ribbon. At the other side, the motor is attached to the "piano encoder" system, which has one millimeter pieces with alternate electrical charge, so we can count the steps while it is moving to know the current band position. At the other side of the band, there is a linear potentiometer used as analog encoder to double-check the band position.
+The ribbon is attached to a piezoelectric motor, which has a moving bar that can push and pull the ribbon. At the other side, the motor is attached to the "piano encoder" system, which has one millimeter pieces with alternate electrical charge, so we can count the steps while it is moving to know the current band position. At the other side of the band, there is a linear potentiometer used as analog encoder to double-check the band position.
 
 All of this is connected to an "electric box" with a Raspberry Pi, a motor controller and other stuff in the experimental hall B.
 
 The user interface is intended to be viewed through CS-Studio Phoebus v4.7. If you're reading this, you'll probably be using an older version of CS-Studio, so the screens will look uglier, but it should work the same way.
 
-From the main screen ``double_target_main.bob``, the rest of the screens can be accesed.
+The main screen ``RG-E solid target`` is available in the ``Beamline`` subsystem menu in CS-studio, the rest of the screens can be accesed from that main screen.
 
 ## Main screen
 
 ![working main screen](docs/main_interface.png)
 
 The main screen has at its left side the "Target Switch" panel, with a list of the seven existing solid targets, each with:
- - a button to center it
+ - A button to center it.
  - Its position, measured by analog linear potentiometer.
  - Its position, in [mm], measured by the "piano" (stepper) encoder.
+ - Its position, measured in motor steps needed to reach that position.
  - A color indicator showing if the target is currently centered.
 
 In order to center an specific target, all that is needed is to press its specific button.
