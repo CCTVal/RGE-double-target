@@ -22,7 +22,7 @@ import re
 #General settings
 # Set the record prefix
 builder.SetDeviceName("CCTVAL_DT_PMD301")
-debug = False
+debug = False # Sets an interactive shell, so the program must be called interactively. Use only for testing and debugging.
 PIANO_PIN = 23
 LIMIT1_PIN = 24
 LIMIT2_PIN = 25
@@ -226,8 +226,8 @@ async def stop(should_stop = True):
         print("Error connecting to PiezoMotor controller.")
         print(e)
         piezomotor_connection.set(False, severity = alarm.MAJOR_ALARM, alarm = alarm.COMM_ALARM)
-    await asyncio.sleep(2)
-    user_stop.set(False)
+    await asyncio.sleep(2) # wait 2 seconds so every thread has time to notice we are trying to stop
+    user_stop.set(False) # Go back to normal state. This allows new movements to start.
 
 # returns only when movement has ended (must be awaited).
 async def sync_move(steps = 0):
@@ -345,7 +345,7 @@ async def set_target_position(value=-float("inf")):
         piezomotor_connection.set(False, severity = alarm.MAJOR_ALARM, alarm = alarm.COMM_ALARM)
 
 
-# Move the motor using only the piano encoder as reference.
+# Move the motor using only the piano encoder as reference, starting from the limit switch.
 async def piano_go_to(position_index = -float("inf")):
     if position_index == -float("inf"):
         print("Not enough parameters for target position setting")
@@ -644,7 +644,7 @@ async def search_motor_positions(should_search):
     motor_is_moving.set(False)
     search_motor_pos_pv.set(False)
 
-
+# Go to each limit switch and use them as reference to re-calibrate target positions, performing a linear transformation (potentiometer read)
 async def calibrate_analog(should_go = True):
     if not should_go:
         return
@@ -783,6 +783,7 @@ async def calibrate_all(should_go = True):
     await calibrate_analog(should_go)
     return;
 
+# Apply an offset to all positions of a certain system (all potentiometer, all piano or all motor positions)
 async def apply_offset(value, lista):
     for pv in lista:
         pv.set(pv.get() + value)
@@ -791,7 +792,7 @@ async def apply_offset(value, lista):
     motor_offset.set(0)
     return;
 
-# Diagnostic funtions
+# Diagnostic funtions for developing purposes
 async def measure():
     mean = 0
     for i in range(300):
